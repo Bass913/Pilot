@@ -1,7 +1,5 @@
 on:
   push:
-    paths: 
-      - 'front'
     branches:
       - main
       - develop
