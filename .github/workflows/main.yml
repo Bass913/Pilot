@@ -3,6 +3,7 @@ on:
     branches:
       - main
       - develop
+      - taslima
 jobs:
   formatter:
     name: Format the code with Prettier
@@ -19,3 +20,26 @@ jobs:
         cd front
         npm install
         npm run format 
+
+  test_api_plateform:
+    name: ci backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Change directory
+        run: cd api-plateform
+
+      - name: Install dependencies
+        run: composer install
+
+      - name: Run PHP_CodeSniffer (PHPCS)
+        run: vendor/bin/phpcs
+
+      - name: Run PHPStan
+        run: php phpstan.phar analyse src/ -c phpstan.neon --level=max --no-progress -vvv --memory-limit=2048M
+
+      - name: Run Deptrac
+        run: php deptrac.phar
