@@ -44,7 +44,7 @@ jobs:
 
 
       - name: Run PHP_CodeSniffer (PHPCS)
-        run: vendor/bin/phpcs src/
+        run: vendor/bin/phpcs --standard=PSR12 src/
         working-directory: api-plateform/api
 
       - name: Run PHPStan
