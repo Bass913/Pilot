@@ -47,7 +47,8 @@ class QuantityFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies(): array{
+    public function getDependencies(): array
+    {
         return [RecipeFixtures::class, IngredientFixtures::class];
 
     }
