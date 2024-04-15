@@ -30,10 +30,12 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Change directory
-        run: cd api-plateform/api/
+        run: cd api-plateform/api
 
       - name: Install dependencies
         run: composer install
+        working-directory: api-plateform/api
+
 
       - name: Run PHP_CodeSniffer (PHPCS)
         run: vendor/bin/phpcs
