@@ -44,10 +44,10 @@ jobs:
 
 
       - name: Run PHP_CodeSniffer (PHPCS)
-        run: vendor/bin/phpcs
+        run: phpcs
 
       - name: Run PHPStan
-        run: php phpstan.phar analyse src/ -c phpstan.neon --level=max --no-progress -vvv --memory-limit=2048M
+        run: phpstan.phar analyse src/ -c phpstan.neon --level=max --no-progress -vvv --memory-limit=2048M
 
       - name: Run Deptrac
         run: php deptrac.phar
