@@ -1,0 +1,19 @@
+on:
+  push:
+    branches:
+      - main
+jobs:
+  formatter:
+    name: Format the code with Prettier
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js 20.0.0
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.0.0
+    - name: npm install and run prettier
+      run: |
+        npm install
+        npm run format
