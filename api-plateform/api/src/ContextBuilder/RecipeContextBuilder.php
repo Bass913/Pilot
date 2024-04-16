@@ -4,5 +4,4 @@ namespace App\ContextBuilder;
 
 class RecipeContextBuilder
 {
-
 }

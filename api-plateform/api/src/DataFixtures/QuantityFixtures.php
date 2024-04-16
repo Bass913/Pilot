@@ -50,6 +50,5 @@ class QuantityFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies(): array
     {
         return [RecipeFixtures::class, IngredientFixtures::class];
-
     }
 }

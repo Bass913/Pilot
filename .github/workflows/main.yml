@@ -44,7 +44,7 @@ jobs:
 
 
       - name: Run PHP_CodeSniffer (PHPCS)
-        run: vendor/bin/phpcs src/
+        run: vendor/bin/phpcs --standard=PSR12 --ignore=vendor .
         working-directory: api-plateform/api
 
       - name: Run PHPStan
@@ -52,4 +52,4 @@ jobs:
         working-directory: api-plateform/api
 
       - name: Run Deptrac
-        run: php deptrac.phar
+        run: vendor/bin/deptrac analyse --no-progress

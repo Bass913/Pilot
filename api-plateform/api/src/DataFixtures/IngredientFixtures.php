@@ -10,7 +10,6 @@ use Faker\Factory;
 
 class IngredientFixtures extends Fixture
 {
-
     /**
      * @throws Exception
      */
