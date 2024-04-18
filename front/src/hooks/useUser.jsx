@@ -7,17 +7,18 @@ export const UserProvider = ({ children }) => {
 	const [loading, setLoading] = useState(true);
 
 	const login = async (email, password) => {
-		// return fetch("https://cuisineconnect-9ffq.onrender.com/auth/login", {
-		// 	method: "POST",
-		// 	credentials: "include",
-		// 	headers: {
-		// 		"Content-Type": "application/json",
-		// 	},
-		// 	body: JSON.stringify({ email, password }),
-		// }).then(async (response) => {
-		// 	await getUserInfo();
-		// 	return response;
-		// });
+		return fetch("https://localhost/api/login_check", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ email, password }),
+		}).then(async (res) => {
+			// await getUserInfo();
+			const response = await res.json();
+			localStorage.setItem("token", response.token);
+			return response;
+		});
 	};
 
 	const getUserInfo = async () => {

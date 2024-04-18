@@ -1,25 +1,25 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-// import { useUser } from "../hooks/useUser";
+import { useUser } from "../../hooks/useUser";
 import GuestLayout from "../../layouts/GuestLayout";
 
 function Login() {
-	// const { login, user } = useUser();
+	const { login, user } = useUser();
 
 	const [formError, setFormError] = useState(null);
 	const navigate = useNavigate();
 
 	const handleSubmit = (e) => {
-		// e.preventDefault();
-		// const email = e.target.email.value;
-		// const password = e.target.password.value;
-		// login(email, password).then((response) => {
-		// 	if (response.status === 200) {
-		// 		navigate("/");
-		// 	} else {
-		// 		setFormError("Email ou mot de passe incorrect");
-		// 	}
-		// });
+		e.preventDefault();
+		const email = e.target.email.value;
+		const password = e.target.password.value;
+		login(email, password).then((response) => {
+			if (!response.token) {
+				setFormError("Email ou mot de passe incorrecte");
+				return;
+			}
+			navigate("/");
+		});
 	};
 
 	return (
