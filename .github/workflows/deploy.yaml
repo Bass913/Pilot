@@ -28,4 +28,7 @@ jobs:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
       - name: Provision Droplet and deploy container
-        run: doctl compute droplet create "$GIT_TAG_NAME" --image docker-20-04 --size s-1vcpu-1gb --region sfo3 --user-data-file deploy.sh --wait
+        run: compute droplet-action rename 413683266 --droplet-name "$GIT_TAG_NAME"
+
+      - name: Execute deploy.sh on Droplet
+        run: doctl compute ssh 413683266 --ssh-command "bash deploy.sh"
