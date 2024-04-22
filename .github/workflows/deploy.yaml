@@ -1,8 +1,10 @@
 name: Staging deployment
+
 on:
   push:
     tags:
-      - stage-*
+      - "stage-*"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -24,5 +26,6 @@ jobs:
         uses: digitalocean/action-doctl@v2.5.1
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
       - name: Provision Droplet and deploy container
         run: doctl compute create "$GIT_TAG_NAME" --image docker-22-04 --size s-1vcpu-1gb --region sfo3 --user-data-file deploy.sh --wait
