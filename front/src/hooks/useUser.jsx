@@ -17,6 +17,8 @@ export const UserProvider = ({ children }) => {
 			// await getUserInfo();
 			const response = await res.json();
 			localStorage.setItem("token", response.token);
+			localStorage.setItem("user", JSON.stringify(response.user));
+			setUser(response.user);
 			return response;
 		});
 	};
@@ -41,6 +43,13 @@ export const UserProvider = ({ children }) => {
 		// 	setUser(null);
 		// 	setLoading(false);
 		// }
+		// get user from local storage
+		const token = localStorage.getItem("token");
+		const user = localStorage.getItem("user");
+		if (!user || !token) {
+			return;
+		}
+		setUser(JSON.parse(user));
 	};
 
 	const logout = () => {
@@ -57,6 +66,9 @@ export const UserProvider = ({ children }) => {
 		// } catch (error) {
 		// 	console.log(error);
 		// }
+		localStorage.removeItem("token");
+		localStorage.removeItem("user");
+		setUser(null);
 	};
 
 	return (

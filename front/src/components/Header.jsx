@@ -13,9 +13,6 @@ import { useUser } from "../hooks/useUser";
 
 export default function Header({ user }) {
 	const { logout } = useUser();
-	const onClick = () => {
-		logout();
-	};
 	return (
 		<header className="h-20 flex items-center justify-between px-5 mx-auto fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 dark:border-b border-gray-200">
 			<div>
@@ -28,7 +25,7 @@ export default function Header({ user }) {
 					<nav className="flex gap-5">
 						<Button className="hover:bg-gray-100 p-4 rounded text-sm flex items-center gap-2 text-gray-800">
 							<UserCircleIcon className="w-5 h-5" />
-							{user.username}
+							{user.firstname} {user.lastname}
 						</Button>
 						<div className="hidden group-hover:block absolute p-2 top-full left-0 bg-white flex flex-col gap-5 border border-gray-200 rounded shadow-md">
 							<div className="w-0 h-0 border-l-[15px] border-l-transparent border-b-[20px] border-b-white border-r-[15px] border-r-transparent absolute top-0 left-5 transform -translate-y-5"></div>
@@ -49,7 +46,7 @@ export default function Header({ user }) {
 						</div>
 						<Button
 							className="text-white bg-primary-600 hover:bg-primary-600 p-4 rounded text-sm flex items-center gap-2 hover:bg-primary-700"
-							onClick={onClick}
+							onClick={logout}
 						>
 							<ArrowRightStartOnRectangleIcon className="w-5 h-5" />
 							Se déconnecter
