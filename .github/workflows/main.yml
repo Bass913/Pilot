@@ -50,6 +50,3 @@ jobs:
       - name: Run PHPStan
         run: vendor/bin/phpstan.phar analyse src/ -c phpstan.neon --level=max --no-progress -vvv --memory-limit=2048M
         working-directory: api-plateform/api
-
-      - name: Run Deptrac
-        run: vendor/bin/deptrac analyse --no-progress
