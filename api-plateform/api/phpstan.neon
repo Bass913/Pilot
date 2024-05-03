@@ -1,5 +1,8 @@
 parameters:
+    checkGenericClassInNonGenericObjectType: false
+
     excludePaths:
         - 'vendor'
         - 'var'
         - 'src/DataFixtures'
+
