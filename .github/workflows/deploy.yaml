@@ -34,6 +34,6 @@ jobs:
 
       - name: Provision Droplet and deploy container
         run: |
-          doctl compute droplet-action rename 413683266 --droplet-name "$GIT_TAG_NAME"
           rsync -av --delete --exclude='.git' . root@143.244.189.241:/root
+          doctl compute droplet-action rename 413683266 --droplet-name "$GIT_TAG_NAME"
           doctl compute ssh 413683266 --ssh-command "bash deploy.sh"
