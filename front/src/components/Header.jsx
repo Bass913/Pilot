@@ -61,6 +61,11 @@ export default function Header({ user }) {
 							Se connecter
 						</Button>
 					</NavLink>
+					<NavLink to="/become-a-partner">
+						<Button className="hover:bg-gray-200 p-4 rounded text-sm flex items-center gap-2 text-gray-800 bg-gray-100">
+							Ajouter votre établissement
+						</Button>
+					</NavLink>
 				</nav>
 			)}
 		</header>

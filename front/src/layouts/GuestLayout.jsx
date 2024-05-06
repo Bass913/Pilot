@@ -1,6 +1,6 @@
 import React from 'react';
 
-function AuthenticationLayout({ children }) {
+function GuestLayout({ children }) {
     return (
         <div className="flex min-h-screen flex-1">
             {children}
@@ -11,4 +11,4 @@ function AuthenticationLayout({ children }) {
     );
 }
 
-export default AuthenticationLayout;
+export default GuestLayout;
