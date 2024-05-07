@@ -1,4 +1,15 @@
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../hooks/useUser";
+
 function ServicesChooser({ services }) {
+	const navigate = useNavigate();
+	const { setServiceSelected } = useUser();
+
+	const handleServiceSelection = (service) => {
+		setServiceSelected(service);
+		navigate("reservation");
+	};
+
 	return (
 		<ul className="text-gray-600 mt-2 font-light bg-white px-8 rounded-md shadow-md">
 			{services.map((service, index) => (
@@ -12,7 +23,10 @@ function ServicesChooser({ services }) {
 							{service.price} €
 							<small className="text-gray-400">*</small>
 						</p>
-						<button className="bg-gray-900 text-white px-3 py-1.5 rounded-sm text-sm hover:bg-gray-700 font-normal text-sm">
+						<button
+							className="bg-gray-900 text-white px-3 py-1.5 rounded-sm text-sm hover:bg-gray-700 font-normal text-sm"
+							onClick={() => handleServiceSelection(service)}
+						>
 							Choisir
 						</button>
 					</div>
