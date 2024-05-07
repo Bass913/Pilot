@@ -26,15 +26,6 @@ jobs:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           working-directory: /home/Pilot
 
-      - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
-          script: whoami
-
       - name: Provision Droplet and deploy container
         run: |
           doctl compute droplet-action rename 413683266 --droplet-name "$GIT_TAG_NAME"
