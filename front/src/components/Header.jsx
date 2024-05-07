@@ -14,7 +14,7 @@ import { useUser } from "../hooks/useUser";
 export default function Header({ user }) {
 	const { logout } = useUser();
 	return (
-		<header className="h-20 flex items-center justify-between px-5 mx-auto fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 dark:border-b border-gray-200">
+		<header className="h-20 flex items-center justify-between px-5 mx-auto fixed top-0 left-0 right-0 z-50 bg-white border-gray-200">
 			<div>
 				<NavLink to="/">
 					<img src="/logo.svg" alt="logo" className="h-10" />
@@ -63,7 +63,7 @@ export default function Header({ user }) {
 					</NavLink>
 					<NavLink to="/become-a-partner">
 						<Button className="hover:bg-gray-200 p-4 rounded text-sm flex items-center gap-2 text-gray-800 bg-gray-100">
-							Ajouter votre établissement
+							Ajoutez votre établissement
 						</Button>
 					</NavLink>
 				</nav>

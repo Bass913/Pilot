@@ -17,7 +17,7 @@ function DefaultLayout({ children }) {
 	return (
 		<div className="flex flex-col min-h-screen">
 			<Header user={user} />
-			<main className="flex-1">{children}</main>
+			<main className="flex-1 mt-20">{children}</main>
 			<Footer />
 		</div>
 	);

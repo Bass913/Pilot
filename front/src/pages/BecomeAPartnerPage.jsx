@@ -1,5 +1,4 @@
 import BecomeAPartnerLayout from "../layouts/BecomeAPartnerLayout";
-import GuestLayout from "../layouts/GuestLayout";
 
 function BecomeAPartner() {
 	const specialities = [

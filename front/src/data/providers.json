@@ -1,0 +1,665 @@
+[
+    {
+        "id": 1,
+        "name": "Le super garage",
+        "address": "75 rue de la rue, 75000 Paris",
+        "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur odio accusamus ab neque assumenda soluta, accusantium numquam, labore ullam tenetur id voluptas nam vitae minima cupiditate repellat odit ipsa porro.",
+        "images": [
+            "https://images.unsplash.com/photo-1570071677470-c04398af73ca",
+            "https://images.unsplash.com/photo-1551522435-a13afa10f103",
+            "https://images.unsplash.com/photo-1551522435-a13afa10f103",
+            "https://images.unsplash.com/photo-1551522435-a13afa10f103",
+            "https://images.unsplash.com/photo-1551522435-a13afa10f103",
+            "https://images.unsplash.com/photo-1551522435-a13afa10f103"
+        ],
+        "reviewRating": 4.5,
+        "reviewsCount": 120,
+        "reviews": [
+            {
+                "id": 1,
+                "date": "2021-06-01",
+                "rating": [
+                    {
+                        "category": {
+                            "name": "Qualité de service"
+                        },
+                        "value": 5
+                    },
+                    {
+                        "category": {
+                            "name": "Prix"
+                        },
+                        "value": 4
+                    },
+                    {
+                        "category": {
+                            "name": "Délai"
+                        },
+                        "value": 5
+                    },
+                    {
+                        "category": {
+                            "name": "Accueil"
+                        },
+                        "value": 3
+                    }
+                ],
+                "comment": "Super garage, je recommande !"
+            },
+            {
+                "id": 2,
+                "date": "2021-06-02",
+                "rating": [
+                    {
+                        "category": {
+                            "name": "Qualité de service"
+                        },
+                        "value": 4
+                    },
+                    {
+                        "category": {
+                            "name": "Prix"
+                        },
+                        "value": 5
+                    },
+                    {
+                        "category": {
+                            "name": "Délai"
+                        },
+                        "value": 4
+                    },
+                    {
+                        "category": {
+                            "name": "Accueil"
+                        },
+                        "value": 5
+                    }
+                ],
+                "comment": "Très bon garage, je reviendrai !"
+            },
+            {
+                "id": 3,
+                "date": "2021-06-03",
+                "rating": [
+                    {
+                        "category": {
+                            "name": "Qualité de service"
+                        },
+                        "value": 5
+                    },
+                    {
+                        "category": {
+                            "name": "Prix"
+                        },
+                        "value": 4
+                    },
+                    {
+                        "category": {
+                            "name": "Délai"
+                        },
+                        "value": 5
+                    },
+                    {
+                        "category": {
+                            "name": "Accueil"
+                        },
+                        "value": 3
+                    }
+                ],
+                "comment": "Super garage, je recommande !"
+            },
+            {
+                "id": 4,
+                "date": "2021-06-04",
+                "rating": [
+                    {
+                        "category": {
+                            "name": "Qualité de service"
+                        },
+                        "value": 4
+                    },
+                    {
+                        "category": {
+                            "name": "Prix"
+                        },
+                        "value": 5
+                    },
+                    {
+                        "category": {
+                            "name": "Délai"
+                        },
+                        "value": 4
+                    },
+                    {
+                        "category": {
+                            "name": "Accueil"
+                        },
+                        "value": 5
+                    }
+                ],
+                "comment": "Très bon garage, je reviendrai !"
+            }
+        ],
+        "location": {
+            "lat": 48.8566,
+            "lng": 2.3522
+        },
+        "services": [
+            {
+                "id": 1,
+                "name": "Réalisation de la vidange",
+                "price": 50
+            },
+            {
+                "id": 2,
+                "name": "Changement des pneus",
+                "price": 100
+            },
+            {
+                "id": 3,
+                "name": "Changement des freins",
+                "price": 150
+            },
+            {
+                "id": 4,
+                "name": "Réparation de la carrosserie",
+                "price": 200
+            }
+        ],
+        "schedule": {
+            "monday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "tuesday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "wednesday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "thursday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "friday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "saturday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "sunday": {}
+        }
+    },
+    {
+        "id": 2,
+        "name": "Garagiste hors paire",
+        "address": "91 rue de la rue, 75000 Paris",
+        "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Libero officia doloribus, ratione nostrum repellendus asperiores, iure veritatis iste molestiae aut necessitatibus voluptatem minus laudantium corporis, reiciendis magni voluptas! Alias, minus?",
+        "images": [
+            "https://images.unsplash.com/photo-1551522435-a13afa10f103",
+            "https://images.unsplash.com/photo-1570071677470-c04398af73ca",
+            "https://images.unsplash.com/photo-1570071677470-c04398af73ca"
+        ],
+        "reviewRating": 3.5,
+        "reviewsCount": 133,
+        "reviews": [
+            {
+                "id": 5,
+                "date": "2021-06-05",
+                "rating": [
+                    {
+                        "category": {
+                            "name": "Qualité de service"
+                        },
+                        "value": 3
+                    },
+                    {
+                        "category": {
+                            "name": "Prix"
+                        },
+                        "value": 4
+                    },
+                    {
+                        "category": {
+                            "name": "Délai"
+                        },
+                        "value": 3
+                    },
+                    {
+                        "category": {
+                            "name": "Accueil"
+                        },
+                        "value": 4
+                    }
+                ],
+                "comment": "Garage correct, rien à redire."
+            },
+            {
+                "id": 6,
+                "date": "2021-06-06",
+                "rating": [
+                    {
+                        "category": {
+                            "name": "Qualité de service"
+                        },
+                        "value": 4
+                    },
+                    {
+                        "category": {
+                            "name": "Prix"
+                        },
+                        "value": 3
+                    },
+                    {
+                        "category": {
+                            "name": "Délai"
+                        },
+                        "value": 4
+                    },
+                    {
+                        "category": {
+                            "name": "Accueil"
+                        },
+                        "value": 3
+                    }
+                ],
+                "comment": "Garage correct, rien à redire."
+            },
+            {
+                "id": 7,
+                "date": "2021-06-07",
+                "rating": [
+                    {
+                        "category": {
+                            "name": "Qualité de service"
+                        },
+                        "value": 3
+                    },
+                    {
+                        "category": {
+                            "name": "Prix"
+                        },
+                        "value": 4
+                    },
+                    {
+                        "category": {
+                            "name": "Délai"
+                        },
+                        "value": 3
+                    },
+                    {
+                        "category": {
+                            "name": "Accueil"
+                        },
+                        "value": 4
+                    }
+                ],
+                "comment": "Garage correct, rien à redire."
+            }
+        ],
+        "location": {
+            "lat": 48.9,
+            "lng": 2.4
+        },
+        "services": [
+            {
+                "id": 5,
+                "name": "Révision du moteur",
+                "price": 180
+            },
+            {
+                "id": 6,
+                "name": "Remplacement de la batterie",
+                "price": 120
+            },
+            {
+                "id": 7,
+                "name": "Diagnostic électronique",
+                "price": 80
+            }
+        ],
+        "schedule": {
+            "monday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "tuesday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "wednesday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "thursday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "friday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "saturday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "sunday": {}
+        }
+    },
+    {
+        "id": 3,
+        "name": "3, 2, 1... Garage !",
+        "address": "10 rue de la rue, 75000 Paris",
+        "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur odio accusamus ab neque assumenda soluta, accusantium numquam, labore ullam tenetur id voluptas nam vitae minima cupiditate repellat odit ipsa porro.",
+        "images": [
+            "https://images.unsplash.com/photo-1570071677470-c04398af73ca",
+            "https://images.unsplash.com/photo-1551522435-a13afa10f103",
+            "https://images.unsplash.com/photo-1551522435-a13afa10f103"
+        ],
+        "reviewRating": 5,
+        "reviewsCount": 52,
+        "reviews": [
+            {
+                "id": 8,
+                "date": "2021-06-08",
+                "rating": [
+                    {
+                        "category": {
+                            "name": "Qualité de service"
+                        },
+                        "value": 5
+                    },
+                    {
+                        "category": {
+                            "name": "Prix"
+                        },
+                        "value": 4
+                    },
+                    {
+                        "category": {
+                            "name": "Délai"
+                        },
+                        "value": 5
+                    },
+                    {
+                        "category": {
+                            "name": "Accueil"
+                        },
+                        "value": 3
+                    }
+                ],
+                "comment": "Super garage, je recommande !"
+            },
+            {
+                "id": 9,
+                "date": "2021-06-09",
+                "rating": [
+                    {
+                        "category": {
+                            "name": "Qualité de service"
+                        },
+                        "value": 4
+                    },
+                    {
+                        "category": {
+                            "name": "Prix"
+                        },
+                        "value": 5
+                    },
+                    {
+                        "category": {
+                            "name": "Délai"
+                        },
+                        "value": 4
+                    },
+                    {
+                        "category": {
+                            "name": "Accueil"
+                        },
+                        "value": 5
+                    }
+                ],
+                "comment": "Très bon garage, je reviendrai !"
+            },
+            {
+                "id": 10,
+                "date": "2021-06-10",
+                "rating": [
+                    {
+                        "category": {
+                            "name": "Qualité de service"
+                        },
+                        "value": 5
+                    },
+                    {
+                        "category": {
+                            "name": "Prix"
+                        },
+                        "value": 4
+                    },
+                    {
+                        "category": {
+                            "name": "Délai"
+                        },
+                        "value": 5
+                    },
+                    {
+                        "category": {
+                            "name": "Accueil"
+                        },
+                        "value": 3
+                    }
+                ],
+                "comment": "Super garage, je recommande !"
+            }
+        ],
+        "location": {
+            "lat": 48.5,
+            "lng": 2.3
+        },
+        "services": [
+            {
+                "id": 8,
+                "name": "Réglage de la suspension",
+                "price": 90
+            },
+            {
+                "id": 9,
+                "name": "Nettoyage intérieur et extérieur",
+                "price": 150
+            },
+            {
+                "id": 10,
+                "name": "Réparation du système de climatisation",
+                "price": 130
+            }
+        ],
+        "schedule": {
+            "monday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "tuesday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "wednesday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "thursday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "friday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "saturday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "sunday": {}
+        }
+    },
+    {
+        "id": 4,
+        "name": "Garage de l'extrême",
+        "address": "10 rue de la rue, 75000 Paris",
+        "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Libero officia doloribus, ratione nostrum repellendus asperiores, iure veritatis iste molestiae aut necessitatibus voluptatem minus laudantium corporis, reiciendis magni voluptas! Alias, minus?",
+        "images": [
+            "https://images.unsplash.com/photo-1551522435-a13afa10f103",
+            "https://images.unsplash.com/photo-1551522435-a13afa10f103",
+            "https://images.unsplash.com/photo-1551522435-a13afa10f103"
+        ],
+        "reviewRating": 4,
+        "reviewsCount": 87,
+        "reviews": [
+            {
+                "id": 11,
+                "date": "2021-06-11",
+                "rating": [
+                    {
+                        "category": {
+                            "name": "Qualité de service"
+                        },
+                        "value": 4
+                    },
+                    {
+                        "category": {
+                            "name": "Prix"
+                        },
+                        "value": 5
+                    },
+                    {
+                        "category": {
+                            "name": "Délai"
+                        },
+                        "value": 4
+                    },
+                    {
+                        "category": {
+                            "name": "Accueil"
+                        },
+                        "value": 5
+                    }
+                ],
+                "comment": "Garage correct, rien à redire."
+            },
+            {
+                "id": 12,
+                "date": "2021-06-12",
+                "rating": [
+                    {
+                        "category": {
+                            "name": "Qualité de service"
+                        },
+                        "value": 3
+                    },
+                    {
+                        "category": {
+                            "name": "Prix"
+                        },
+                        "value": 4
+                    },
+                    {
+                        "category": {
+                            "name": "Délai"
+                        },
+                        "value": 3
+                    },
+                    {
+                        "category": {
+                            "name": "Accueil"
+                        },
+                        "value": 4
+                    }
+                ],
+                "comment": "Garage correct, rien à redire."
+            },
+            {
+                "id": 13,
+                "date": "2021-06-13",
+                "rating": [
+                    {
+                        "category": {
+                            "name": "Qualité de service"
+                        },
+                        "value": 4
+                    },
+                    {
+                        "category": {
+                            "name": "Prix"
+                        },
+                        "value": 5
+                    },
+                    {
+                        "category": {
+                            "name": "Délai"
+                        },
+                        "value": 4
+                    },
+                    {
+                        "category": {
+                            "name": "Accueil"
+                        },
+                        "value": 5
+                    }
+                ],
+                "comment": "Garage correct, rien à redire."
+            }
+        ],
+        "location": {
+            "lat": 48.8,
+            "lng": 2.2
+        },
+        "services": [
+            {
+                "id": 11,
+                "name": "Changement de la courroie de distribution",
+                "price": 200
+            },
+            {
+                "id": 12,
+                "name": "Réparation du système de direction",
+                "price": 160
+            },
+            {
+                "id": 13,
+                "name": "Vérification des feux et des phares",
+                "price": 70
+            }
+        ],
+        "schedule": {
+            "monday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "tuesday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "wednesday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "thursday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "friday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "saturday": {
+                "opening": "08:00",
+                "closing": "18:00"
+            },
+            "sunday": {}
+        }
+    }
+]

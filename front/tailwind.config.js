@@ -16,6 +16,9 @@ export default {
 				"primary-900": "#064e3b",
 				"primary-950": "#022c22",
 			},
+			width: {
+				132: "33rem",
+			},
 		},
 	},
 	plugins: [],

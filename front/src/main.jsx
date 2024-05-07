@@ -8,6 +8,8 @@ import Register from "./pages/auth/RegisterPage.jsx";
 import { UserProvider } from "./hooks/useUser.jsx";
 import "./index.css";
 import BecomeAPartner from "./pages/BecomeAPartnerPage.jsx";
+import ProviderList from "./pages/ProviderListPage.jsx";
+import ProviderDetail from "./pages/ProviderDetailPage.jsx";
 
 const router = createBrowserRouter([
 	{
@@ -21,6 +23,14 @@ const router = createBrowserRouter([
 			{
 				path: "become-a-partner",
 				element: <BecomeAPartner />,
+			},
+			{
+				path: "providers",
+				element: <ProviderList />,
+			},
+			{
+				path: "provider/:id",
+				element: <ProviderDetail />,
 			},
 			{
 				path: "auth",

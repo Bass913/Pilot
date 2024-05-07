@@ -39,7 +39,7 @@ const SearchBar = ({ initialValue }) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (!search) {
-			navigate("/");
+			navigate("/providers");
 			return;
 		}
 		navigate(`/?search=${search}`);
