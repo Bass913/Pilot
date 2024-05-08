@@ -21,14 +21,6 @@ function BecomeAPartner() {
 		const phone = e.target.phone.value;
 		const speciality = e.target.speciality.value;
 		const email = e.target.email.value;
-		console.log({
-			firstname,
-			lastname,
-			postal_code,
-			phone,
-			speciality,
-			email,
-		});
 	};
 
 	return (

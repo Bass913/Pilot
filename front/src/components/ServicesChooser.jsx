@@ -24,7 +24,7 @@ function ServicesChooser({ services }) {
 							<small className="text-gray-400">*</small>
 						</p>
 						<button
-							className="bg-gray-900 text-white px-3 py-1.5 rounded-sm text-sm hover:bg-gray-700 font-normal text-sm"
+							className="bg-primary-900 text-white px-3 py-1.5 rounded-sm text-sm hover:bg-primary-800 font-normal text-sm"
 							onClick={() => handleServiceSelection(service)}
 						>
 							Choisir

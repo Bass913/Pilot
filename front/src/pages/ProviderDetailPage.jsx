@@ -8,6 +8,7 @@ import ImagesGallery from "../components/ImagesGallery";
 import ServicesChooser from "../components/ServicesChooser";
 import CompanySchedule from "../components/CompanySchedule";
 import CompanyReviews from "../components/CompanyReviews";
+import CompanyHeader from "../components/CompanyHeader";
 
 function ProviderDetail() {
 	const { id } = useParams();
@@ -31,21 +32,7 @@ function ProviderDetail() {
 							className="bg-gray-100 px-8 py-10 flex flex-col"
 							style={{ minHeight: "calc(100vh - 5rem)" }}
 						>
-							<div>
-								<h1 className="text-2xl font-medium">
-									{provider.name}
-								</h1>
-								<p className="text-gray-600 mt-2 flex gap-2 items-center font-light">
-									<MapPinIcon className="w-4 text-gray-400" />
-									{provider.address}
-								</p>
-								<p className="text-gray-600 mt-2 flex gap-2 items-center font-light">
-									<StarIcon className="w-4 text-gray-400" />
-									{provider.reviewRating} (
-									{provider.reviewsCount} avis)
-								</p>
-							</div>
-
+							<CompanyHeader provider={provider} />
 							<ImagesGallery images={provider.images} />
 
 							<div className="mt-10">
