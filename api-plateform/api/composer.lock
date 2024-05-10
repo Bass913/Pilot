@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d3e7133c4f4c963e4a4be4fcf0a6be5b",
+    "content-hash": "1c1cc0e012b12a6663661a23aed3a3bd",
     "packages": [
         {
             "name": "api-platform/core",
@@ -1696,22 +1696,22 @@
         },
         {
             "name": "lexik/jwt-authentication-bundle",
-            "version": "v2.20.3",
+            "version": "v2.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lexik/LexikJWTAuthenticationBundle.git",
-                "reference": "a196d68d07dd5486a523cc3415620badbb5d25c2"
+                "reference": "d57159da3f572b42ab609630edb6e27d71b37eca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/a196d68d07dd5486a523cc3415620badbb5d25c2",
-                "reference": "a196d68d07dd5486a523cc3415620badbb5d25c2",
+                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/d57159da3f572b42ab609630edb6e27d71b37eca",
+                "reference": "d57159da3f572b42ab609630edb6e27d71b37eca",
                 "shasum": ""
             },
             "require": {
                 "ext-openssl": "*",
                 "lcobucci/clock": "^1.2|^2.0|^3.0",
-                "lcobucci/jwt": "^3.4|^4.1|^5.0",
+                "lcobucci/jwt": "^3.4.6|^4.1|^5.0",
                 "namshi/jose": "^7.2",
                 "php": ">=7.1",
                 "symfony/config": "^4.4|^5.4|^6.0|^7.0",
@@ -1733,7 +1733,7 @@
                 "symfony/dom-crawler": "^5.4|^6.0|^7.0",
                 "symfony/filesystem": "^4.4|^5.4|^6.0|^7.0",
                 "symfony/framework-bundle": "^4.4|^5.4|^6.0|^7.0",
-                "symfony/phpunit-bridge": "^4.4|^5.4|^6.0|^7.0",
+                "symfony/phpunit-bridge": "^7.0.1",
                 "symfony/security-guard": "^4.4|^5.4|^6.0|^7.0",
                 "symfony/var-dumper": "^4.4|^5.4|^6.0|^7.0",
                 "symfony/yaml": "^4.4|^5.4|^6.0|^7.0"
@@ -1799,7 +1799,7 @@
             ],
             "support": {
                 "issues": "https://github.com/lexik/LexikJWTAuthenticationBundle/issues",
-                "source": "https://github.com/lexik/LexikJWTAuthenticationBundle/tree/v2.20.3"
+                "source": "https://github.com/lexik/LexikJWTAuthenticationBundle/tree/v2.21.0"
             },
             "funding": [
                 {
@@ -1811,7 +1811,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-12-14T15:58:11+00:00"
+            "time": "2024-04-27T15:46:45+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -7250,54 +7250,6 @@
             "time": "2024-02-02T00:41:40+00:00"
         },
         {
-            "name": "jetbrains/phpstorm-stubs",
-            "version": "v2022.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/JetBrains/phpstorm-stubs.git",
-                "reference": "6b568c153cea002dc6fad96285c3063d07cab18d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/JetBrains/phpstorm-stubs/zipball/6b568c153cea002dc6fad96285c3063d07cab18d",
-                "reference": "6b568c153cea002dc6fad96285c3063d07cab18d",
-                "shasum": ""
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "@stable",
-                "nikic/php-parser": "@stable",
-                "php": "^8.0",
-                "phpdocumentor/reflection-docblock": "@stable",
-                "phpunit/phpunit": "@stable"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "PhpStormStubsMap.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "description": "PHP runtime & extensions header files for PhpStorm",
-            "homepage": "https://www.jetbrains.com/phpstorm",
-            "keywords": [
-                "autocomplete",
-                "code",
-                "inference",
-                "inspection",
-                "jetbrains",
-                "phpstorm",
-                "stubs",
-                "type"
-            ],
-            "support": {
-                "source": "https://github.com/JetBrains/phpstorm-stubs/tree/v2022.3"
-            },
-            "time": "2022-10-17T09:21:37+00:00"
-        },
-        {
             "name": "justinrainbow/json-schema",
             "version": "v5.2.13",
             "source": {
@@ -7735,170 +7687,6 @@
             "time": "2023-12-10T21:03:43+00:00"
         },
         {
-            "name": "phpdocumentor/graphviz",
-            "version": "2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/GraphViz.git",
-                "reference": "115999dc7f31f2392645aa825a94a6b165e1cedf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/GraphViz/zipball/115999dc7f31f2392645aa825a94a6b165e1cedf",
-                "reference": "115999dc7f31f2392645aa825a94a6b165e1cedf",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.2 || ^8.0"
-            },
-            "require-dev": {
-                "ext-simplexml": "*",
-                "mockery/mockery": "^1.2",
-                "phpstan/phpstan": "^0.12",
-                "phpunit/phpunit": "^8.2 || ^9.2",
-                "psalm/phar": "^4.15"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "phpDocumentor\\GraphViz\\": "src/phpDocumentor/GraphViz",
-                    "phpDocumentor\\GraphViz\\PHPStan\\": "./src/phpDocumentor/PHPStan"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mike van Riel",
-                    "email": "mike.vanriel@naenius.com"
-                }
-            ],
-            "description": "Wrapper for Graphviz",
-            "support": {
-                "issues": "https://github.com/phpDocumentor/GraphViz/issues",
-                "source": "https://github.com/phpDocumentor/GraphViz/tree/2.1.0"
-            },
-            "time": "2021-12-13T19:03:21+00:00"
-        },
-        {
-            "name": "phpdocumentor/reflection-common",
-            "version": "2.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/ReflectionCommon.git",
-                "reference": "1d01c49d4ed62f25aa84a747ad35d5a16924662b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionCommon/zipball/1d01c49d4ed62f25aa84a747ad35d5a16924662b",
-                "reference": "1d01c49d4ed62f25aa84a747ad35d5a16924662b",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.2 || ^8.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.x": "2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "phpDocumentor\\Reflection\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jaap van Otterdijk",
-                    "email": "opensource@ijaap.nl"
-                }
-            ],
-            "description": "Common reflection classes used by phpdocumentor to reflect the code structure",
-            "homepage": "http://www.phpdoc.org",
-            "keywords": [
-                "FQSEN",
-                "phpDocumentor",
-                "phpdoc",
-                "reflection",
-                "static analysis"
-            ],
-            "support": {
-                "issues": "https://github.com/phpDocumentor/ReflectionCommon/issues",
-                "source": "https://github.com/phpDocumentor/ReflectionCommon/tree/2.x"
-            },
-            "time": "2020-06-27T09:03:43+00:00"
-        },
-        {
-            "name": "phpdocumentor/type-resolver",
-            "version": "1.8.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "153ae662783729388a584b4361f2545e4d841e3c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/153ae662783729388a584b4361f2545e4d841e3c",
-                "reference": "153ae662783729388a584b4361f2545e4d841e3c",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/deprecations": "^1.0",
-                "php": "^7.3 || ^8.0",
-                "phpdocumentor/reflection-common": "^2.0",
-                "phpstan/phpdoc-parser": "^1.13"
-            },
-            "require-dev": {
-                "ext-tokenizer": "*",
-                "phpbench/phpbench": "^1.2",
-                "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "^1.8",
-                "phpstan/phpstan-phpunit": "^1.1",
-                "phpunit/phpunit": "^9.5",
-                "rector/rector": "^0.13.9",
-                "vimeo/psalm": "^4.25"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "phpDocumentor\\Reflection\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mike van Riel",
-                    "email": "me@mikevanriel.com"
-                }
-            ],
-            "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
-            "support": {
-                "issues": "https://github.com/phpDocumentor/TypeResolver/issues",
-                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.8.2"
-            },
-            "time": "2024-02-23T11:10:43+00:00"
-        },
-        {
             "name": "phpstan/phpstan",
             "version": "1.10.66",
             "source": {
@@ -8012,81 +7800,6 @@
                 "source": "https://github.com/php-fig/http-message/tree/2.0"
             },
             "time": "2023-04-04T09:54:51+00:00"
-        },
-        {
-            "name": "qossmic/deptrac",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/qossmic/deptrac.git",
-                "reference": "a63284ecacf3f7d992a0c35f0ef3e5d3b5d1bf0f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/qossmic/deptrac/zipball/a63284ecacf3f7d992a0c35f0ef3e5d3b5d1bf0f",
-                "reference": "a63284ecacf3f7d992a0c35f0ef3e5d3b5d1bf0f",
-                "shasum": ""
-            },
-            "require": {
-                "composer/xdebug-handler": "^3.0",
-                "ext-json": "*",
-                "jetbrains/phpstorm-stubs": "^2022.2",
-                "nikic/php-parser": "^4.13",
-                "php": "^8.1",
-                "phpdocumentor/graphviz": "^2.1",
-                "phpdocumentor/type-resolver": "^1.6",
-                "phpstan/phpdoc-parser": "^1.5",
-                "symfony/config": "^6.0",
-                "symfony/console": "^6.0",
-                "symfony/dependency-injection": "^6.0",
-                "symfony/event-dispatcher": "^6.0",
-                "symfony/filesystem": "^6.0",
-                "symfony/finder": "^6.0",
-                "symfony/options-resolver": "^6.0",
-                "symfony/yaml": "^6.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.4",
-                "humbug/box": "^4.1.0",
-                "infection/infection": "^0.26.16",
-                "phpstan/phpstan": "^1.6.8",
-                "phpstan/phpstan-symfony": "^1.1",
-                "phpunit/phpunit": "^9.5",
-                "vimeo/psalm": "^4.22"
-            },
-            "suggest": {
-                "ext-dom": "For using the JUnit output formatter"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Qossmic\\Deptrac\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Tim Glabisch"
-                },
-                {
-                    "name": "Simon Mönch",
-                    "email": "simon.moench@qossmic.com"
-                },
-                {
-                    "name": "Denis Brumann",
-                    "email": "denis.brumann@qossmic.com",
-                    "role": "maintainer"
-                }
-            ],
-            "description": "Deptrac is a static code analysis tool that helps to enforce rules for dependencies between software layers.",
-            "support": {
-                "issues": "https://github.com/qossmic/deptrac/issues",
-                "source": "https://github.com/qossmic/deptrac/tree/1.0.2"
-            },
-            "time": "2022-12-02T11:47:03+00:00"
         },
         {
             "name": "sebastian/diff",
