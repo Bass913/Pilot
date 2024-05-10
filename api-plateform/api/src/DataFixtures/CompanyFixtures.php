@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -53,4 +54,3 @@ class CompanyFixtures extends Fixture
         $manager->flush();
     }
 }
-?>

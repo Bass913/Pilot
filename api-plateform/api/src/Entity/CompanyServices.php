@@ -25,6 +25,10 @@ class CompanyServices
     #[ORM\ManyToOne(inversedBy: 'companyServices')]
     private ?Company $company = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Services $service = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -62,6 +66,18 @@ class CompanyServices
     public function setCompany(?Company $company): static
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    public function getService(): ?Services
+    {
+        return $this->service;
+    }
+
+    public function setService(?Services $service): static
+    {
+        $this->service = $service;
 
         return $this;
     }

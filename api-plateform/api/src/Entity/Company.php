@@ -48,9 +48,20 @@ class Company
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: CompanyServices::class)]
     private Collection $companyServices;
 
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: ImgCompany::class)]
+    private Collection $imgCompany;
+
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Review::class)]
+    private Collection $reviews;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $reviewRating = null;
+
     public function __construct()
     {
         $this->companyServices = new ArrayCollection();
+        $this->imgCompany = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -192,6 +203,78 @@ class Company
                 $companyService->setCompany(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ImgCompany>
+     */
+    public function getImgCompany(): Collection
+    {
+        return $this->imgCompany;
+    }
+
+    public function addImgCompany(ImgCompany $imgCompany): static
+    {
+        if (!$this->imgCompany->contains($imgCompany)) {
+            $this->imgCompany->add($imgCompany);
+            $imgCompany->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImgCompany(ImgCompany $imgCompany): static
+    {
+        if ($this->imgCompany->removeElement($imgCompany)) {
+            // set the owning side to null (unless already changed)
+            if ($imgCompany->getCompany() === $this) {
+                $imgCompany->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): static
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews->add($review);
+            $review->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): static
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getCompany() === $this) {
+                $review->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getReviewRating(): ?float
+    {
+        return $this->reviewRating;
+    }
+
+    public function setReviewRating(?float $reviewRating): static
+    {
+        $this->reviewRating = $reviewRating;
 
         return $this;
     }

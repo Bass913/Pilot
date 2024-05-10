@@ -50,5 +50,3 @@ class CompanyServicesFixtures extends Fixture
         $manager->flush();
     }
 }
-
-?>
