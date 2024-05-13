@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UnavailabilityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UnavailabilityRepository::class)]
+#[ApiResource]
 class Unavailability
 {
     #[ORM\Id]
@@ -21,7 +23,10 @@ class Unavailability
     private ?\DateTimeInterface $endDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'unavailabilities')]
-    private ?User $userId = null;
+    private ?User $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'unavailabilities')]
+    private ?Company $company = null;
 
     public function getId(): ?int
     {
@@ -52,14 +57,26 @@ class Unavailability
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    public function setUserId(?User $userId): static
+    public function setUser(?User $user): static
     {
-        $this->userId = $userId;
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): static
+    {
+        $this->company = $company;
 
         return $this;
     }

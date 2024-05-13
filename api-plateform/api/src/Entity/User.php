@@ -65,9 +65,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Unavailability::class)]
     private Collection $unavailabilities;
 
+    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Schedule::class)]
+    private Collection $schedules;
+
+
     public function __construct()
     {
         $this->unavailabilities = new ArrayCollection();
+        $this->schedules = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -195,4 +200,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Schedule>
+     */
+    public function getSchedules(): Collection
+    {
+        return $this->schedules;
+    }
+
+    public function addSchedule(Schedule $schedule): static
+    {
+        if (!$this->schedules->contains($schedule)) {
+            $this->schedules->add($schedule);
+            $schedule->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchedule(Schedule $schedule): static
+    {
+        if ($this->schedules->removeElement($schedule)) {
+            // set the owning side to null (unless already changed)
+            if ($schedule->getUserId() === $this) {
+                $schedule->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

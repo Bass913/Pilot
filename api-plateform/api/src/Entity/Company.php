@@ -57,11 +57,20 @@ class Company
     #[ORM\Column(nullable: true)]
     private ?float $reviewRating = null;
 
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Unavailability::class)]
+    private Collection $unavailabilities;
+
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Schedule::class)]
+    private Collection $schedules;
+
+
     public function __construct()
     {
         $this->companyServices = new ArrayCollection();
         $this->imgCompany = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+        $this->unavailabilities = new ArrayCollection();
+        $this->schedules = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -278,4 +287,66 @@ class Company
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Unavailability>
+     */
+    public function getUnavailabilities(): Collection
+    {
+        return $this->unavailabilities;
+    }
+
+    public function addUnavailability(Unavailability $unavailability): static
+    {
+        if (!$this->unavailabilities->contains($unavailability)) {
+            $this->unavailabilities->add($unavailability);
+            $unavailability->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUnavailability(Unavailability $unavailability): static
+    {
+        if ($this->unavailabilities->removeElement($unavailability)) {
+            // set the owning side to null (unless already changed)
+            if ($unavailability->getCompany() === $this) {
+                $unavailability->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Schedule>
+     */
+    public function getSchedules(): Collection
+    {
+        return $this->schedules;
+    }
+
+    public function addSchedule(Schedule $schedule): static
+    {
+        if (!$this->schedules->contains($schedule)) {
+            $this->schedules->add($schedule);
+            $schedule->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchedule(Schedule $schedule): static
+    {
+        if ($this->schedules->removeElement($schedule)) {
+            // set the owning side to null (unless already changed)
+            if ($schedule->getCompany() === $this) {
+                $schedule->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }
