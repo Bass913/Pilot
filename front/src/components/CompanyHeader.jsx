@@ -6,7 +6,7 @@ function CompanyHeader({ provider }) {
 			<h1 className="text-2xl font-medium">{provider.name}</h1>
 			<p className="text-gray-600 mt-2 flex gap-2 items-center font-light">
 				<MapPinIcon className="w-4 text-gray-400" />
-				{provider.address}
+				<span className="underline">{provider.address}</span>
 			</p>
 			<p className="text-gray-600 mt-2 flex gap-2 items-center font-light">
 				<StarIcon className="w-4 text-gray-400" />

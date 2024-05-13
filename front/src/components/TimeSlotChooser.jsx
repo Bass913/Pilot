@@ -25,7 +25,7 @@ function TimeSlotChooser({ timeSlotsWithAvailability, selectedSlot, onSlotSelect
 							(timeSlot, slotIndex) => (
 								<label
 									key={`${dayIndex}-${slotIndex}`}
-									className={`text-gray-800 font-light rounded-md px-2 py-1 w-full cursor-pointer text-center font-normal
+									className={`text-gray-800 font-light rounded-md px-2 py-1 w-full cursor-pointer text-center font-normal h-7 flex items-center justify-center text-sm
 															${
 																timeSlot.available
 																	? selectedSlot?.day ===

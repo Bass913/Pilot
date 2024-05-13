@@ -1,4 +1,4 @@
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
 import DefaultLayout from "../layouts/DefaultLayout";
 import { useEffect, useState } from "react";
@@ -12,27 +12,35 @@ import {
 	getDays,
 } from "../utils/schedule";
 import TimeSlotChooser from "../components/TimeSlotChooser";
+import Alert from "../components/modals/Alert";
 
-function ProviderReservation() {
+function Reservation() {
+	const navigate = useNavigate();
 	const { id } = useParams();
+
+	const [showAlert, setShowAlert] = useState(false);
 
 	const provider = providers.find((provider) => provider.id === parseInt(id));
 
-	const { serviceSelected } = useUser();
+	const {
+		serviceSelected,
+		user,
+		employeeSelected,
+		setEmployeeSelected,
+		timeSlotSelected,
+		setTimeSlotSelected,
+	} = useUser();
 
 	// employees
 	const employees = provider.employees;
 	if (!provider.employees.some((employee) => employee === null))
 		employees.unshift(null);
 
-	const [selectedEmployee, setSelectedEmployee] = useState(null);
-
 	const handleEmployeeSelection = (employee) => {
-		setSelectedEmployee(employee);
+		setEmployeeSelected(employee);
 	};
 
 	// timeSlots
-	const [selectedSlot, setSelectedSlot] = useState(null);
 
 	const initialDate = new Date();
 	const [startDate, setStartDate] = useState(
@@ -43,7 +51,19 @@ function ProviderReservation() {
 	const [endDate, setEndDate] = useState(endDateISOString);
 
 	const handleSlotSelection = (day, timeSlot) => {
-		setSelectedSlot({ day, timeSlot });
+		setTimeSlotSelected({ day, timeSlot });
+		setTimeout(() => {
+			if (!user) {
+				setShowAlert(true);
+				return;
+			}
+			navigate(`/provider/${id}/confirmation`);
+		}, 300);
+	};
+
+	const handleCloseAlert = () => {
+		setShowAlert(false);
+		setTimeSlotSelected(null);
 	};
 
 	const daysWithTimeSlots = getTimeSlotsFromSchedule(
@@ -53,27 +73,36 @@ function ProviderReservation() {
 
 	const timeSlotsWithAvailability = getTimeSlotsWithAvailability(
 		daysWithTimeSlots,
-		selectedEmployee ? selectedEmployee.unavailabilities : []
+		employeeSelected ? employeeSelected.unavailabilities : []
 	);
 
 	useEffect(() => {
-		setSelectedSlot(null);
-	}, [selectedEmployee]);
+		setTimeSlotSelected(null);
+		setEmployeeSelected(employeeSelected);
+	}, [employeeSelected]);
+
+	useEffect(() => {
+		setTimeSlotSelected(timeSlotSelected);
+	}, [timeSlotSelected]);
 
 	return (
 		<DefaultLayout>
+			{showAlert && <Alert onClose={handleCloseAlert} />}
 			<div className="flex justify-center w-full bg-gray-100">
-				<div className="max-w-6xl w-full">
+				<div
+					className="max-w-5xl w-full flex flex-col py-10 px-6"
+					style={{ minHeight: "calc(100vh - 5rem)" }}
+				>
 					{provider === null ? (
 						<Loader />
 					) : (
-						<div
-							className="bg-gray-100 px-8 py-10 flex flex-col"
-							style={{ minHeight: "calc(100vh - 5rem)" }}
-						>
+						<div>
 							<CompanyHeader provider={provider} />
 							<div className="mt-10">
 								<h2 className="text-lg font-normal text-gray-800">
+									<span className="font-medium text-primary-600">
+										1.
+									</span>{" "}
 									Votre prestation
 								</h2>
 								<div className="mt-2 bg-white p-6 rounded-lg shadow-md lg:p-8 flex items-center justify-between">
@@ -87,7 +116,7 @@ function ProviderReservation() {
 										</p>
 									</div>
 									<NavLink to={`/provider/${id}`}>
-										<button className="text-primary-600 font-normal underline hover:text-primary-800">
+										<button className="text-primary-600 font-normal underline hover:text-primary-800 text-sm">
 											Modifier
 										</button>
 									</NavLink>
@@ -96,6 +125,9 @@ function ProviderReservation() {
 
 							<div className="mt-10">
 								<h2 className="text-lg font-normal text-gray-800">
+									<span className="font-medium text-primary-600">
+										2.
+									</span>{" "}
 									Choix de votre préparateur
 								</h2>
 								<div className="mt-2 bg-white p-6 rounded-lg shadow-md lg:p-8">
@@ -104,6 +136,7 @@ function ProviderReservation() {
 									</h3>
 									<EmployeeChooser
 										employees={employees}
+										selectedEmployee={employeeSelected}
 										onEmployeeSelect={
 											handleEmployeeSelection
 										}
@@ -113,13 +146,16 @@ function ProviderReservation() {
 
 							<div className="mt-10">
 								<h2 className="text-lg font-normal text-gray-800">
+									<span className="font-medium text-primary-600">
+										3.
+									</span>{" "}
 									Choix de l'horaire de la préstation
 								</h2>
 								<TimeSlotChooser
 									timeSlotsWithAvailability={
 										timeSlotsWithAvailability
 									}
-									selectedSlot={selectedSlot}
+									selectedSlot={timeSlotSelected}
 									onSlotSelection={handleSlotSelection}
 								/>
 							</div>
@@ -131,4 +167,4 @@ function ProviderReservation() {
 	);
 }
 
-export default ProviderReservation;
+export default Reservation;

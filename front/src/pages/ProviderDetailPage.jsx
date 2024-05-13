@@ -24,14 +24,14 @@ function ProviderDetail() {
 	return (
 		<DefaultLayout>
 			<div className="flex justify-center w-full bg-gray-100">
-				<div className="max-w-6xl w-full">
+				<div
+					className="max-w-5xl w-full flex flex-col py-10 px-6"
+					style={{ minHeight: "calc(100vh - 5rem)" }}
+				>
 					{provider === null ? (
 						<Loader />
 					) : (
-						<div
-							className="bg-gray-100 px-8 py-10 flex flex-col"
-							style={{ minHeight: "calc(100vh - 5rem)" }}
-						>
+						<div>
 							<CompanyHeader provider={provider} />
 							<ImagesGallery images={provider.images} />
 

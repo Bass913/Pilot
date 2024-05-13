@@ -10,7 +10,10 @@ import "./index.css";
 import BecomeAPartner from "./pages/BecomeAPartnerPage.jsx";
 import ProviderList from "./pages/ProviderListPage.jsx";
 import ProviderDetail from "./pages/ProviderDetailPage.jsx";
-import ProviderReservation from "./pages/ProviderReservationPage.jsx";
+import Reservation from "./pages/ReservationPage.jsx";
+import Confirmation from "./pages/ConfirmationPage.jsx";
+// import Reservations from "./pages/authenticated/ReservationsPage.jsx";
+import Profile from "./pages/authenticated/ProfilePage.jsx";
 
 const router = createBrowserRouter([
 	{
@@ -34,13 +37,21 @@ const router = createBrowserRouter([
 				children: [
 					{
 						path: ":id/reservation",
-						element: <ProviderReservation />,
+						element: <Reservation />,
+					},
+					{
+						path: ":id/confirmation",
+						element: <Confirmation />,
 					},
 					{
 						path: ":id",
 						element: <ProviderDetail />,
 					},
 				],
+			},
+			{
+				path: "profile",
+				element: <Profile />,
 			},
 			{
 				path: "auth",
@@ -58,6 +69,8 @@ const router = createBrowserRouter([
 		],
 	},
 ]);
+
+router.subscribe(() => window.scrollTo(0, 0));
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>

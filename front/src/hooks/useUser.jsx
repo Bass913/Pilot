@@ -7,6 +7,16 @@ function getServiceSelected() {
 	return service ? JSON.parse(service) : null;
 }
 
+function getTimeSlotSelected() {
+	const timeSlot = localStorage.getItem("timeSlotSelected");
+	return timeSlot ? JSON.parse(timeSlot) : null;
+}
+
+function getEmployeeSelected() {
+	const employee = localStorage.getItem("employeeSelected");
+	return employee ? JSON.parse(employee) : null;
+}
+
 function getUser() {
 	const user = localStorage.getItem("user");
 	return user ? JSON.parse(user) : null;
@@ -20,6 +30,10 @@ export const UserProvider = ({ children }) => {
 	const [user, setUser] = useState(getUser);
 	const [token, setToken] = useState(getToken);
 	const [serviceSelected, setServiceSelected] = useState(getServiceSelected);
+	const [timeSlotSelected, setTimeSlotSelected] =
+		useState(getTimeSlotSelected);
+	const [employeeSelected, setEmployeeSelected] =
+		useState(getEmployeeSelected);
 
 	useEffect(() => {
 		localStorage.setItem(
@@ -27,6 +41,20 @@ export const UserProvider = ({ children }) => {
 			JSON.stringify(serviceSelected)
 		);
 	}, [serviceSelected]);
+
+	useEffect(() => {
+		localStorage.setItem(
+			"timeSlotSelected",
+			JSON.stringify(timeSlotSelected)
+		);
+	}, [timeSlotSelected]);
+
+	useEffect(() => {
+		localStorage.setItem(
+			"employeeSelected",
+			JSON.stringify(employeeSelected)
+		);
+	}, [employeeSelected]);
 
 	useEffect(() => {
 		localStorage.setItem("user", JSON.stringify(user));
@@ -66,6 +94,10 @@ export const UserProvider = ({ children }) => {
 				logout,
 				serviceSelected,
 				setServiceSelected,
+				timeSlotSelected,
+				setTimeSlotSelected,
+				employeeSelected,
+				setEmployeeSelected,
 			}}
 		>
 			{children}
