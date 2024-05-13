@@ -63,6 +63,9 @@ class Company
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Schedule::class)]
     private Collection $schedules;
 
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
+    private Collection $users;
+
 
     public function __construct()
     {
@@ -71,6 +74,7 @@ class Company
         $this->reviews = new ArrayCollection();
         $this->unavailabilities = new ArrayCollection();
         $this->schedules = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -342,6 +346,36 @@ class Company
             // set the owning side to null (unless already changed)
             if ($schedule->getCompany() === $this) {
                 $schedule->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getCompany() === $this) {
+                $user->setCompany(null);
             }
         }
 
