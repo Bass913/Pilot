@@ -4,19 +4,21 @@ import PasswordChanger from "../../components/profile/PasswordChanger";
 import DefaultLayout from "../../layouts/DefaultLayout";
 import { useUser } from "../../hooks/useUser";
 import ReservationsSection from "../../sections/ReservationsSection.jsx";
+import { useTranslation } from "react-i18next";
 
 function ProfilePage() {
+	const { t } = useTranslation();
 	const { user, setUser } = useUser();
 
 	const [tabs, setTabs] = useState([
-		{ name: "Compte", href: "#", current: false },
-		{ name: "Mot de passe", href: "#", current: false },
-		{ name: "Mes réservations", href: "#", current: true },
+		{ name: t("account"), href: "#", current: false },
+		{ name: t("password"), href: "#", current: false },
+		{ name: t("my-reservations"), href: "#", current: true },
 	]);
 
 	const fields = {
-		firstname: { name: "firstname", label: "Prénom" },
-		lastname: { name: "lastname", label: "Nom" },
+		firstname: { name: "firstname", label: t("firstname") },
+		lastname: { name: "lastname", label: t("lastname") },
 	};
 
 	const changeTab = (tab) => {
@@ -38,7 +40,7 @@ function ProfilePage() {
 					>
 						<div className="px-4 sm:px-6 lg:px-0">
 							<h1 className="text-xl font-medium tracking-tight text-gray-900">
-								Mon compte
+								{t("my-account")}
 							</h1>
 						</div>
 						<div className="px-4 sm:px-6 lg:px-0">
@@ -103,12 +105,10 @@ function ProfilePage() {
 										<div className="mt-10 divide-y divide-gray-200">
 											<div className="space-y-1">
 												<h3 className="text-lg font-medium leading-6 text-gray-900">
-													Profil
+													{t("profile")}
 												</h3>
 												<p className="max-w-2xl text-sm text-gray-500">
-													Vous pouvez modifier votre
-													profil à tout moment depuis
-													cette page.
+													{t('you-can-update-your-profile')}
 												</p>
 											</div>
 											<div className="mt-6">
@@ -155,12 +155,10 @@ function ProfilePage() {
 										<div className="mt-10 divide-y divide-gray-200">
 											<div className="space-y-1">
 												<h3 className="text-lg font-medium leading-6 text-gray-900">
-													Mot de passe
+													{t("password")}
 												</h3>
 												<p className="max-w-2xl text-sm text-gray-500">
-													Vous pouvez modifier votre
-													mot de passe à tout moment
-													depuis cette page.
+													{t('you-can-update-your-password')}
 												</p>
 											</div>
 											<div className="mt-6">
@@ -178,11 +176,10 @@ function ProfilePage() {
 										<div className="mt-10">
 											<div className="space-y-1">
 												<h3 className="text-lg font-medium leading-6 text-gray-900">
-													Vos réservations
+													{t('your-reservations')}
 												</h3>
 												<p className="max-w-2xl text-sm text-gray-500">
-													Retrouvez vos rendez-vous à
-													venir
+													{t('find-your-reservations')}
 												</p>
 											</div>
 											<ReservationsSection />

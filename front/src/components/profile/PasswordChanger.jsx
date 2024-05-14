@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 // import axiosInstance from "@/utils/axiosInstance";
 
 function PasswordChanger({ userId }) {
+	const { t } = useTranslation();
 	const [isEditing, setIsEditing] = useState(false);
 	const [oldPassword, setOldPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
@@ -46,7 +48,7 @@ function PasswordChanger({ userId }) {
 				<div className="py-4 sm:py-5">
 					{confirmation && (
 						<div className="text-green-600 my-5">
-							Le mot de passe a bien été modifié.
+							{t("password-changed")}
 						</div>
 					)}
 					<button
@@ -54,7 +56,7 @@ function PasswordChanger({ userId }) {
 						className="rounded-md text-sm font-medium text-primary-600 hover:text-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600/60 focus:ring-offset-2"
 						onClick={toggleEditing}
 					>
-						Modifier le mot de passe
+						{t('edit-password')}
 					</button>
 				</div>
 			)}
@@ -65,7 +67,7 @@ function PasswordChanger({ userId }) {
 					)}
 					<div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-3 sm:pt-5">
 						<dt className="text-sm font-medium text-gray-500">
-							Ancien mot de passe
+							{t("old-password")}
 						</dt>
 						<dd className="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
 							<input
@@ -82,7 +84,7 @@ function PasswordChanger({ userId }) {
 							className="rounded-md font-medium text-primary-600 hover:text-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600/60 focus:ring-offset-2 text-sm"
 							onClick={toggleEditing}
 						>
-							Enregistrer
+							{t("save")}
 						</button>
 					</div>
 				</div>

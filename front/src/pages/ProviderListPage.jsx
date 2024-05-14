@@ -4,8 +4,10 @@ import providers from "../data/providers";
 import { Loader as MapsLoader } from "@googlemaps/js-api-loader";
 import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
+import { useTranslation } from "react-i18next";
 
 function ProviderList() {
+	const { t } = useTranslation();
 	const [location, setLocation] = useState({
 		lng: 2.4563571,
 		lat: 48.9432991,
@@ -64,10 +66,10 @@ function ProviderList() {
 				<div className="w-7/12 h-screen overflow-y-auto">
 					<div className="bg-gray-100 p-7">
 						<h1 className="text-md font-semibold text-gray-800">
-							Sélectionnez un garage
+							{t('select-a-garage')}
 						</h1>
 						<h2 className="text-sm text-gray-600">
-							Les meilleurs garages près de chez vous
+							{t('best-garages-closest-to-you')}
 						</h2>
 					</div>
 					<div>

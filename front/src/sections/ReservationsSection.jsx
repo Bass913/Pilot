@@ -2,13 +2,16 @@ import { NavLink } from "react-router-dom";
 import reservations from "../data/reservations";
 import { getFormattedDate } from "../utils/schedule";
 import { MapPinIcon } from "@heroicons/react/24/outline";
+import { useTranslation } from "react-i18next";
 
 function ReservationsSection() {
+    const { t } = useTranslation();
+
 	return (
 		<div className="mt-10">
 			{reservations.length === 0 && (
 				<div className="text-gray-800 text-center p-10 bg-white rounded-lg shadow-md font-light">
-					Vous n'avez pas encore pris de rendez-vous.
+					{t("no-appoitments")}
 				</div>
 			)}
 			{reservations.map((reservation) => (
@@ -42,17 +45,17 @@ function ReservationsSection() {
 					<div className="flex items-center gap-4 justify-end">
 						<NavLink to={`/provider/${reservation.id}`}>
 							<button className="text-primary-600 font-normal hover:text-primary-800 text-sm">
-								Modifier
+								{t("edit")}
 							</button>
 						</NavLink>
 						<NavLink to={`/provider/${reservation.id}`}>
 							<button className="text-primary-600 font-normal hover:text-primary-800 text-sm">
-								Reporter
+								{t("postpone")}
 							</button>
 						</NavLink>
 						<NavLink to={`/provider/${reservation.id}`}>
 							<button className="text-primary-600 font-normal hover:text-primary-800 text-sm">
-								Annuler
+								{t("cancel")}
 							</button>
 						</NavLink>
 					</div>

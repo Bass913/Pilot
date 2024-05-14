@@ -13,8 +13,10 @@ import {
 } from "../utils/schedule";
 import TimeSlotChooser from "../components/TimeSlotChooser";
 import Alert from "../components/modals/Alert";
+import { useTranslation } from "react-i18next";
 
 function Reservation() {
+	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const { id } = useParams();
 
@@ -103,7 +105,7 @@ function Reservation() {
 									<span className="font-medium text-primary-600">
 										1.
 									</span>{" "}
-									Votre prestation
+									{t('your-service')}
 								</h2>
 								<div className="mt-2 bg-white p-6 rounded-lg shadow-md lg:p-8 flex items-center justify-between">
 									<div className="flex items-center gap-4">
@@ -117,7 +119,7 @@ function Reservation() {
 									</div>
 									<NavLink to={`/provider/${id}`}>
 										<button className="text-primary-600 font-normal underline hover:text-primary-800 text-sm">
-											Modifier
+											{t("edit")}
 										</button>
 									</NavLink>
 								</div>
@@ -128,11 +130,11 @@ function Reservation() {
 									<span className="font-medium text-primary-600">
 										2.
 									</span>{" "}
-									Choix de votre préparateur
+									{t("your-preparer-choice")}
 								</h2>
 								<div className="mt-2 bg-white p-6 rounded-lg shadow-md lg:p-8">
 									<h3 className="text-base font-light text-gray-800">
-										Selectionnez un préparateur
+										{t("select-your-preparer")}
 									</h3>
 									<EmployeeChooser
 										employees={employees}
@@ -149,7 +151,7 @@ function Reservation() {
 									<span className="font-medium text-primary-600">
 										3.
 									</span>{" "}
-									Choix de l'horaire de la préstation
+									{t('your-time-slot-choice')}
 								</h2>
 								<TimeSlotChooser
 									timeSlotsWithAvailability={

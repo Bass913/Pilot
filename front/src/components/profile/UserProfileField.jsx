@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 // import axiosInstance from "@/utils/axiosInstance";
 
 function UserProfileField({ model, value, userId }) {
 	const [isEditing, setIsEditing] = useState(false);
 	const [newValue, setNewValue] = useState(value);
+	const { t } = useTranslation();
 
 	const toggleEditing = () => {
 		if (isEditing) {
@@ -78,10 +80,10 @@ function UserProfileField({ model, value, userId }) {
 						onClick={toggleEditing}
 					>
 						{isEditing
-							? "Enregistrer"
+							? t("save")
 							: value
-								? "Modifier"
-								: "Ajouter"}
+								? t("edit")
+								: t("add")}
 					</button>
 				</span>
 			</dd>

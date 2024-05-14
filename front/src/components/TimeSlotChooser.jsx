@@ -1,8 +1,12 @@
-import { useState } from "react";
 import { getFormattedDate } from "../utils/schedule";
+import { useUser } from "../hooks/useUser";
 
-function TimeSlotChooser({ timeSlotsWithAvailability, selectedSlot, onSlotSelection }) {
-
+function TimeSlotChooser({
+	timeSlotsWithAvailability,
+	selectedSlot,
+	onSlotSelection,
+}) {
+	const { language } = useUser();
 	const handleSlotSelection = (day, timeSlot) => {
 		onSlotSelection(day, timeSlot);
 	};
@@ -15,10 +19,13 @@ function TimeSlotChooser({ timeSlotsWithAvailability, selectedSlot, onSlotSelect
 					className="flex items-center flex-col gap-1"
 				>
 					<p className="text-gray-800 font-normal text-sm">
-						{getFormattedDate(day).split(" ")[0]}
+						{getFormattedDate(day, language).split(" ")[0]}
 					</p>
 					<p className="text-gray-600 font-normal text-sm mb-2">
-						{getFormattedDate(day).split(" ").slice(1).join(" ")}
+						{getFormattedDate(day, language)
+							.split(" ")
+							.slice(1)
+							.join(" ")}
 					</p>
 					<div className="flex flex-col gap-2 w-full">
 						{timeSlotsWithAvailability[day].map(

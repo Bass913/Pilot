@@ -1,4 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 function EmployeeChooser({ employees, selectedEmployee, onEmployeeSelect }) {
+	const { t } = useTranslation();
 	return (
 		<div className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 lg:grid-cols-4">
 			{employees.map((employee, index) => (
@@ -17,7 +20,7 @@ function EmployeeChooser({ employees, selectedEmployee, onEmployeeSelect }) {
 							</div>
 						)}
 						<label className="text-gray-800 font-light cursor-pointer">
-							{employee?.name || "Aucune préférence"}
+							{employee?.name || t('no-preference')}
 						</label>
 					</div>
 				</div>

@@ -6,8 +6,10 @@ import {
 } from "@heroicons/react/24/outline";
 // import useSpeechToText from "../hooks/useSpeechToText";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const SearchBar = ({ initialValue }) => {
+	const { t } = useTranslation();
 	const [search, setSearch] = useState(initialValue);
 	const navigate = useNavigate();
 	// const { isListening, transcript, startListening, stopListening } =
@@ -52,9 +54,9 @@ const SearchBar = ({ initialValue }) => {
 			<MagnifyingGlassIcon className="w-5 h-5 text-gray-600 absolute  left-3 z-10" />
 			<input
 				type="text"
-				aria-label="search recipes"
+				aria-label="search provider"
 				className="w-full h-10 p-7 border border-gray-600 rounded focus:border-primary-600 focus:outline-none relative pl-10 pr-20 hover:border-primary-600 hover:bg-gray-50 text-sm text-gray-600 font-normal placeholder-gray-500 transition-all duration-200"
-				placeholder="Rechercher un prestataire..."
+				placeholder={t("search-provider")}
 				name="search"
 				onChange={handleChange}
 				// disabled={isListening}
@@ -64,7 +66,7 @@ const SearchBar = ({ initialValue }) => {
 				className="text-white font-normal h-10 rounded p-3 ml-2 absolute right-2 z-10 flex items-center text-sm bg-primary-600 hover:bg-primary-700"
 				onClick={handleSubmit}
 			>
-				Rechercher
+				{t("search")}
 			</Button>
 			{/* <MicrophoneIcon
 				onClick={startStopListening}

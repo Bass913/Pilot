@@ -2,6 +2,11 @@ import { createContext, useState, useContext, useEffect } from "react";
 
 export const UserContext = createContext();
 
+function getLanguage() {
+	const language = localStorage.getItem("language");
+	return language ? JSON.parse(language) : "fr";
+}
+
 function getServiceSelected() {
 	const service = localStorage.getItem("serviceSelected");
 	return service ? JSON.parse(service) : null;
@@ -34,6 +39,7 @@ export const UserProvider = ({ children }) => {
 		useState(getTimeSlotSelected);
 	const [employeeSelected, setEmployeeSelected] =
 		useState(getEmployeeSelected);
+	const [language, setLanguage] = useState(getLanguage);
 
 	useEffect(() => {
 		localStorage.setItem(
@@ -63,6 +69,10 @@ export const UserProvider = ({ children }) => {
 	useEffect(() => {
 		localStorage.setItem("token", token);
 	}, [token]);
+
+	useEffect(() => {
+		localStorage.setItem("language", JSON.stringify(language));
+	}, [language]);
 
 	const login = async (email, password) => {
 		return fetch("https://localhost/api/login_check", {
@@ -98,6 +108,8 @@ export const UserProvider = ({ children }) => {
 				setTimeSlotSelected,
 				employeeSelected,
 				setEmployeeSelected,
+				language,
+				setLanguage,
 			}}
 		>
 			{children}
