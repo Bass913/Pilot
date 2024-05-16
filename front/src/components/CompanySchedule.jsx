@@ -24,7 +24,7 @@ function CompanySchedule({ schedule }) {
 						<span>{days[day]}</span>
 						<span>
 							{!hours.opening
-								? "Fermé"
+								? t("closed")
 								: `${hours.opening} - ${hours.closing}`}
 						</span>
 					</li>

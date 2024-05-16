@@ -17,23 +17,24 @@ function BecomeAPartner() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const firstname = e.target.firstname.value;
-		const lastname = e.target.lastname.value;
-		const postal_code = e.target.postal_code.value;
-		const phone = e.target.phone.value;
-		const speciality = e.target.speciality.value;
-		const email = e.target.email.value;
+		e.preventDefault();
+		const formData = new FormData();
+		formData.append("firstname", e.target.firstname.value);
+		formData.append("lastname", e.target.lastname.value);
+		formData.append("postal_code", e.target.postal_code.value);
+		formData.append("phone", e.target.phone.value);
+		formData.append("speciality", e.target.speciality.value);
+		formData.append("email", e.target.email.value);
+		formData.append("kbis", e.target.kbis.files[0]);
 	};
 
 	return (
 		<BecomeAPartnerLayout>
-			<form method="POST" onSubmit={handleSubmit}>
+			<form method="POST" onSubmit={handleSubmit} className="lg:min-w-120">
 				<h1
 					className="text-xl font-normal text-gray-900 text-center mb-8"
 					dangerouslySetInnerHTML={{ __html: t("add-company-title") }}
 				>
-					{/* Vous êtes un professionnel de l'automobile ? <br />
-					Faites votre demande pour devenir notre partenaire */}
 				</h1>
 				<div className="flex flex-row gap-5 mt-5">
 					<div className="w-1/2">
@@ -136,7 +137,27 @@ function BecomeAPartner() {
 						required
 					/>
 				</div>
-				<small className="text-gray-500 mt-2">
+				<div className="mt-5">
+					<label
+						htmlFor="kbis"
+						className="block text-sm font-medium text-gray-700"
+					>
+						{t("kbis")}*
+					</label>
+					<input
+						type="file"
+						id="kbis"
+						name="kbis"
+						className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+						accept=".pdf,.doc,.docx"
+						placeholder={t("no-file-selected")}
+						required
+					/>
+					<small className="text-gray-500 mt-2">
+						{t("kbis-file-description")}
+					</small>
+				</div>
+				<small className="text-gray-500 mt-5">
 					* {t("required-fields")}
 				</small>
 				<button

@@ -31,6 +31,10 @@ function getToken() {
 	return localStorage.getItem("token");
 }
 
+function getSideBarLarge() {
+	return localStorage.getItem("sidebarLarge") === "true";
+}
+
 export const UserProvider = ({ children }) => {
 	const [user, setUser] = useState(getUser);
 	const [token, setToken] = useState(getToken);
@@ -40,6 +44,7 @@ export const UserProvider = ({ children }) => {
 	const [employeeSelected, setEmployeeSelected] =
 		useState(getEmployeeSelected);
 	const [language, setLanguage] = useState(getLanguage);
+	const [sidebarLarge, setSidebarLarge] = useState(getSideBarLarge);
 
 	useEffect(() => {
 		localStorage.setItem(
@@ -73,6 +78,10 @@ export const UserProvider = ({ children }) => {
 	useEffect(() => {
 		localStorage.setItem("language", JSON.stringify(language));
 	}, [language]);
+
+	useEffect(() => {
+		localStorage.setItem("sidebarLarge", sidebarLarge.toString());
+	}, [sidebarLarge]);
 
 	const login = async (email, password) => {
 		return fetch("https://localhost/api/login_check", {
@@ -110,6 +119,8 @@ export const UserProvider = ({ children }) => {
 				setEmployeeSelected,
 				language,
 				setLanguage,
+				sidebarLarge,
+				setSidebarLarge,
 			}}
 		>
 			{children}

@@ -60,5 +60,10 @@
     "friday": "Vendredi",
     "saturday": "Samedi",
     "sunday": "Dimanche",
-    "choose": "Choisir"
+    "choose": "Choisir",
+    "closed": "Fermé",
+    "kbis": "Extrait Kbis",
+    "select-a-file": "Sélectionner un fichier",
+    "no-file-selected": "Aucun fichier choisi",
+    "kbis-file-description": "Pour devenir partenaire, vous devez nous fournir un extrait Kbis de moins de 3 mois."
 }

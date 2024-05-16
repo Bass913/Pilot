@@ -19,6 +19,9 @@ export default {
 			width: {
 				132: "33rem",
 			},
+			minWidth: {
+				120: "30rem",
+			},
 		},
 	},
 	plugins: [],

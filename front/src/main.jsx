@@ -15,6 +15,7 @@ import Confirmation from "./pages/ConfirmationPage.jsx";
 import Profile from "./pages/authenticated/ProfilePage.jsx";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
+import Dashboard from "./pages/admin/DashboardPage.jsx";
 
 const router = createBrowserRouter([
 	{
@@ -67,6 +68,15 @@ const router = createBrowserRouter([
 					},
 				],
 			},
+			{
+				path: "admin",
+				children: [
+					{
+						path: "",
+						element: <Dashboard />,
+					},
+				],
+			}
 		],
 	},
 ]);
