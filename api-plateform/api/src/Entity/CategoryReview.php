@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CategoryReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CategoryReviewRepository::class)]
 #[ApiResource]
@@ -15,6 +16,7 @@ class CategoryReview
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['read-company'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 

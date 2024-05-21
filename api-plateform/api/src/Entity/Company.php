@@ -8,9 +8,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read-company']]
+)]
 class Company
 {
     #[ORM\Id]
@@ -18,18 +21,23 @@ class Company
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['read-company'])]
+
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-
+    #[Groups(['read-company'])]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
+    #[Groups(['read-company'])]
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
+    #[Groups(['read-company'])]
     #[ORM\Column(length: 5)]
     private ?string $zipcode = null;
 
+    #[Groups(['read-company'])]
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 
@@ -39,27 +47,33 @@ class Company
     #[ORM\Column]
     private ?bool $active = null;
 
+    #[Groups(['read-company'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 11, scale: 8, nullable: true)]
     private ?string $longitude = null;
 
+    #[Groups(['read-company'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 8, nullable: true)]
     private ?string $latitude = null;
 
+    #[Groups(['read-company'])]
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: CompanyServices::class)]
     private Collection $companyServices;
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: ImgCompany::class)]
     private Collection $imgCompany;
 
+    #[Groups(['read-company'])]
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Review::class)]
     private Collection $reviews;
 
+    #[Groups(['read-company'])]
     #[ORM\Column(nullable: true)]
     private ?float $reviewRating = null;
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Unavailability::class)]
     private Collection $unavailabilities;
 
+    #[Groups(['read-company'])]
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Schedule::class)]
     private Collection $schedules;
 
@@ -381,6 +395,4 @@ class Company
 
         return $this;
     }
-
-
 }

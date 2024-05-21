@@ -51,6 +51,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read', 'user:create'])]
     private ?string $email = null;
 
+    /**
+     * @var string[]
+     */
     #[ORM\Column]
     #[Groups(['user:read', 'user:create'])]
     private array $roles = [];
@@ -71,11 +74,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Company $company = null;
 
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Booking::class)]
+    private Collection $bookings;
+
 
     public function __construct()
     {
         $this->unavailabilities = new ArrayCollection();
         $this->schedules = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -186,7 +193,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->unavailabilities->contains($unavailability)) {
             $this->unavailabilities->add($unavailability);
-            $unavailability->setUserId($this);
+            $unavailability->setUser($this);
         }
 
         return $this;
@@ -196,8 +203,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->unavailabilities->removeElement($unavailability)) {
             // set the owning side to null (unless already changed)
-            if ($unavailability->getUserId() === $this) {
-                $unavailability->setUserId(null);
+            if ($unavailability->getUser() === $this) {
+                $unavailability->setUser(null);
             }
         }
 
@@ -246,5 +253,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
 
+    public function addBooking(Booking $booking): static
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings->add($booking);
+            $booking->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): static
+    {
+        if ($this->bookings->removeElement($booking)) {
+            // set the owning side to null (unless already changed)
+            if ($booking->getClient() === $this) {
+                $booking->setClient(null);
+            }
+        }
+
+        return $this;
+    }
 }

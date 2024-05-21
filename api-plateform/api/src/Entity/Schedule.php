@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ScheduleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ScheduleRepository::class)]
 #[ApiResource]
@@ -16,12 +17,15 @@ class Schedule
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['read-company'])]
     #[ORM\Column(length: 9)]
     private ?string $dayOfWeek = null;
 
+    #[Groups(['read-company'])]
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $startTime = null;
 
+    #[Groups(['read-company'])]
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $endTime = null;
 

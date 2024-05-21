@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\RatingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RatingRepository::class)]
 #[ApiResource]
@@ -19,10 +20,13 @@ class Rating
     #[ORM\JoinColumn(nullable: false)]
     private ?Review $review = null;
 
+    #[Groups(['read-company'])]
+
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?CategoryReview $category = null;
 
+    #[Groups(['read-company'])]
     #[ORM\Column]
     private ?int $value = null;
 

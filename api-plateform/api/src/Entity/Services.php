@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ServicesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ServicesRepository::class)]
 #[ApiResource]
@@ -15,6 +16,7 @@ class Services
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['read-company'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
