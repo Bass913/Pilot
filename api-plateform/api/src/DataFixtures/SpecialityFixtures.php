@@ -2,32 +2,32 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Speciality;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\Services;
 
 class SpecialityFixtures extends Fixture
 {
-    public const SERVICE_REFERENCE = [
-        "mecanique" => "Vidange",
-        "carrosserie" => "Changement de pneus",
-        "electricite" => "Changement des freins",
-        "climatisation" => "Contrôle technique",
-        "diagnostic" => "Contrôle technique",
-        "pneu" => "Contrôle technique",
-        "restauration" => "Contrôle technique",
-        "tuning" => "Contrôle technique"
+    public const SPECIALITY_REFERENCE = [
+        "mecanique" => "Mécanique générale",
+        "carrosserie" => "Carrosserie",
+        "electricite" => "Électricité mobile",
+        "climatisation" => "Diagnostic électronique",
+        "diagnostic" => "Réparation de moteurs diesel",
+        "pneu" => "Réparation de pneus",
+        "restauration" => "Restauration de voitures anciennes",
+        "tuning" => "Tuning et personnalisation"
     ];
 
     public function load(ObjectManager $manager)
     {
 
 
-        foreach (self::SERVICE_REFERENCE as $key => $name) {
-            $service = new Services();
-            $service->setName($name);
-            $manager->persist($service);
-            $this->addReference($key, $service);
+        foreach (self::SPECIALITY_REFERENCE as $key => $name) {
+            $speciality = new Speciality();
+            $speciality->setName($name);
+            $manager->persist($speciality);
+            $this->addReference($key, $speciality);
         }
 
         $manager->flush();

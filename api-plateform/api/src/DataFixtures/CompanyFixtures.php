@@ -36,7 +36,7 @@ class CompanyFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
 
-        $specialities = array_map(fn(string $key): Speciality => $this->getReference($key), array_keys(SpecialityFixtures::SERVICE_REFERENCE));
+        $specialities = array_map(fn(string $key): Speciality => $this->getReference($key), array_keys(SpecialityFixtures::SPECIALITY_REFERENCE));
 
         // Création de quelques company :
 
