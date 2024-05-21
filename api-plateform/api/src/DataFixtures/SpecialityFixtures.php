@@ -6,13 +6,17 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Services;
 
-class ServicesFixtures extends Fixture
+class SpecialityFixtures extends Fixture
 {
     public const SERVICE_REFERENCE = [
-        "service-vidange" => "Vidange",
-        "service-pneus" => "Changement de pneus",
-        "service-freins" => "Changement des freins",
-        "service-controle" => "Contrôle technique"
+        "mecanique" => "Vidange",
+        "carrosserie" => "Changement de pneus",
+        "electricite" => "Changement des freins",
+        "climatisation" => "Contrôle technique",
+        "diagnostic" => "Contrôle technique",
+        "pneu" => "Contrôle technique",
+        "restauration" => "Contrôle technique",
+        "tuning" => "Contrôle technique"
     ];
 
     public function load(ObjectManager $manager)
