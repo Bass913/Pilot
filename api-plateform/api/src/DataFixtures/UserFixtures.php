@@ -3,32 +3,32 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
-use App\Repository\CompanyRepository;
+use App\Entity\Company;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class UserFixtures extends Fixture
+
+class UserFixtures extends Fixture implements DependentFixtureInterface
 {
     private UserPasswordHasherInterface $passwordHasher;
-    private CompanyRepository $companyRepository;
 
-    public function __construct(UserPasswordHasherInterface $passwordHasher, CompanyRepository $companyRepository)
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
-        $this->companyRepository = $companyRepository;
         $this->passwordHasher = $passwordHasher;
     }
 
     public function load(ObjectManager $manager)
     {
-        $companies = $this->companyRepository->findAll();
+        $companies = array_map(fn(string $key): Company => $this->getReference($key), array_keys(CompanyFixtures::COMPANY_REFERENCE));
 
         $user = new User();
         $user->setFirstname('John');
         $user->setLastname('Doe');
         $user->setEmail('user@user.fr');
         $user->setRoles(['ROLE_USER']);
-        $user->setCompany($companies[0]);
+        $user->setCompany($companies[array_rand($companies)]);
         $plaintextPassword = 'test';
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user,

@@ -3,14 +3,15 @@
 namespace App\DataFixtures;
 
 use App\Entity\Speciality;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Company;
 
-class CompanyFixtures extends Fixture
+class CompanyFixtures extends Fixture implements DependentFixtureInterface
 {
     public const COMPANY_REFERENCE = [
-        "company-entreprise-a" => [
+        "company-a" => [
             'name' => 'Entreprise A',
             'address' => '123 Rue de la Test',
             'description' => 'Description de l\'entreprise A.',
@@ -21,7 +22,7 @@ class CompanyFixtures extends Fixture
             'latitude' => 48.8566,
             'longitude' => 2.3522,
         ],
-        "company-entreprise-b" => [
+        "company-b" => [
             'name' => 'Entreprise B',
             'address' => '456 Avenue du Test',
             'description' => 'Description de l\'entreprise B.',
@@ -60,5 +61,10 @@ class CompanyFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies(): array
+    {
+        return [SpecialityFixtures::class];
     }
 }
