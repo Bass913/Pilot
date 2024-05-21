@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Speciality;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Company;
@@ -34,6 +35,9 @@ class CompanyFixtures extends Fixture
     ];
     public function load(ObjectManager $manager)
     {
+
+        $specialities = array_map(fn(string $key): Speciality => $this->getReference($key), array_keys(SpecialityFixtures::SERVICE_REFERENCE));
+
         // Création de quelques company :
 
 
@@ -49,6 +53,7 @@ class CompanyFixtures extends Fixture
             $company->setLatitude($values['latitude']);
             $company->setLongitude($values['longitude']);
             $company->setReviewRating(0);
+            $company->setSpeciality($specialities[array_rand($specialities)]);
             $manager->persist($company);
             $this->addReference($key, $company);
 
