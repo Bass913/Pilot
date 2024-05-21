@@ -1,21 +1,15 @@
-import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
-function EmployeeChooser({ employees, onEmployeeSelect }) {
-	const [selectedEmployee, setSelectedEmployee] = useState(null);
-
-	const handleEmployeeSelection = (employee) => {
-		setSelectedEmployee(employee);
-		onEmployeeSelect(employee);
-	};
-
+function EmployeeChooser({ employees, selectedEmployee, onEmployeeSelect }) {
+	const { t } = useTranslation();
 	return (
 		<div className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 lg:grid-cols-4">
 			{employees.map((employee, index) => (
 				<div
 					key={index}
 					className={`bg-white p-4 rounded-lg hover:bg-gray-50 cursor-pointer border flex items-center gap-4
-                        ${selectedEmployee === employee ? "border-primary-900" : "border-gray-200"}`}
-					onClick={() => handleEmployeeSelection(employee)}
+                        ${selectedEmployee?.id === employee?.id ? "border-primary-900" : "border-gray-200"}`}
+					onClick={() => onEmployeeSelect(employee)}
 				>
 					<div className="flex items-center gap-2">
 						{employee && (
@@ -26,7 +20,7 @@ function EmployeeChooser({ employees, onEmployeeSelect }) {
 							</div>
 						)}
 						<label className="text-gray-800 font-light cursor-pointer">
-							{employee?.name || "Aucune préférence"}
+							{employee?.name || t('no-preference')}
 						</label>
 					</div>
 				</div>

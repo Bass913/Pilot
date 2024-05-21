@@ -18,6 +18,11 @@ export default {
 			},
 			width: {
 				132: "33rem",
+				150: "37.5rem",
+				175: "43.75rem",
+			},
+			minWidth: {
+				120: "30rem",
 			},
 		},
 	},

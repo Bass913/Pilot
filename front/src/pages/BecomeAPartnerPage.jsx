@@ -1,6 +1,8 @@
 import BecomeAPartnerLayout from "../layouts/BecomeAPartnerLayout";
+import { useTranslation } from "react-i18next";
 
 function BecomeAPartner() {
+	const { t } = useTranslation();
 	const specialities = [
 		"Mécanique générale",
 		"Carrosserie",
@@ -15,20 +17,24 @@ function BecomeAPartner() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const firstname = e.target.firstname.value;
-		const lastname = e.target.lastname.value;
-		const postal_code = e.target.postal_code.value;
-		const phone = e.target.phone.value;
-		const speciality = e.target.speciality.value;
-		const email = e.target.email.value;
+		e.preventDefault();
+		const formData = new FormData();
+		formData.append("firstname", e.target.firstname.value);
+		formData.append("lastname", e.target.lastname.value);
+		formData.append("postal_code", e.target.postal_code.value);
+		formData.append("phone", e.target.phone.value);
+		formData.append("speciality", e.target.speciality.value);
+		formData.append("email", e.target.email.value);
+		formData.append("kbis", e.target.kbis.files[0]);
 	};
 
 	return (
 		<BecomeAPartnerLayout>
-			<form method="POST" onSubmit={handleSubmit}>
-				<h1 className="text-xl font-normal text-gray-900 text-center mb-8">
-					Vous êtes un professionnel de l'automobile ? <br />
-					Faites votre demande pour devenir notre partenaire
+			<form method="POST" onSubmit={handleSubmit} className="lg:min-w-120">
+				<h1
+					className="text-xl font-normal text-gray-900 text-center mb-8"
+					dangerouslySetInnerHTML={{ __html: t("add-company-title") }}
+				>
 				</h1>
 				<div className="flex flex-row gap-5 mt-5">
 					<div className="w-1/2">
@@ -36,14 +42,14 @@ function BecomeAPartner() {
 							htmlFor="firstname"
 							className="block text-sm font-medium text-gray-700"
 						>
-							Prénom*
+							{t("firstname")}*
 						</label>
 						<input
 							type="text"
 							id="firstname"
 							name="firstname"
 							className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-							placeholder="Entrer votre prénom"
+							placeholder={t("enter-your-firstname")}
 							required
 						/>
 					</div>
@@ -52,14 +58,14 @@ function BecomeAPartner() {
 							htmlFor="lastname"
 							className="block text-sm font-medium text-gray-700"
 						>
-							Nom*
+							{t("lastname")}*
 						</label>
 						<input
 							type="text"
 							id="lastname"
 							name="lastname"
 							className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-							placeholder="Entrer votre nom"
+							placeholder={t("enter-your-lastname")}
 							required
 						/>
 					</div>
@@ -70,7 +76,7 @@ function BecomeAPartner() {
 							htmlFor="postal_code"
 							className="block text-sm font-medium text-gray-700"
 						>
-							Code postal*
+							{t("postal-code")}*
 						</label>
 						<input
 							type="text"
@@ -86,7 +92,7 @@ function BecomeAPartner() {
 							htmlFor="phone"
 							className="block text-sm font-medium text-gray-700"
 						>
-							Téléphone*
+							{t("phone")}*
 						</label>
 						<input
 							type="text"
@@ -103,7 +109,7 @@ function BecomeAPartner() {
 						htmlFor="speciality"
 						className="block text-sm font-medium text-gray-700"
 					>
-						Spécialité*
+						{t("speciality")}*
 					</label>
 					<select
 						id="speciality"
@@ -120,25 +126,45 @@ function BecomeAPartner() {
 						htmlFor="email"
 						className="block text-sm font-medium text-gray-700"
 					>
-						Email*
+						{t("email")}*
 					</label>
 					<input
 						type="email"
 						id="email"
 						name="email"
 						className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-						placeholder="Entrer votre email"
+						placeholder={t("enter-your-email")}
 						required
 					/>
 				</div>
-				<small className="text-gray-500 mt-2">
-					* Champs obligatoires
+				<div className="mt-5">
+					<label
+						htmlFor="kbis"
+						className="block text-sm font-medium text-gray-700"
+					>
+						{t("kbis")}*
+					</label>
+					<input
+						type="file"
+						id="kbis"
+						name="kbis"
+						className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+						accept=".pdf,.doc,.docx"
+						placeholder={t("no-file-selected")}
+						required
+					/>
+					<small className="text-gray-500 mt-2">
+						{t("kbis-file-description")}
+					</small>
+				</div>
+				<small className="text-gray-500 mt-5">
+					* {t("required-fields")}
 				</small>
 				<button
 					type="submit"
 					className="flex w-full justify-center rounded-md bg-primary-700 px-3 py-1.5 text-sm font-normal leading-6 text-white shadow-sm hover:bg-primary-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 mt-8"
 				>
-					Envoyer ma demande
+					{t("send-request")}
 				</button>
 			</form>
 		</BecomeAPartnerLayout>

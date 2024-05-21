@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
+import { useTranslation } from "react-i18next";
 
 function ServicesChooser({ services }) {
+	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const { setServiceSelected } = useUser();
 
@@ -27,7 +29,7 @@ function ServicesChooser({ services }) {
 							className="bg-primary-900 text-white px-3 py-1.5 rounded-sm text-sm hover:bg-primary-800 font-normal text-sm"
 							onClick={() => handleServiceSelection(service)}
 						>
-							Choisir
+							{t("choose")}
 						</button>
 					</div>
 				</li>

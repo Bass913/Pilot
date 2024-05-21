@@ -25,14 +25,18 @@ function getDays(startDate, endDate) {
 	return days;
 }
 
-function getFormattedDate(date) {
+function getFormattedDate(date, language) {
 	const options = {
 		weekday: "long",
 		year: "numeric",
 		month: "long",
 		day: "numeric",
 	};
-	const formatter = new Intl.DateTimeFormat("fr-FR", options);
+
+	const lang = language === "en" ? "en-GB" : "fr-FR";
+
+	const formatter = new Intl.DateTimeFormat(lang, options);
+
 	return formatter.format(new Date(date));
 }
 
@@ -65,7 +69,7 @@ function getTimeSlotsFromSchedule(days, schedule) {
 		for (
 			let totalMinutes = openingHourTotalMinutes;
 			totalMinutes < closingHourTotalMinutes;
-			totalMinutes += 30
+			totalMinutes += 20
 		) {
 			const hours = Math.floor(totalMinutes / 60);
 			const minutes = totalMinutes % 60;

@@ -2,51 +2,46 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Services;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\CompanyServices;
 use App\Entity\Company;
+use Faker\Factory;
 
-class CompanyServicesFixtures extends Fixture
+
+
+class CompanyServicesFixtures extends Fixture implements DependentFixtureInterface
 {
+
+
     public function load(ObjectManager $manager)
     {
-        // Création de quelques services :
-        $companies = [
-            ['name' => 'Entreprise A'],
-            ['name' => 'Entreprise B'],
-        ];
+        $faker = Factory::create();
 
-        $servicesData = [
-            [
-                'price' => '20.00',
-                'duration' => 60,
-                'company' => 'Entreprise A',
-            ],
-            [
-                'price' => '30.00',
-                'duration' => 45,
-                'company' => 'Entreprise B',
-            ],
-        ];
+        $companies = array_map(fn(string $key): Company => $this->getReference($key), array_keys(CompanyFixtures::COMPANY_REFERENCE));
+
+        $services = array_map(fn(string $key): Services => $this->getReference($key), array_keys(ServicesFixtures::SERVICE_REFERENCE));
+
+
 
         foreach ($companies as $companyData) {
-            $company = new Company();
-            $company->setName($companyData['name']);
-            $manager->persist($company);
-
-            foreach ($servicesData as $serviceData) {
-                if ($serviceData['company'] === $companyData['name']) {
-                    $service = new CompanyServices();
-                    $service->setPrice($serviceData['price']);
-                    $service->setDuration($serviceData['duration']);
-                    $service->setCompany($company);
-
-                    $manager->persist($service);
-                }
+            $companyService = new CompanyServices();
+            $companyService->setCompany($companyData);
+            $companyService->setPrice($faker->numberBetween(50, 100));
+            $companyService->setDuration(30);
+            foreach ($services as $service) {
+                $companyService->setService($service);
             }
-        }
 
+            $manager->persist($companyService);
+        }
         $manager->flush();
+    }
+
+    public function getDependencies(): array
+    {
+        return [CompanyFixtures::class, ServicesFixtures::class];
     }
 }

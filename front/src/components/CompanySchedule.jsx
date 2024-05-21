@@ -1,12 +1,16 @@
+import { useTranslation } from "react-i18next";
+
 function CompanySchedule({ schedule }) {
+	const { t } = useTranslation();
+
 	const days = {
-		monday: "Lundi",
-		tuesday: "Mardi",
-		wednesday: "Mercredi",
-		thursday: "Jeudi",
-		friday: "Vendredi",
-		saturday: "Samedi",
-		sunday: "Dimanche",
+		monday: t("monday"),
+		tuesday: t("tuesday"),
+		wednesday: t("wednesday"),
+		thursday: t("thursday"),
+		friday: t("friday"),
+		saturday: t("saturday"),
+		sunday: t("sunday"),
 	};
 
 	return (
@@ -20,7 +24,7 @@ function CompanySchedule({ schedule }) {
 						<span>{days[day]}</span>
 						<span>
 							{!hours.opening
-								? "Fermé"
+								? t("closed")
 								: `${hours.opening} - ${hours.closing}`}
 						</span>
 					</li>

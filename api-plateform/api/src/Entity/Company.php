@@ -80,6 +80,9 @@ class Company
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
     private Collection $users;
 
+    #[ORM\ManyToOne(inversedBy: 'companies')]
+    private ?Speciality $speciality;
+
 
     public function __construct()
     {
@@ -392,6 +395,18 @@ class Company
                 $user->setCompany(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSpeciality(): ?Speciality
+    {
+        return $this->speciality;
+    }
+
+    public function setSpeciality(?Speciality $speciality): static
+    {
+        $this->speciality = $speciality;
 
         return $this;
     }

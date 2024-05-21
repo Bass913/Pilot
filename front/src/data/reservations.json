@@ -1,0 +1,44 @@
+[
+    {
+        "id": 1,
+        "company": {
+            "name": "Le super garage",
+            "address": "75 rue de la rue, 75000 Paris"
+        },
+        "service": "Changement des pneus",
+        "date": "2024-05-11T08:00:00",
+        "price": 100,
+        "employee": {
+            "id": 1,
+            "name": "Francis"
+        }
+    },
+    {
+        "id": 2,
+        "company": {
+            "name": "Le super garage",
+            "address": "75 rue de la rue, 75000 Paris"
+        },
+        "service": "Changement des pneus",
+        "date": "2024-05-11T08:00:00",
+        "price": 100,
+        "employee": {
+            "id": 1,
+            "name": "Francis"
+        }
+    },
+    {
+        "id": 3,
+        "company": {
+            "name": "Le super garage",
+            "address": "75 rue de la rue, 75000 Paris"
+        },
+        "service": "Changement des pneus",
+        "date": "2024-05-11T08:00:00",
+        "price": 100,
+        "employee": {
+            "id": 1,
+            "name": "Francis"
+        }
+    }
+]

@@ -3,14 +3,15 @@ import { useParams } from "react-router-dom";
 import providers from "../data/providers";
 import DefaultLayout from "../layouts/DefaultLayout";
 import Loader from "../components/Loader";
-import { MapPinIcon, StarIcon } from "@heroicons/react/24/outline";
 import ImagesGallery from "../components/ImagesGallery";
 import ServicesChooser from "../components/ServicesChooser";
 import CompanySchedule from "../components/CompanySchedule";
 import CompanyReviews from "../components/CompanyReviews";
 import CompanyHeader from "../components/CompanyHeader";
+import { useTranslation } from "react-i18next";
 
 function ProviderDetail() {
+	const { t } = useTranslation();
 	const { id } = useParams();
 	const [provider, setProvider] = useState(null);
 
@@ -24,24 +25,24 @@ function ProviderDetail() {
 	return (
 		<DefaultLayout>
 			<div className="flex justify-center w-full bg-gray-100">
-				<div className="max-w-6xl w-full">
+				<div
+					className="max-w-5xl w-full flex flex-col py-10 px-6"
+					style={{ minHeight: "calc(100vh - 5rem)" }}
+				>
 					{provider === null ? (
 						<Loader />
 					) : (
-						<div
-							className="bg-gray-100 px-8 py-10 flex flex-col"
-							style={{ minHeight: "calc(100vh - 5rem)" }}
-						>
+						<div>
 							<CompanyHeader provider={provider} />
 							<ImagesGallery images={provider.images} />
 
 							<div className="mt-10">
 								<h2 className="text-xl font-medium text-gray-800">
-									Réservez un rendez-vous en ligne avec{" "}
+									{t("make-an-appointment-with")}{" "}
 									{provider.name}
 								</h2>
 								<p className="text-gray-600 mt-2 font-light">
-									Le paiement se fait sur place
+									{t("payment-in-place")}
 								</p>
 							</div>
 
@@ -49,21 +50,19 @@ function ProviderDetail() {
 								<div className="w-full">
 									<div>
 										<h3 className="text-xl font-medium text-gray-800 mb-4">
-											Choisissez votre prestation
+											{t("select-your-service")}
 										</h3>
 										<ServicesChooser
 											services={provider.services}
 										/>
 										<small className="text-gray-600">
-											* Les prix sont donnés à titre
-											indicatif et peuvent varier en
-											fonction du véhicule
+											* {t("indicative-prices")}
 										</small>
 									</div>
 
 									<div className="mt-10">
 										<h4 className="text-lg font-medium text-gray-800 mb-4">
-											À propos de {provider.name}
+											{t("about")} {provider.name}
 										</h4>
 										<p className="text-gray-600 bg-white p-4 rounded-md shadow-md font-light text-base">
 											{provider.description}
@@ -72,7 +71,7 @@ function ProviderDetail() {
 
 									<div className="mt-10">
 										<h4 className="text-lg font-medium text-gray-800 mb-4">
-											Avis des clients
+											{t("client-reviews")}
 										</h4>
 										<CompanyReviews
 											reviews={provider.reviews}
@@ -82,7 +81,7 @@ function ProviderDetail() {
 
 								<div className="w-full lg:w-132">
 									<h4 className="text-lg font-medium text-gray-800 mb-4">
-										Horaires d'ouverture
+										{t("opening-hours")}
 									</h4>
 									<CompanySchedule
 										schedule={provider.schedule}
