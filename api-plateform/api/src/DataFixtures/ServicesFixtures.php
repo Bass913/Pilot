@@ -5,7 +5,6 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Services;
-use App\Entity\Speciality;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 
@@ -21,8 +20,11 @@ class ServicesFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $specialities = array_map(fn(string $key): Speciality => $this->getReference($key), array_keys(SpecialityFixtures::SPECIALITY_REFERENCE));
+        $specialities = [];
 
+        foreach (array_keys(SpecialityFixtures::SPECIALITY_REFERENCE) as $key) {
+            $specialities[$key] = $this->getReference($key);
+        }
 
         foreach (self::SERVICE_REFERENCE as $key => $name) {
             $service = new Services();

@@ -34,7 +34,7 @@ class Company
     private ?string $description = null;
 
     #[Groups(['read-company'])]
-    #[ORM\Column(length: 5)]
+    #[ORM\Column(length: 10)]
     private ?string $zipcode = null;
 
     #[Groups(['read-company'])]
