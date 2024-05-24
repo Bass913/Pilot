@@ -83,6 +83,13 @@ class Company
     #[ORM\ManyToOne(inversedBy: 'companies')]
     private ?Speciality $speciality;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $reviewCount = null;
+
+    #[Groups(['read-company'])]
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    private ?array $images = null;
+
 
     public function __construct()
     {
@@ -407,6 +414,30 @@ class Company
     public function setSpeciality(?Speciality $speciality): static
     {
         $this->speciality = $speciality;
+
+        return $this;
+    }
+
+    public function getReviewCount(): ?int
+    {
+        return $this->reviewCount;
+    }
+
+    public function setReviewCount(?int $reviewCount): static
+    {
+        $this->reviewCount = $reviewCount;
+
+        return $this;
+    }
+
+    public function getImages(): ?array
+    {
+        return $this->images;
+    }
+
+    public function setImages(?array $images): static
+    {
+        $this->images = $images;
 
         return $this;
     }

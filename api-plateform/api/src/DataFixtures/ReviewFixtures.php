@@ -10,7 +10,7 @@ use Faker\Factory;
 
 class ReviewFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const REVIEW_REFERENCE_COUNT = 20;
+    public const REVIEW_REFERENCE_COUNT = 10;
 
     public function load(ObjectManager $manager)
     {
@@ -22,12 +22,14 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
         }
 
         for ($i = 0; $i < self::REVIEW_REFERENCE_COUNT; $i++) {
-            $review = new Review();
-            $review->setDate($faker->date());
-            $review->setComment($faker->sentence());
-            $review->setCompany($companies[array_rand($companies)]);
-            $manager->persist($review);
+            foreach($companies as $company) {
+                $review = new Review();
+                $review->setDate($faker->date());
+                $review->setComment($faker->sentence());
+                $review->setCompany($company);
+                $manager->persist($review);
 
+            }
             // Add reference for later use
             $this->addReference('review-' . $i, $review);
         }

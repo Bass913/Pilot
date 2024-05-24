@@ -36,7 +36,13 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
             $company->setActive($faker->boolean());
             $company->setLatitude($faker->latitude(-90, 90));
             $company->setLongitude($faker->longitude(-180, 180));
+            $company->setImages([
+                "https://images.unsplash.com/photo-1551522435-a13afa10f103",
+                "https://images.unsplash.com/photo-1570071677470-c04398af73ca",
+                "https://images.unsplash.com/photo-1570071677470-c04398af73ca"
+            ]);
             $company->setReviewRating($faker->randomFloat(1, 0, 5));
+            $company->setReviewCount(10);
             $company->setSpeciality($specialities[array_rand($specialities)]);
             $manager->persist($company);
             $this->addReference('company-' . $i, $company);
