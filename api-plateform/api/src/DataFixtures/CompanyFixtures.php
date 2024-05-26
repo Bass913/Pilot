@@ -2,65 +2,54 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Speciality;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Company;
+use Faker\Factory;
+
 
 class CompanyFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const COMPANY_REFERENCE = [
-        "company-a" => [
-            'name' => 'Entreprise A',
-            'address' => '123 Rue de la Test',
-            'description' => 'Description de l\'entreprise A.',
-            'zipcode' => '75001',
-            'city' => 'Paris',
-            'kbis' => 'https://exemple.com/kbis/entreprise-a',
-            'active' => true,
-            'latitude' => 48.8566,
-            'longitude' => 2.3522,
-        ],
-        "company-b" => [
-            'name' => 'Entreprise B',
-            'address' => '456 Avenue du Test',
-            'description' => 'Description de l\'entreprise B.',
-            'zipcode' => '69001',
-            'city' => 'Lyon',
-            'kbis' => 'https://exemple.com/kbis/entreprise-b',
-            'active' => true,
-            'latitude' => 45.75,
-            'longitude' => 4.85,
-        ],
-    ];
+    public const COMPANY_REFERENCE_COUNT = 20;
+
     public function load(ObjectManager $manager)
     {
+        $faker = Factory::create();
 
-        $specialities = array_map(fn(string $key): Speciality => $this->getReference($key), array_keys(SpecialityFixtures::SPECIALITY_REFERENCE));
+        $specialities = [];
+
+        foreach (array_keys(SpecialityFixtures::SPECIALITY_REFERENCE) as $key) {
+            $specialities[$key] = $this->getReference($key);
+        }
 
         // Création de quelques company :
 
-
-        foreach (self::COMPANY_REFERENCE as $key => $values) {
+        for ($i = 0; $i < self::COMPANY_REFERENCE_COUNT; $i++) {
             $company = new Company();
-            $company->setName($values["name"]);
-            $company->setAddress($values["address"]);
-            $company->setDescription($values['description']);
-            $company->setZipcode($values['zipcode']);
-            $company->setCity($values['city']);
-            $company->setKbis($values['kbis']);
-            $company->setActive($values['active']);
-            $company->setLatitude($values['latitude']);
-            $company->setLongitude($values['longitude']);
-            $company->setReviewRating(0);
+            $company->setName($faker->company());
+            $company->setAddress($faker->streetAddress());
+            $company->setDescription($faker->text());
+            $company->setZipcode($faker->postcode());
+            $company->setCity($faker->city());
+            $company->setKbis($faker->fileExtension());
+            $company->setActive($faker->boolean());
+            $company->setLatitude($faker->latitude(-90, 90));
+            $company->setLongitude($faker->longitude(-180, 180));
+            $company->setImages([
+                "https://images.unsplash.com/photo-1551522435-a13afa10f103",
+                "https://images.unsplash.com/photo-1570071677470-c04398af73ca",
+                "https://images.unsplash.com/photo-1570071677470-c04398af73ca"
+            ]);
+            $company->setReviewRating($faker->randomFloat(1, 0, 5));
+            $company->setReviewCount(10);
             $company->setSpeciality($specialities[array_rand($specialities)]);
             $manager->persist($company);
-            $this->addReference($key, $company);
-
+            $this->addReference('company-' . $i, $company);
         }
 
         $manager->flush();
+
     }
 
     public function getDependencies(): array

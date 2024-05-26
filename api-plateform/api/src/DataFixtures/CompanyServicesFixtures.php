@@ -2,12 +2,10 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Services;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\CompanyServices;
-use App\Entity\Company;
 use Faker\Factory;
 
 
@@ -20,24 +18,30 @@ class CompanyServicesFixtures extends Fixture implements DependentFixtureInterfa
     {
         $faker = Factory::create();
 
-        $companies = array_map(fn(string $key): Company => $this->getReference($key), array_keys(CompanyFixtures::COMPANY_REFERENCE));
+        $companies = [];
 
-        $services = array_map(fn(string $key): Services => $this->getReference($key), array_keys(ServicesFixtures::SERVICE_REFERENCE));
-
-
-
-        foreach ($companies as $companyData) {
-            $companyService = new CompanyServices();
-            $companyService->setCompany($companyData);
-            $companyService->setPrice($faker->numberBetween(50, 100));
-            $companyService->setDuration(30);
-            foreach ($services as $service) {
-                $companyService->setService($service);
-            }
-
-            $manager->persist($companyService);
+        for ($i = 0; $i < CompanyFixtures::COMPANY_REFERENCE_COUNT; $i++) {
+            $companies[] = $this->getReference('company-' . $i);
         }
-        $manager->flush();
+        
+        $services = [];
+
+        foreach (array_keys(ServicesFixtures::SERVICE_REFERENCE) as $key) {
+            $services[$key] = $this->getReference($key);
+        }
+        
+        foreach ($companies as $companyData) {
+            foreach ($services as $service) {
+                $companyService = new CompanyServices();
+                $companyService->setCompany($companyData);
+                $companyService->setPrice($faker->numberBetween(50, 100));
+                $companyService->setDuration(30);
+                $companyService->setService($service);
+                
+                $manager->persist($companyService);
+            }
+        }
+        $manager->flush();  
     }
 
     public function getDependencies(): array

@@ -21,7 +21,11 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $companies = array_map(fn(string $key): Company => $this->getReference($key), array_keys(CompanyFixtures::COMPANY_REFERENCE));
+        $companies = [];
+
+        for ($i = 0; $i < CompanyFixtures::COMPANY_REFERENCE_COUNT; $i++) {
+            $companies[] = $this->getReference('company-' . $i);
+        }
 
         $user = new User();
         $user->setFirstname('John');
