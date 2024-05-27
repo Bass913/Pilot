@@ -86,6 +86,7 @@ class Company
     #[ORM\ManyToOne(inversedBy: 'companies')]
     private ?Speciality $speciality;
 
+    #[Groups(['read-company'])]
     #[ORM\Column(nullable: true)]
     private ?int $reviewCount = null;
 
