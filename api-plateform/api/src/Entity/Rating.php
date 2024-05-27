@@ -21,7 +21,6 @@ class Rating
     private ?Review $review = null;
 
     #[Groups(['read-company'])]
-
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?CategoryReview $category = null;

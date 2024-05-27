@@ -8,7 +8,6 @@ use Doctrine\Persistence\ObjectManager;
 use App\Entity\Company;
 use Faker\Factory;
 
-
 class CompanyFixtures extends Fixture implements DependentFixtureInterface
 {
     public const COMPANY_REFERENCE_COUNT = 20;
@@ -23,8 +22,18 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
             $specialities[$key] = $this->getReference($key);
         }
 
-        // Création de quelques company :
+        // Tableau des URLs d'images disponibles
+        $images = [
+            "https://images.unsplash.com/photo-1551522435-a13afa10f103",
+            "https://images.unsplash.com/photo-1570071677470-c04398af73ca",
+            "https://images.unsplash.com/photo-1517430816045-df4b7de5438a",
+            "https://images.unsplash.com/photo-1494173853739-c21f58b16055",
+            "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
+            "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d",
+            "https://images.unsplash.com/photo-1481277542470-605612bd2d61",
+        ];
 
+        // Création de quelques companies :
         for ($i = 0; $i < self::COMPANY_REFERENCE_COUNT; $i++) {
             $company = new Company();
             $company->setName($faker->company());
@@ -36,11 +45,15 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
             $company->setActive($faker->boolean());
             $company->setLatitude($faker->latitude(-90, 90));
             $company->setLongitude($faker->longitude(-180, 180));
-            $company->setImages([
-                "https://images.unsplash.com/photo-1551522435-a13afa10f103",
-                "https://images.unsplash.com/photo-1570071677470-c04398af73ca",
-                "https://images.unsplash.com/photo-1570071677470-c04398af73ca"
-            ]);
+
+            // Générer un nombre aléatoire d'images à sélectionner (entre 2 et 7)
+            $numImages = rand(2, 7);
+
+            // Sélectionner les premières images jusqu'à la quantité souhaitée
+            $selectedImages = array_slice($images, 0, $numImages);
+
+            $company->setImages($selectedImages);
+
             $company->setReviewRating($faker->randomFloat(1, 0, 5));
             $company->setReviewCount(10);
             $company->setSpeciality($specialities[array_rand($specialities)]);
@@ -49,7 +62,6 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
         }
 
         $manager->flush();
-
     }
 
     public function getDependencies(): array
