@@ -46,16 +46,16 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
             $company->setLatitude($faker->latitude(-90, 90));
             $company->setLongitude($faker->longitude(-180, 180));
 
-            // Générer un nombre aléatoire d'images à sélectionner (entre 2 et 7)
             $numImages = rand(2, 7);
 
-            // Sélectionner les premières images jusqu'à la quantité souhaitée
+            shuffle($images);
+
             $selectedImages = array_slice($images, 0, $numImages);
 
             $company->setImages($selectedImages);
 
             $company->setReviewRating($faker->randomFloat(1, 0, 5));
-            $company->setReviewCount(10);
+            $company->setReviewCount(ReviewFixtures::REVIEW_REFERENCE_COUNT);
             $company->setSpeciality($specialities[array_rand($specialities)]);
             $manager->persist($company);
             $this->addReference('company-' . $i, $company);

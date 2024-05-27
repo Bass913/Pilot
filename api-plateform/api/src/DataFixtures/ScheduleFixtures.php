@@ -13,37 +13,37 @@ class ScheduleFixtures extends Fixture implements DependentFixtureInterface
 {
     public const SCHEDULE_REFERENCE = [
         "monday" => [
-            "day" => "Monday",
+            "day" => "monday",
             "startTime" => "08:00",
             "endTime" => "18:00"
         ],
         "thursday" => [
-            "day" => "Thursday",
+            "day" => "thursday",
             "startTime" => "08:00",
             "endTime" => "18:00"
         ],
         "wednesday" => [
-            "day" => "Wednesday",
+            "day" => "wednesday",
             "startTime" => "08:00",
             "endTime" => "16:00"
         ],
         "tuesday" => [
-            "day" => "Tuesday",
+            "day" => "tuesday",
             "startTime" => "08:00",
             "endTime" => "18:00"
         ],
         "friday" => [
-            "day" => "Friday",
+            "day" => "friday",
             "startTime" => "08:00",
             "endTime" => "12:00"
         ],
         "saturday" => [
-            "day" => "Saturday",
+            "day" => "saturday",
             "startTime" => "08:00",
             "endTime" => "18:00"
         ],
         "sunday" => [
-            "day" => "Sunday",
+            "day" => "sunday",
             "startTime" => "08:00",
             "endTime" => "18:00"
         ],
