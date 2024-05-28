@@ -8,6 +8,8 @@ use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\Review;
 use Faker\Factory;
+use App\Repository\ReviewRepository;
+use App\Entity\Company;
 
 class ReviewFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -28,19 +30,39 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
             $categories[$key] = $this->getReference($key);
         }
 
+        $companyRatings = [];
+        $companyReviewCounts = [];
+
         for ($i = 0; $i < self::REVIEW_REFERENCE_COUNT; $i++) {
-            foreach($companies as $company) {
+            foreach ($companies as $company) {
                 $review = new Review();
                 $review->setDate($faker->date());
                 $review->setComment($faker->sentence());
                 $review->setCompany($company);
-                $rating = new Rating();
-                $rating->setReview($review);
-                $rating->setCategory($categories[array_rand($categories)]);
-                $rating->setValue($faker->randomDigit());
-                $manager->persist($rating);
-                $review->addRating($rating);
+                for ($i = 0; $i < rand(3, 5); $i++) {
+                    $rating = new Rating();
+                    $rating->setReview($review);
+                    $rating->setCategory($categories[array_rand($categories)]);
+                    $rating->setValue($faker->randomDigitNotNull());
+                    $manager->persist($rating);
+                    $review->addRating($rating);
+                }
+
                 $manager->persist($review);
+
+                // Mise à jour des totaux pour le calcul de la moyenne
+                $companyId = $company->getId();
+                if (!isset($companyRatings[$companyId])) {
+                    $companyRatings[$companyId] = 0;
+                    $companyReviewCounts[$companyId] = 0;
+                }
+                $companyRatings[$companyId] += $rating->getValue();
+                $companyReviewCounts[$companyId]++;
+
+                // Calcul et mise à jour de la moyenne directement
+                $averageRating = $companyRatings[$companyId] / $companyReviewCounts[$companyId];
+                $company->setReviewRating($averageRating);
+                $manager->persist($company);
             }
             // Add reference for later use
             $this->addReference('review-' . $i, $review);
