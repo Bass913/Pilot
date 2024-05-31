@@ -66,5 +66,10 @@
     "kbis": "Company Registration Certificate",
     "select-a-file": "Select a file",
     "no-file-selected": "No file selected",
-    "kbis-file-description": "Please provide a copy of your company registration certificate"
+    "kbis-file-description": "Please provide a copy of your company registration certificate",
+    "home": "Home",
+    "establishments": "Establishments",
+    "services": "Services",
+    "employees": "Employees",
+    "schedule": "Schedule"
 }

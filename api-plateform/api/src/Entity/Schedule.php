@@ -22,11 +22,11 @@ class Schedule
     private ?string $dayOfWeek = null;
 
     #[Groups(['read-company'])]
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $startTime = null;
 
     #[Groups(['read-company'])]
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endTime = null;
 
     #[ORM\ManyToOne(inversedBy: 'schedules')]
@@ -57,7 +57,7 @@ class Schedule
         return $this->startTime;
     }
 
-    public function setStartTime(\DateTimeInterface $startTime): static
+    public function setStartTime(?\DateTimeInterface $startTime): static
     {
         $this->startTime = $startTime;
 
@@ -69,7 +69,7 @@ class Schedule
         return $this->endTime;
     }
 
-    public function setEndTime(\DateTimeInterface $endTime): static
+    public function setEndTime(?\DateTimeInterface $endTime): static
     {
         $this->endTime = $endTime;
 

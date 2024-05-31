@@ -24,13 +24,17 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
 
         // Tableau des URLs d'images disponibles
         $images = [
-            "https://images.unsplash.com/photo-1551522435-a13afa10f103",
-            "https://images.unsplash.com/photo-1570071677470-c04398af73ca",
-            "https://images.unsplash.com/photo-1517430816045-df4b7de5438a",
-            "https://images.unsplash.com/photo-1494173853739-c21f58b16055",
-            "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
-            "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d",
-            "https://images.unsplash.com/photo-1481277542470-605612bd2d61",
+            "https://images.unsplash.com/photo-1551522435-a13afa10f103?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Z2FyYWdlJTIwYXV0b3xlbnwwfDB8MHx8fDI%3D",
+            "https://images.unsplash.com/photo-1570071677470-c04398af73ca?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Z2FyYWdlJTIwYXV0b3xlbnwwfDB8MHx8fDI%3D",
+            "https://images.unsplash.com/photo-1599256630445-67b5772b1204?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Z2FyYWdlJTIwYXV0b3xlbnwwfDB8MHx8fDI%3D",
+            "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Z2FyYWdlJTIwYXV0b3xlbnwwfDB8MHx8fDI%3D",
+            "https://images.unsplash.com/photo-1591278169757-deac26e49555?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Z2FyYWdlJTIwYXV0b3xlbnwwfDB8MHx8fDI%3D",
+            "https://images.unsplash.com/photo-1631720040176-0d789a643a78?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjF8fGdhcmFnZSUyMGF1dG98ZW58MHwwfDB8fHwy",
+            "https://images.unsplash.com/photo-1524214786335-66456317bde6?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fGdhcmFnZSUyMGF1dG98ZW58MHwwfDB8fHwy",
+            "https://images.unsplash.com/photo-1652987086612-d948b775d358?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzR8fGdhcmFnZSUyMGF1dG98ZW58MHwwfDB8fHwy",
+            "https://images.unsplash.com/photo-1591293836027-e05b48473b67?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDZ8fGdhcmFnZSUyMGF1dG98ZW58MHwwfDB8fHwy",
+            "https://images.unsplash.com/photo-1551522435-b2347f669045?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTZ8fGdhcmFnZSUyMGF1dG98ZW58MHwwfDB8fHwy",
+            "https://images.unsplash.com/photo-1526726538690-5cbf956ae2fd?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjB8fGdhcmFnZSUyMGF1dG98ZW58MHwwfDB8fHwy"
         ];
 
         // Création de quelques companies :

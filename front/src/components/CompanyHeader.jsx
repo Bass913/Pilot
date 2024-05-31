@@ -12,7 +12,7 @@ function CompanyHeader({ provider }) {
 			</p>
 			<p className="text-gray-600 mt-2 flex gap-2 items-center font-light">
 				<StarIcon className="w-4 text-gray-400" />
-				{provider.reviewRating} ({provider.reviewsCount} {t('reviews')})
+				{provider.reviewRating} ({provider.reviewCount} {t('reviews')})
 			</p>
 		</div>
 	);

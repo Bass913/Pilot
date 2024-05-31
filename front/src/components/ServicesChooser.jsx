@@ -2,6 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
 import { useTranslation } from "react-i18next";
 
+const formatPrice = (price) => {
+	return new Intl.NumberFormat("fr-FR", {
+		style: "currency",
+		currency: "EUR",
+	}).format(price);
+};
+
 function ServicesChooser({ services }) {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
@@ -19,10 +26,10 @@ function ServicesChooser({ services }) {
 					key={index}
 					className={`block py-4 text-base flex justify-between items-center ${index !== services.length - 1 && "border-b border-gray-200"}`}
 				>
-					<p className="font-normal">{service.name}</p>
+					<p className="font-normal">{service.service.name}</p>
 					<div className="flex gap-6 items-center">
 						<p className="font-normal">
-							{service.price} €
+							{formatPrice(service.price)}
 							<small className="text-gray-400">*</small>
 						</p>
 						<button

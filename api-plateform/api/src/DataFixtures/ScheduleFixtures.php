@@ -44,8 +44,8 @@ class ScheduleFixtures extends Fixture implements DependentFixtureInterface
         ],
         "sunday" => [
             "day" => "sunday",
-            "startTime" => "08:00",
-            "endTime" => "18:00"
+            "startTime" => null,
+            "endTime" => null
         ],
     ];
 
@@ -62,8 +62,8 @@ class ScheduleFixtures extends Fixture implements DependentFixtureInterface
             foreach (self::SCHEDULE_REFERENCE as $day) {
                 $schedule = new Schedule();
                 $schedule->setDayOfWeek($day["day"]);
-                $schedule->setStartTime(new DateTime($day["startTime"]));
-                $schedule->setEndTime(new DateTime($day["endTime"]));
+                $schedule->setStartTime($day["startTime"] ? new DateTime($day["startTime"]) : null);
+                $schedule->setEndTime($day["endTime"] ? new DateTime($day["endTime"]) : null);
                 $company->addSchedule($schedule);
                 $manager->persist($schedule);
             }
@@ -77,5 +77,4 @@ class ScheduleFixtures extends Fixture implements DependentFixtureInterface
     {
         return [CompanyFixtures::class];
     }
-
 }

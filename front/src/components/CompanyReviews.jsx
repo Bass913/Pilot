@@ -1,7 +1,7 @@
 import { StarIcon } from "@heroicons/react/24/solid";
 import { StarIcon as StarIconOutline } from "@heroicons/react/24/outline";
 
-function CompanyReviews({ reviews }) {
+function CompanyReviews({ reviewRating, reviews }) {
 	// "review": {
 	// 		"id": 1,
 	// 		"date": "2021-06-01",
@@ -34,12 +34,12 @@ function CompanyReviews({ reviews }) {
 	// 		"comment": "Super garage, je recommande !"
 	// 	},
 
-	function calculateReviewAverageRating(review) {
-		const total = review.rating.reduce((acc, rating) => {
-			return acc + rating.value;
-		}, 0);
-		return total / review.rating.length;
-	}
+	// function calculateReviewAverageRating(review) {
+	// 	const total = review.rating.reduce((acc, rating) => {
+	// 		return acc + rating.value;
+	// 	}, 0);
+	// 	return total / review.rating.length;
+	// }
 
 	function formatDate(date) {
 		const [year, month, day] = date.split("-");
@@ -62,9 +62,7 @@ function CompanyReviews({ reviews }) {
 				>
 					<div>
 						<p className="text-gray-800 font-medium flex items-center gap-1">
-							{formatRatingValue(
-								calculateReviewAverageRating(review)
-							)}
+							{formatRatingValue(reviewRating)}
 							<StarIcon className="w-4 inline-block text-primary-500" />
 						</p>
 						<p className="text-gray-600 font-light">
@@ -75,7 +73,7 @@ function CompanyReviews({ reviews }) {
 						</p>
 					</div>
 					<div className="hidden md:block">
-						{review.rating.map((rating, index) => (
+						{review.ratings.map((rating, index) => (
 							<p
 								key={index}
 								className="text-gray-800 font-light text-sm flex items-center"

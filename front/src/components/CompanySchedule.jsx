@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-function CompanySchedule({ schedule }) {
+function CompanySchedule({ schedules }) {
 	const { t } = useTranslation();
 
 	const days = {
@@ -13,22 +13,29 @@ function CompanySchedule({ schedule }) {
 		sunday: t("sunday"),
 	};
 
+	const getHourFromDate = (date) => {
+		const hour = date.split("T")[1].split(":");
+		return `${hour[0]}:${hour[1]}`;
+	};
+
 	return (
 		<div className="bg-white px-5 py-2 rounded-md shadow-md">
 			<ul className="mx-5 text-gray-800">
-				{Object.entries(schedule).map(([day, hours], index, array) => (
-					<li
-						key={day}
-						className={`flex justify-between items-center py-4 ${index !== array.length - 1 && "border-b border-gray-200"}`}
-					>
-						<span>{days[day]}</span>
-						<span>
-							{!hours.opening
-								? t("closed")
-								: `${hours.opening} - ${hours.closing}`}
-						</span>
-					</li>
-				))}
+				{schedules.map(
+					({ dayOfWeek, startTime, endTime }, index, array) => (
+						<li
+							key={dayOfWeek}
+							className={`flex justify-between items-center py-4 ${index !== array.length - 1 && "border-b border-gray-200"}`}
+						>
+							<span>{days[dayOfWeek]}</span>
+							<span>
+								{!startTime && !endTime
+									? t("closed")
+									: `${getHourFromDate(startTime)} - ${getHourFromDate(endTime)}`}
+							</span>
+						</li>
+					)
+				)}
 			</ul>
 		</div>
 	);

@@ -22,43 +22,63 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const DashboardLayout = ({ children }) => {
+	const { t, i18n } = useTranslation();
 	const location = useLocation();
-	const { user, logout, sidebarLarge, setSidebarLarge } = useUser();
+	const {
+		user,
+		logout,
+		sidebarLarge,
+		setSidebarLarge,
+		language,
+		setLanguage,
+	} = useUser();
 	const navigate = useNavigate();
-	const [navigation, setNavigation] = useState([
-		{
-			name: "Accueil",
-			href: "/admin",
-			icon: HomeIcon,
-			current: location.pathname === "/admin",
-		},
-		{
-			name: "Etablissements",
-			href: "/admin/providers",
-			icon: BuildingStorefrontIcon,
-			current: location.pathname === "/admin/providers",
-		},
-		{
-			name: "Prestations",
-			href: "/admin/services",
-			icon: WrenchScrewdriverIcon,
-			current: location.pathname === "/admin/services",
-		},
-		{
-			name: "Employés",
-			href: "/admin/employees",
-			icon: UserGroupIcon,
-			current: location.pathname === "/admin/employees",
-		},
-		{
-			name: "Planning",
-			href: "/admin/schedule",
-			icon: CalendarDaysIcon,
-			current: location.pathname === "/admin/schedule",
-		},
-	]);
+
+	const changeLanguage = () => {
+		const newLanguage = language === "fr" ? "en" : "fr";
+		i18n.changeLanguage(newLanguage);
+		setLanguage(newLanguage);
+	};
+
+	const [navigation, setNavigation] = useState([]);
+
+	useEffect(() => {
+		setNavigation([
+			{
+				name: t("home"),
+				href: "/admin",
+				icon: HomeIcon,
+				current: location.pathname === "/admin",
+			},
+			{
+				name: t("establishments"),
+				href: "/admin/providers",
+				icon: BuildingStorefrontIcon,
+				current: location.pathname === "/admin/providers",
+			},
+			{
+				name: t("services"),
+				href: "/admin/services",
+				icon: WrenchScrewdriverIcon,
+				current: location.pathname === "/admin/services",
+			},
+			{
+				name: t("employees"),
+				href: "/admin/employees",
+				icon: UserGroupIcon,
+				current: location.pathname === "/admin/employees",
+			},
+			{
+				name: t("schedule"),
+				href: "/admin/schedule",
+				icon: CalendarDaysIcon,
+				current: location.pathname === "/admin/schedule",
+			},
+		]);
+	}, [t, i18n.language]);
 
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -251,12 +271,12 @@ const DashboardLayout = ({ children }) => {
 							<li className="mt-auto -mx-2">
 								<hr className="mx-2 mb-3" />
 								<Link
-									to="/dash/profile"
-									className={[
-										location.pathname === "/dash/profile"
+									to="/admin/profile"
+									className={`cursor-pointer ${[
+										location.pathname === "/admin/profile"
 											? "text-primary-700"
 											: "hover:bg-gray-100 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
-									]}
+									]}`}
 								>
 									<UserIcon
 										className="h-6 w-6 shrink-0"
@@ -271,15 +291,31 @@ const DashboardLayout = ({ children }) => {
 											: "Votre profil"}
 								</Link>
 								<button
+									className="hover:bg-gray-100 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold cursor-pointer w-full"
+									onClick={changeLanguage}
+								>
+									<div
+										className="w-5 h-5 cover bg-no-repeat bg-center bg-contain rounded-full shrink-0 ml-0.5"
+										style={{
+											backgroundImage: `url(/flags/${language}.svg)`,
+										}}
+									></div>
+									{!sidebarLarge
+										? ""
+										: language === "fr"
+											? "Français"
+											: "English"}
+								</button>
+								<button
 									type="button"
 									onClick={logoutFromDashboard}
-									className="mb-5 cursor-pointer hover:bg-gray-100 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full"
+									className="mb-5 cursor-pointer hover:bg-gray-100 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full cursor-pointer"
 								>
 									<ArrowRightStartOnRectangleIcon
 										className="h-6 w-6 shrink-0"
 										aria-hidden="true"
 									/>
-									{!sidebarLarge ? "" : "Déconnexion"}
+									{!sidebarLarge ? "" : t("logout")}
 								</button>
 							</li>
 						</ul>
@@ -296,7 +332,7 @@ const DashboardLayout = ({ children }) => {
 					<span className="sr-only">Ouvrir la barre</span>
 					<Bars3Icon className="h-6 w-6" aria-hidden="true" />
 				</button>
-				<Link to="/dash/profile">
+				<Link to="/admin/profile">
 					<span className="sr-only">Votre profil</span>
 					<UserIcon
 						className="h-6 w-6 shrink-0 text-white"

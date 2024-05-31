@@ -18,7 +18,10 @@ const SearchBar = ({ initialGarageSearch, initialAddressSearch }) => {
 	};
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		navigate("/providers");
+		const url = garageSearch
+			? `/companies?search=${garageSearch}`
+			: "/companies";
+		navigate(url);
 	};
 	return (
 		<div
