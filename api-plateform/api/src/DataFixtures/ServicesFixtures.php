@@ -7,8 +7,6 @@ use Doctrine\Persistence\ObjectManager;
 use App\Entity\Services;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-
-
 class ServicesFixtures extends Fixture implements DependentFixtureInterface
 {
     public const SERVICE_REFERENCE = [
@@ -41,5 +39,4 @@ class ServicesFixtures extends Fixture implements DependentFixtureInterface
     {
         return [SpecialityFixtures::class];
     }
-
 }

@@ -6,8 +6,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\CategoryReview;
 
-
-
 class CategoryReviewFixtures extends Fixture
 {
     public const CATEGORY_REFERENCE = [
@@ -28,5 +26,4 @@ class CategoryReviewFixtures extends Fixture
 
         $manager->flush();
     }
-
 }
