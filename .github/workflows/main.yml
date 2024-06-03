@@ -12,7 +12,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: "8.2"
           extensions: mbstring, curl, pdo, sqlite, zip, pcntl
           coverage: none
       - name: Checkout repository
@@ -24,7 +24,6 @@ jobs:
       - name: Install dependencies
         run: composer install
         working-directory: api-plateform/api
-
 
       - name: Run PHP_CodeSniffer (PHPCS)
         run: vendor/bin/phpcs src/
@@ -64,5 +63,3 @@ jobs:
             POSTGRES_PASSWORD=ChangeMe \
             CADDY_MERCURE_JWT_SECRET=ChangeThisMercureHubJWTSecretKey \
             docker compose -f compose.yaml -f compose.prod.yaml up --wait
-
-  
