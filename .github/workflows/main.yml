@@ -4,6 +4,34 @@ on:
       - "stage-*"
 
 jobs:
+  test_api_plateform:
+    name: ci backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, curl, pdo, sqlite, zip, pcntl
+          coverage: none
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Change directory
+        run: cd api-plateform/api
+
+      - name: Install dependencies
+        run: composer install
+        working-directory: api-plateform/api
+
+      - name: Run PHP_CodeSniffer (PHPCS)
+        run: vendor/bin/phpcs src/
+        working-directory: api-plateform/api
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan.phar analyse src/ -c phpstan.neon --level=max --no-progress -vvv --memory-limit=2048M
+        working-directory: api-plateform/api
+
   frontend_test:
     runs-on: ubuntu-latest
     defaults:
