@@ -22,7 +22,7 @@ jobs:
           npm run format
 
   deploy:
-    needs: test_api_plateform
+    needs: frontend_test
     name: Deploy
     runs-on: ubuntu-latest
     steps:
