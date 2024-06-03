@@ -8,7 +8,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-
 class ScheduleFixtures extends Fixture implements DependentFixtureInterface
 {
     public const SCHEDULE_REFERENCE = [
@@ -77,5 +76,4 @@ class ScheduleFixtures extends Fixture implements DependentFixtureInterface
     {
         return [CompanyFixtures::class];
     }
-
 }

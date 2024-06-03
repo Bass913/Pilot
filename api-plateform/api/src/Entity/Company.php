@@ -91,7 +91,7 @@ class Company
     private ?int $reviewCount = null;
 
     #[Groups(['read-company'])]
-    #[ORM\Column(type: Types::ARRAY , nullable: true)]
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private ?array $images = null;
 
 
