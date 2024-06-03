@@ -29,7 +29,7 @@ function Login() {
 					<div className="mx-auto w-full max-w-sm lg:w-96">
 						<div>
 							<h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
-								Connectez-vous à votre compte
+								Connectez-vous à votre compte.
 							</h2>
 							<div className="flex flex-row items-center my-5 text-sm leading-6">
 								<p className=" text-gray-500">
