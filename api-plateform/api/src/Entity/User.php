@@ -32,6 +32,12 @@ use Symfony\Component\Uid\Uuid;
             ],
         ),
         new Post(
+            uriTemplate: '/register',
+            denormalizationContext: ['groups' => ['user:register']],
+            validationContext: ['groups' => ['user:register']]
+        ),
+        new Post(
+            uriTemplate: '/admin/users',
             denormalizationContext: ['groups' => ['user:create']],
             validationContext: ['groups' => ['user:create']]
         ),
@@ -52,32 +58,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Uuid $id;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:read', 'user:create', 'user:update', 'read-company-details'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details'])]
+    #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:read', 'user:create', 'user:update', 'read-company-details'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details'])]
+    #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['user:read', 'user:create'])]
-    #[Assert\Email]
+    #[Groups(['user:register', 'user:read', 'user:create'])]
+    #[Assert\Email(groups: ['user:register', 'user:create'])]
+    #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
     private ?string $email = null;
 
     /**
      * @var string[]
      */
     #[ORM\Column]
-    #[Groups(['user:read', 'user:create'])]
+    #[Groups(['user:read'])]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Groups(['user:create'])]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 6)]
+    #[Groups(['user:register', 'user:create'])]
+    #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
+    #[Assert\Length(min: 8, groups: ['user:register', 'user:create'])]
     private ?string $password = null;
 
     #[Groups(['read-company-details'])]
@@ -99,7 +108,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Booking::class)]
     private Collection $employeeBookings;
 
-    #[Groups(['user:read', 'user:create'])]
+    #[Groups(['user:register', 'user:create', 'user:read'])]
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $phone = null;
 
