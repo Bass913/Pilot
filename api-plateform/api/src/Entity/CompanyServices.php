@@ -33,17 +33,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Patch(),
         new Delete()
     ],
+    normalizationContext: ['groups' => ['read-company-service']]
 
 )]
 class CompanyServices
 {
-    #[Groups(['read-company-details'])]
+    #[Groups(['read-company-details', 'read-company-service'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['read-company-details'])]
+    #[Groups(['read-company-details', 'read-company-service'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $price = null;
 
@@ -53,7 +54,7 @@ class CompanyServices
     #[ORM\ManyToOne(inversedBy: 'companyServices')]
     private ?Company $company = null;
 
-    #[Groups(['read-company-details'])]
+    #[Groups(['read-company-details', 'read-company-service'])]
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Services $service = null;

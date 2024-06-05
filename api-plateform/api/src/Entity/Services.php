@@ -16,7 +16,7 @@ class Services
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['read-company-details'])]
+    #[Groups(['read-company-details', 'read-company-service'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
