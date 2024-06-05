@@ -57,6 +57,11 @@ class ScheduleFixtures extends Fixture implements DependentFixtureInterface
             $companies[] = $this->getReference('company-' . $i);
         }
 
+        $users = [];
+        for ($i = 1; $i < 63; $i++) { // Ajustez ce nombre selon le nombre total d'utilisateurs
+            $users[] = $this->getReference(UserFixtures::USER_REFERENCE_PREFIX . $i);
+        }
+
         foreach ($companies as $company) {
             foreach (self::SCHEDULE_REFERENCE as $day) {
                 $schedule = new Schedule();
@@ -69,11 +74,25 @@ class ScheduleFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($company);
         }
 
+
+        // Ajouter des horaires à chaque utilisateur
+        foreach ($users as $user) {
+            foreach (self::SCHEDULE_REFERENCE as $day) {
+                $schedule = new Schedule();
+                $schedule->setDayOfWeek($day["day"]);
+                $schedule->setStartTime($day["startTime"] ? new DateTime($day["startTime"]) : null);
+                $schedule->setEndTime($day["endTime"] ? new DateTime($day["endTime"]) : null);
+                $user->addSchedule($schedule);
+                $manager->persist($schedule);
+            }
+            $manager->persist($user);
+        }
+
         $manager->flush();
     }
 
     public function getDependencies(): array
     {
-        return [CompanyFixtures::class];
+        return [CompanyFixtures::class, UserFixtures::class];
     }
 }
