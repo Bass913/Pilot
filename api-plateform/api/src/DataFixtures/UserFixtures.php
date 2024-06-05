@@ -31,6 +31,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user->setLastname('Doe');
         $user->setEmail('user@user.fr');
         $user->setRoles(['ROLE_USER']);
+        $user->setPhone('0102030405');
         $user->setCompany($companies[array_rand($companies)]);
         $plaintextPassword = 'test';
         $hashedPassword = $this->passwordHasher->hashPassword(

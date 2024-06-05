@@ -83,6 +83,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Booking::class)]
     private Collection $bookings;
 
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $phone = null;
+
 
     public function __construct()
     {
@@ -285,6 +288,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $booking->setClient(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): static
+    {
+        $this->phone = $phone;
 
         return $this;
     }
