@@ -71,10 +71,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 6)]
     private ?string $password = null;
 
-    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Unavailability::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Unavailability::class)]
     private Collection $unavailabilities;
 
-    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Schedule::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Schedule::class)]
     private Collection $schedules;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
