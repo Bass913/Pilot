@@ -31,11 +31,7 @@ const router = createBrowserRouter([
 				element: <BecomeAPartner />,
 			},
 			{
-				path: "providers",
-				element: <ProviderList />,
-			},
-			{
-				path: "provider",
+				path: "companies",
 				children: [
 					{
 						path: ":id/reservation",
@@ -48,6 +44,10 @@ const router = createBrowserRouter([
 					{
 						path: ":id",
 						element: <ProviderDetail />,
+					},
+					{
+						path: "",
+						element: <ProviderList />,
 					},
 				],
 			},
@@ -75,8 +75,12 @@ const router = createBrowserRouter([
 						path: "",
 						element: <Dashboard />,
 					},
+					{
+						path: "profile",
+						element: <Profile />,
+					},
 				],
-			}
+			},
 		],
 	},
 ]);

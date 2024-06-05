@@ -28,7 +28,6 @@ export default function Header({ user }) {
 
 			<div className="relative flex items-center gap-5 group">
 				<nav className="flex gap-5">
-					{/* change language button with coutry flag */}
 					<Button
 						className="hover:bg-gray-100 p-4 rounded text-sm flex items-center gap-2 text-gray-800"
 						onClick={changeLanguage}

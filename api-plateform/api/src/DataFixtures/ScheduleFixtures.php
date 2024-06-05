@@ -8,44 +8,43 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-
 class ScheduleFixtures extends Fixture implements DependentFixtureInterface
 {
     public const SCHEDULE_REFERENCE = [
         "monday" => [
-            "day" => "Lundi",
+            "day" => "monday",
             "startTime" => "08:00",
             "endTime" => "18:00"
         ],
         "thursday" => [
-            "day" => "Mardi",
+            "day" => "thursday",
             "startTime" => "08:00",
             "endTime" => "18:00"
         ],
         "wednesday" => [
-            "day" => "Mercredi",
+            "day" => "wednesday",
             "startTime" => "08:00",
             "endTime" => "16:00"
         ],
         "tuesday" => [
-            "day" => "Jeudi",
+            "day" => "tuesday",
             "startTime" => "08:00",
             "endTime" => "18:00"
         ],
         "friday" => [
-            "day" => "Vendredi",
+            "day" => "friday",
             "startTime" => "08:00",
             "endTime" => "12:00"
         ],
         "saturday" => [
-            "day" => "Samedi",
+            "day" => "saturday",
             "startTime" => "08:00",
             "endTime" => "18:00"
         ],
         "sunday" => [
-            "day" => "Dimanche",
-            "startTime" => "08:00",
-            "endTime" => "18:00"
+            "day" => "sunday",
+            "startTime" => null,
+            "endTime" => null
         ],
     ];
 
@@ -62,8 +61,8 @@ class ScheduleFixtures extends Fixture implements DependentFixtureInterface
             foreach (self::SCHEDULE_REFERENCE as $day) {
                 $schedule = new Schedule();
                 $schedule->setDayOfWeek($day["day"]);
-                $schedule->setStartTime(new DateTime($day["startTime"]));
-                $schedule->setEndTime(new DateTime($day["endTime"]));
+                $schedule->setStartTime($day["startTime"] ? new DateTime($day["startTime"]) : null);
+                $schedule->setEndTime($day["endTime"] ? new DateTime($day["endTime"]) : null);
                 $company->addSchedule($schedule);
                 $manager->persist($schedule);
             }
@@ -77,5 +76,4 @@ class ScheduleFixtures extends Fixture implements DependentFixtureInterface
     {
         return [CompanyFixtures::class];
     }
-
 }

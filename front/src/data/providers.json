@@ -13,7 +13,7 @@
             "https://images.unsplash.com/photo-1551522435-a13afa10f103"
         ],
         "reviewRating": 4.5,
-        "reviewsCount": 120,
+        "reviewCount": 120,
         "reviews": [
             {
                 "id": 1,
@@ -251,7 +251,7 @@
             "https://images.unsplash.com/photo-1570071677470-c04398af73ca"
         ],
         "reviewRating": 3.5,    
-        "reviewsCount": 133,
+        "reviewCount": 133,
         "reviews": [
             {
                 "id": 5,
@@ -407,7 +407,7 @@
             "https://images.unsplash.com/photo-1551522435-a13afa10f103"
         ],
         "reviewRating": 5,
-        "reviewsCount": 52,
+        "reviewCount": 52,
         "reviews": [
             {
                 "id": 8,
@@ -563,7 +563,7 @@
             "https://images.unsplash.com/photo-1551522435-a13afa10f103"
         ],
         "reviewRating": 4,
-        "reviewsCount": 87,
+        "reviewCount": 87,
         "reviews": [
             {
                 "id": 11,

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import providers from "../data/providers";
 import DefaultLayout from "../layouts/DefaultLayout";
 import Loader from "../components/Loader";
 import ImagesGallery from "../components/ImagesGallery";
@@ -9,17 +8,24 @@ import CompanySchedule from "../components/CompanySchedule";
 import CompanyReviews from "../components/CompanyReviews";
 import CompanyHeader from "../components/CompanyHeader";
 import { useTranslation } from "react-i18next";
+import apiService from "../services/apiService";
 
 function ProviderDetail() {
 	const { t } = useTranslation();
 	const { id } = useParams();
 	const [provider, setProvider] = useState(null);
 
+	const fetchProvider = async () => {
+		try {
+			const response = await apiService.getCompany(id);
+			setProvider(response.data);
+		} catch (error) {
+			console.error("Erreur lors de la récupération du garage :", error);
+		}
+	};
+
 	useEffect(() => {
-		const provider = providers.find(
-			(provider) => provider.id === parseInt(id)
-		);
-		setProvider(provider);
+		fetchProvider();
 	}, []);
 
 	return (
@@ -29,7 +35,7 @@ function ProviderDetail() {
 					className="max-w-5xl w-full flex flex-col py-10 px-6"
 					style={{ minHeight: "calc(100vh - 5rem)" }}
 				>
-					{provider === null ? (
+					{!provider ? (
 						<Loader />
 					) : (
 						<div>
@@ -46,14 +52,14 @@ function ProviderDetail() {
 								</p>
 							</div>
 
-							<div className="mt-8 flex flex-col lg:flex-row gap-8 w-full">
+							<div className="mt-8 flex flex-col lg:flex-row gap-8 w-full mb-20">
 								<div className="w-full">
 									<div>
 										<h3 className="text-xl font-medium text-gray-800 mb-4">
 											{t("select-your-service")}
 										</h3>
 										<ServicesChooser
-											services={provider.services}
+											services={provider.companyServices}
 										/>
 										<small className="text-gray-600">
 											* {t("indicative-prices")}
@@ -74,6 +80,7 @@ function ProviderDetail() {
 											{t("client-reviews")}
 										</h4>
 										<CompanyReviews
+											reviewRating={provider.reviewRating}
 											reviews={provider.reviews}
 										/>
 									</div>
@@ -84,7 +91,7 @@ function ProviderDetail() {
 										{t("opening-hours")}
 									</h4>
 									<CompanySchedule
-										schedule={provider.schedule}
+										schedules={provider.schedules}
 									/>
 								</div>
 							</div>

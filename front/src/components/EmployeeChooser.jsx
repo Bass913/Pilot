@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 
 function EmployeeChooser({ employees, selectedEmployee, onEmployeeSelect }) {
 	const { t } = useTranslation();
+	console.log("EmployeeChooser", employees);
 	return (
 		<div className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 lg:grid-cols-4">
 			{employees.map((employee, index) => (

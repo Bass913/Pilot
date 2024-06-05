@@ -2,7 +2,6 @@ import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
 import DefaultLayout from "../layouts/DefaultLayout";
 import { useEffect, useState } from "react";
-import providers from "../data/providers";
 import CompanyHeader from "../components/CompanyHeader";
 import Loader from "../components/Loader";
 import EmployeeChooser from "../components/EmployeeChooser";
@@ -14,16 +13,16 @@ import {
 import TimeSlotChooser from "../components/TimeSlotChooser";
 import Alert from "../components/modals/Alert";
 import { useTranslation } from "react-i18next";
+import apiService from "../services/apiService";
 
 function Reservation() {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
+
 	const { id } = useParams();
-
+	const [provider, setProvider] = useState(null);
+	const [employees, setEmployees] = useState([]);
 	const [showAlert, setShowAlert] = useState(false);
-
-	const provider = providers.find((provider) => provider.id === parseInt(id));
-
 	const {
 		serviceSelected,
 		user,
@@ -33,16 +32,24 @@ function Reservation() {
 		setTimeSlotSelected,
 	} = useUser();
 
-	// employees
-	const employees = provider.employees;
-	if (!provider.employees.some((employee) => employee === null))
-		employees.unshift(null);
+	const fetchProvider = async () => {
+		try {
+			const response = await apiService.getCompany(id);
+			setProvider(response.data);
+			setEmployees(response.data.employees || []);
+			console.log("Provider fetched:", response.data);
+		} catch (error) {
+			console.error("Error while fetching provider:", error);
+		}
+	};
+
+	useEffect(() => {
+		fetchProvider();
+	}, [id]);
 
 	const handleEmployeeSelection = (employee) => {
 		setEmployeeSelected(employee);
 	};
-
-	// timeSlots
 
 	const initialDate = new Date();
 	const [startDate, setStartDate] = useState(
@@ -59,7 +66,7 @@ function Reservation() {
 				setShowAlert(true);
 				return;
 			}
-			navigate(`/provider/${id}/confirmation`);
+			navigate(`/companies/${id}/confirmation`);
 		}, 300);
 	};
 
@@ -68,24 +75,22 @@ function Reservation() {
 		setTimeSlotSelected(null);
 	};
 
-	const daysWithTimeSlots = getTimeSlotsFromSchedule(
-		getDays(startDate, endDate),
-		provider.schedule
-	);
-
-	const timeSlotsWithAvailability = getTimeSlotsWithAvailability(
-		daysWithTimeSlots,
-		employeeSelected ? employeeSelected.unavailabilities : []
-	);
+	const daysWithTimeSlots = provider
+		? getTimeSlotsFromSchedule(
+				getDays(startDate, endDate),
+				provider.schedules
+			)
+		: [];
+	const timeSlotsWithAvailability = employeeSelected
+		? getTimeSlotsWithAvailability(
+				daysWithTimeSlots,
+				employeeSelected.unavailabilities
+			)
+		: [];
 
 	useEffect(() => {
 		setTimeSlotSelected(null);
-		setEmployeeSelected(employeeSelected);
 	}, [employeeSelected]);
-
-	useEffect(() => {
-		setTimeSlotSelected(timeSlotSelected);
-	}, [timeSlotSelected]);
 
 	return (
 		<DefaultLayout>
@@ -105,19 +110,19 @@ function Reservation() {
 									<span className="font-medium text-primary-600">
 										1.
 									</span>{" "}
-									{t('your-service')}
+									{t("your-service")}
 								</h2>
 								<div className="mt-2 bg-white p-6 rounded-lg shadow-md lg:p-8 flex items-center justify-between">
 									<div className="flex items-center gap-4">
 										<p className="text-gray-800">
-											{serviceSelected.name}
+											{serviceSelected.service.name}
 										</p>
 										<div className="rounded-full bg-gray-300 p-0.5"></div>
 										<p className="text-gray-700 font-light text-sm">
 											{serviceSelected.price} €
 										</p>
 									</div>
-									<NavLink to={`/provider/${id}`}>
+									<NavLink to={`/companies/${id}`}>
 										<button className="text-primary-600 font-normal underline hover:text-primary-800 text-sm">
 											{t("edit")}
 										</button>
@@ -151,7 +156,7 @@ function Reservation() {
 									<span className="font-medium text-primary-600">
 										3.
 									</span>{" "}
-									{t('your-time-slot-choice')}
+									{t("your-time-slot-choice")}
 								</h2>
 								<TimeSlotChooser
 									timeSlotsWithAvailability={

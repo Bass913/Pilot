@@ -75,10 +75,7 @@ class Company
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: CompanyServices::class)]
     private Collection $companyServices;
 
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: ImgCompany::class)]
-    private Collection $imgCompany;
-
-    #[Groups(['read-company-details'])]
+    #[Groups(['read-company'])]
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Review::class)]
     private Collection $reviews;
 
@@ -101,7 +98,7 @@ class Company
     #[ORM\ManyToOne(inversedBy: 'companies')]
     private ?Speciality $speciality;
 
-    #[Groups(['read-company-details'])]
+    #[Groups(['read-company-details', 'read-company'])]
     #[ORM\Column(nullable: true)]
     private ?int $reviewCount = null;
 
@@ -113,7 +110,6 @@ class Company
     public function __construct()
     {
         $this->companyServices = new ArrayCollection();
-        $this->imgCompany = new ArrayCollection();
         $this->reviews = new ArrayCollection();
         $this->unavailabilities = new ArrayCollection();
         $this->schedules = new ArrayCollection();
@@ -263,35 +259,7 @@ class Company
         return $this;
     }
 
-    /**
-     * @return Collection<int, ImgCompany>
-     */
-    public function getImgCompany(): Collection
-    {
-        return $this->imgCompany;
-    }
 
-    public function addImgCompany(ImgCompany $imgCompany): static
-    {
-        if (!$this->imgCompany->contains($imgCompany)) {
-            $this->imgCompany->add($imgCompany);
-            $imgCompany->setCompany($this);
-        }
-
-        return $this;
-    }
-
-    public function removeImgCompany(ImgCompany $imgCompany): static
-    {
-        if ($this->imgCompany->removeElement($imgCompany)) {
-            // set the owning side to null (unless already changed)
-            if ($imgCompany->getCompany() === $this) {
-                $imgCompany->setCompany(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Review>

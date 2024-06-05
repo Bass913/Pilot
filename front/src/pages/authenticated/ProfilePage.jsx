@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import UserProfileField from "../../components/profile/UserProfileField";
 import PasswordChanger from "../../components/profile/PasswordChanger";
 import DefaultLayout from "../../layouts/DefaultLayout";
@@ -8,13 +8,19 @@ import { useTranslation } from "react-i18next";
 
 function ProfilePage() {
 	const { t } = useTranslation();
-	const { user, setUser } = useUser();
+	const { user, setUser, language } = useUser();
 
-	const [tabs, setTabs] = useState([
+	const startingTabs = [
 		{ name: t("account"), href: "#", current: false },
 		{ name: t("password"), href: "#", current: false },
 		{ name: t("my-reservations"), href: "#", current: true },
-	]);
+	];
+
+	const [tabs, setTabs] = useState(startingTabs);
+
+	useEffect(() => {
+		setTabs(startingTabs);
+	}, [t, language]);
 
 	const fields = {
 		firstname: { name: "firstname", label: t("firstname") },
@@ -108,7 +114,9 @@ function ProfilePage() {
 													{t("profile")}
 												</h3>
 												<p className="max-w-2xl text-sm text-gray-500">
-													{t('you-can-update-your-profile')}
+													{t(
+														"you-can-update-your-profile"
+													)}
 												</p>
 											</div>
 											<div className="mt-6">
@@ -158,7 +166,9 @@ function ProfilePage() {
 													{t("password")}
 												</h3>
 												<p className="max-w-2xl text-sm text-gray-500">
-													{t('you-can-update-your-password')}
+													{t(
+														"you-can-update-your-password"
+													)}
 												</p>
 											</div>
 											<div className="mt-6">
@@ -176,10 +186,12 @@ function ProfilePage() {
 										<div className="mt-10">
 											<div className="space-y-1">
 												<h3 className="text-lg font-medium leading-6 text-gray-900">
-													{t('your-reservations')}
+													{t("your-reservations")}
 												</h3>
 												<p className="max-w-2xl text-sm text-gray-500">
-													{t('find-your-reservations')}
+													{t(
+														"find-your-reservations"
+													)}
 												</p>
 											</div>
 											<ReservationsSection />

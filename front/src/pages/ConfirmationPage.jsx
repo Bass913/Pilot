@@ -47,7 +47,7 @@ function Reservation() {
 											{serviceSelected.price} €
 										</p>
 									</div>
-									<NavLink to={`/provider/${id}`}>
+									<NavLink to={`/companies/${id}`}>
 										<button className="text-primary-600 font-normal underline hover:text-primary-800 text-sm">
 											Modifier
 										</button>
@@ -85,7 +85,7 @@ function Reservation() {
 											</div>
 										)}
 									</div>
-									<NavLink to={`/provider/${id}/reservation`}>
+									<NavLink to={`/companies/${id}/reservation`}>
 										<button className="text-primary-600 font-normal underline hover:text-primary-800 text-sm">
 											Modifier
 										</button>

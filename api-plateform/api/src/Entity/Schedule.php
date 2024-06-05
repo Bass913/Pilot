@@ -57,7 +57,7 @@ class Schedule
         return $this->startTime;
     }
 
-    public function setStartTime(\DateTimeInterface $startTime): static
+    public function setStartTime(?\DateTimeInterface $startTime): static
     {
         $this->startTime = $startTime;
 
@@ -69,7 +69,7 @@ class Schedule
         return $this->endTime;
     }
 
-    public function setEndTime(\DateTimeInterface $endTime): static
+    public function setEndTime(?\DateTimeInterface $endTime): static
     {
         $this->endTime = $endTime;
 

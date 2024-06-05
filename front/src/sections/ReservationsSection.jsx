@@ -43,17 +43,17 @@ function ReservationsSection() {
 						</p>
 					</div>
 					<div className="flex items-center gap-4 justify-end">
-						<NavLink to={`/provider/${reservation.id}`}>
+						<NavLink to={`/companies/${reservation.id}`}>
 							<button className="text-primary-600 font-normal hover:text-primary-800 text-sm">
 								{t("edit")}
 							</button>
 						</NavLink>
-						<NavLink to={`/provider/${reservation.id}`}>
+						<NavLink to={`/companies/${reservation.id}`}>
 							<button className="text-primary-600 font-normal hover:text-primary-800 text-sm">
 								{t("postpone")}
 							</button>
 						</NavLink>
-						<NavLink to={`/provider/${reservation.id}`}>
+						<NavLink to={`/companies/${reservation.id}`}>
 							<button className="text-primary-600 font-normal hover:text-primary-800 text-sm">
 								{t("cancel")}
 							</button>
