@@ -23,6 +23,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new Get(normalizationContext: ['groups' => ['read-company-details']]),
         new GetCollection(normalizationContext: ['groups' => ['read-company']]),
+        new Get(
+            uriTemplate: '/companies/{id}/employees'
+        ),
         new Post(),
         new Patch(),
         new Put()
@@ -75,7 +78,7 @@ class Company
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: CompanyServices::class)]
     private Collection $companyServices;
 
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details'])]
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Review::class)]
     private Collection $reviews;
 
