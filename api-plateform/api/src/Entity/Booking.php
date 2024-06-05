@@ -18,15 +18,15 @@ class Booking
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['read-booking'])]
+    #[Groups(['read-booking', 'read-company-details'])]
     #[ORM\Column(length: 255)]
     private ?string $startDate = null;
 
-    #[Groups(['read-booking'])]
+    #[Groups(['read-booking', 'read-company-details'])]
     #[ORM\Column(length: 255)]
     private ?string $endDate = null;
 
-    #[Groups(['read-booking'])]
+    #[Groups(['read-booking', 'read-company-details'])]
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 

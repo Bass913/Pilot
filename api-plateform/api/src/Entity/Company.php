@@ -4,6 +4,12 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Filter\CompanySearch;
 use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -14,6 +20,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
 #[ApiResource(
+    operations: [
+        new Get(normalizationContext: ['groups' => ['read-company-details']]),
+        new GetCollection(normalizationContext: ['groups' => ['read-company']]),
+        new Post(),
+        new Patch(),
+        new Put()
+    ],
     normalizationContext: ['groups' => ['read-company']]
 )]
 #[ApiFilter(CompanySearch::class)]
@@ -24,23 +37,23 @@ class Company
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details', 'read-company'])]
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details', 'read-company'])]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details'])]
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details', 'read-company'])]
     #[ORM\Column(length: 10)]
     private ?string $zipcode = null;
 
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details', 'read-company'])]
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 
@@ -50,46 +63,49 @@ class Company
     #[ORM\Column]
     private ?bool $active = null;
 
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details', 'read-company'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 11, scale: 8, nullable: true)]
     private ?string $longitude = null;
 
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details', 'read-company'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 8, nullable: true)]
     private ?string $latitude = null;
 
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details'])]
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: CompanyServices::class)]
     private Collection $companyServices;
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: ImgCompany::class)]
     private Collection $imgCompany;
 
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details'])]
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Review::class)]
     private Collection $reviews;
 
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details', 'read-company'])]
     #[ORM\Column(nullable: true)]
     private ?float $reviewRating = null;
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Unavailability::class)]
     private Collection $unavailabilities;
 
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details'])]
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Schedule::class)]
     private Collection $schedules;
 
+    #[Groups(['read-company-details'])]
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
     private Collection $users;
 
+    #[Groups(['read-company-details'])]
     #[ORM\ManyToOne(inversedBy: 'companies')]
     private ?Speciality $speciality;
 
+    #[Groups(['read-company-details'])]
     #[ORM\Column(nullable: true)]
     private ?int $reviewCount = null;
 
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details', 'read-company'])]
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private ?array $images = null;
 

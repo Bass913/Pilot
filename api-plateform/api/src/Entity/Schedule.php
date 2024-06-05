@@ -17,15 +17,15 @@ class Schedule
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details'])]
     #[ORM\Column(length: 9)]
     private ?string $dayOfWeek = null;
 
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details'])]
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $startTime = null;
 
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details'])]
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $endTime = null;
 

@@ -40,11 +40,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:read', 'user:create', 'user:update'])]
+    #[Groups(['user:read', 'user:create', 'user:update', 'read-company-details'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:read', 'user:create', 'user:update'])]
+    #[Groups(['user:read', 'user:create', 'user:update', 'read-company-details'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 180, unique: true)]
@@ -65,8 +65,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:create'])]
     private ?string $password = null;
 
-    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Unavailability::class)]
+    #[Groups(['read-company-details'])]
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Unavailability::class)]
     private Collection $unavailabilities;
+
+    #[Groups(['read-company-details'])]
 
     #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Schedule::class)]
     private Collection $schedules;
@@ -74,6 +78,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Company $company = null;
 
+    #[Groups(['read-company-details'])]
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Booking::class)]
     private Collection $bookings;
 

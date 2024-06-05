@@ -3,6 +3,13 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\CompanyServicesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,16 +18,32 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CompanyServicesRepository::class)]
-#[ApiResource]
+#[ApiResource(
+
+    operations: [
+        new GetCollection(
+            uriTemplate: '/companies/{id}/company_services',
+            uriVariables: [
+                'id' => new Link(fromProperty: 'companyServices', fromClass: Company::class)
+            ],
+        ),
+        new Get(),
+        new Post(),
+        new Put(),
+        new Patch(),
+        new Delete()
+    ],
+
+)]
 class CompanyServices
 {
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $price = null;
 
@@ -30,7 +53,7 @@ class CompanyServices
     #[ORM\ManyToOne(inversedBy: 'companyServices')]
     private ?Company $company = null;
 
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details'])]
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Services $service = null;

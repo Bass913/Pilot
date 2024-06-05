@@ -7,6 +7,7 @@ use App\Repository\SpecialityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SpecialityRepository::class)]
 #[ApiResource]
@@ -17,6 +18,7 @@ class Speciality
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['read-company-details'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 

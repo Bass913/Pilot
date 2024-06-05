@@ -16,7 +16,7 @@ class CategoryReview
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['read-company'])]
+    #[Groups(['read-company-details', 'read-review', 'read-rating'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
