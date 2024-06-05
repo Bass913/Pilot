@@ -23,9 +23,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new Get(normalizationContext: ['groups' => ['read-company-details']]),
         new GetCollection(normalizationContext: ['groups' => ['read-company']]),
-        new Get(
-            uriTemplate: '/companies/{id}/employees'
-        ),
         new Post(),
         new Patch(),
         new Put()
@@ -106,7 +103,7 @@ class Company
     private ?int $reviewCount = null;
 
     #[Groups(['read-company-details', 'read-company'])]
-    #[ORM\Column(type: Types::ARRAY , nullable: true)]
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private ?array $images = null;
 
     #[ORM\ManyToOne(inversedBy: 'companies')]

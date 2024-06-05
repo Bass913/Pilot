@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\UserRepository;
@@ -22,6 +23,18 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Get(normalizationContext: ['groups' => ['user:read']]),
         new GetCollection(normalizationContext: ['groups' => ['user:read']]),
+        new GetCollection(
+            uriTemplate: '/companies/{id}/employees',
+            uriVariables: [
+                'id' => new Link(fromProperty: 'users', fromClass: Company::class)
+            ],
+        ),
+        new GetCollection(
+            uriTemplate: '/companies/{id}/clients',
+            uriVariables: [
+                'id' => new Link(fromProperty: 'users', fromClass: Company::class)
+            ],
+        ),
         new Post(
             denormalizationContext: ['groups' => ['user:create']],
             validationContext: ['groups' => ['user:create']]

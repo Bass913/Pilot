@@ -41,8 +41,7 @@ final class CompanySearch extends AbstractFilter
 
         $alias = $queryBuilder->getRootAliases()[0];
 
-        if($property === 'search'){
-
+        if ($property === 'search') {
             $lowerValue = strtolower($value);
 
             $queryBuilder
@@ -56,17 +55,11 @@ final class CompanySearch extends AbstractFilter
                     $queryBuilder->expr()->like("LOWER(service.name)", ':search')
                 ))
                 ->setParameter('search', "%$lowerValue%");
-
         }
 
         /*if ($property === 'address') {
 
         }*/
-
-
-
-
-
     }
 
 
@@ -90,6 +83,4 @@ final class CompanySearch extends AbstractFilter
             ]
         ];
     }
-
-
 }
