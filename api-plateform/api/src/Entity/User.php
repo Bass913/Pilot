@@ -232,7 +232,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->schedules->contains($schedule)) {
             $this->schedules->add($schedule);
-            $schedule->setUserId($this);
+            $schedule->setUser($this);
         }
 
         return $this;
@@ -242,8 +242,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->schedules->removeElement($schedule)) {
             // set the owning side to null (unless already changed)
-            if ($schedule->getUserId() === $this) {
-                $schedule->setUserId(null);
+            if ($schedule->getUser() === $this) {
+                $schedule->setUser(null);
             }
         }
 
