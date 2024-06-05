@@ -103,8 +103,11 @@ class Company
     private ?int $reviewCount = null;
 
     #[Groups(['read-company-details', 'read-company'])]
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(type: Types::ARRAY , nullable: true)]
     private ?array $images = null;
+
+    #[ORM\ManyToOne(inversedBy: 'companies')]
+    private ?User $user = null;
 
 
     public function __construct()
@@ -425,6 +428,18 @@ class Company
     public function setImages(?array $images): static
     {
         $this->images = $images;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
