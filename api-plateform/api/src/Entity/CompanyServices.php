@@ -21,10 +21,9 @@ use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: CompanyServicesRepository::class)]
 #[ApiResource(
-
     operations: [
         new GetCollection(
-            uriTemplate: '/companies/{id}/company_services',
+            uriTemplate: '/companies/{id}/services',
             uriVariables: [
                 'id' => new Link(fromProperty: 'companyServices', fromClass: Company::class)
             ],
@@ -36,7 +35,6 @@ use Symfony\Component\Uid\Uuid;
         new Delete()
     ],
     normalizationContext: ['groups' => ['read-company-service']]
-
 )]
 class CompanyServices
 {

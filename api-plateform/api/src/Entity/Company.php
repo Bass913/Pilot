@@ -25,9 +25,6 @@ use Symfony\Component\Uid\Uuid;
     operations: [
         new Get(normalizationContext: ['groups' => ['read-company-details']]),
         new GetCollection(normalizationContext: ['groups' => ['read-company']]),
-        new Get(
-            uriTemplate: '/companies/{id}/employees'
-        ),
         new Post(),
         new Patch(),
         new Put()
