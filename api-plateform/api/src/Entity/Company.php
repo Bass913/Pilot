@@ -17,6 +17,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
 #[ApiResource(
@@ -36,9 +38,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Company
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?Uuid $id = null;
 
     #[Groups(['read-company-details', 'read-company'])]
 
@@ -106,7 +109,7 @@ class Company
     private ?int $reviewCount = null;
 
     #[Groups(['read-company-details', 'read-company'])]
-    #[ORM\Column(type: Types::ARRAY , nullable: true)]
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private ?array $images = null;
 
     #[ORM\ManyToOne(inversedBy: 'companies')]
@@ -122,7 +125,7 @@ class Company
         $this->users = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }

@@ -51,13 +51,18 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
                 $manager->persist($review);
 
                 // Mise à jour des totaux pour le calcul de la moyenne
-                $companyId = $company->getId();
+                $companyId = (string) $company->getId();
+
                 if (!isset($companyRatings[$companyId])) {
                     $companyRatings[$companyId] = 0;
                     $companyReviewCounts[$companyId] = 0;
                 }
-                $companyRatings[$companyId] += $rating->getValue();
-                $companyReviewCounts[$companyId]++;
+
+                $ratingValue = $rating->getValue();
+                if (is_numeric($ratingValue)) {
+                    $companyRatings[$companyId] += (float) $ratingValue;
+                    $companyReviewCounts[$companyId]++;
+                }
 
                 // Calcul et mise à jour de la moyenne directement
                 $averageRating = $companyRatings[$companyId] / $companyReviewCounts[$companyId];

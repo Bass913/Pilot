@@ -6,6 +6,8 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: BookingRepository::class)]
 #[ApiResource(
@@ -14,9 +16,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Booking
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?Uuid $id = null;
 
     #[Groups(['read-booking', 'read-company-details'])]
     #[ORM\Column(length: 255)]
@@ -38,7 +41,7 @@ class Booking
     #[ORM\JoinColumn(nullable: false)]
     private ?User $client = null;
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }

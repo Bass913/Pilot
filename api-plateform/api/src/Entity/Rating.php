@@ -14,6 +14,8 @@ use App\Repository\RatingRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: RatingRepository::class)]
 #[ApiResource(
@@ -35,9 +37,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Rating
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?Uuid $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'ratings')]
     #[ORM\JoinColumn(nullable: false)]
@@ -52,7 +55,7 @@ class Rating
     #[ORM\Column]
     private ?int $value = null;
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
