@@ -34,13 +34,14 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                 $this->createUser($manager, $faker->firstName(), $faker->lastName(), $faker->email(), ['ROLE_USER', 'ROLE_EMPLOYEE'], $faker->e164PhoneNumber(), $company, 'test', $userCount);
                 $userCount++;
             }
+            $this->createUser($manager, $faker->firstName(), $faker->lastName(), $faker->email(), ['ROLE_USER', 'ROLE_EMPLOYEE', 'ROLE_ADMIN'], $faker->e164PhoneNumber(), $company, 'test', $userCount);
         }
 
         $this->createUser($manager, 'John', 'Doe', 'user@user.fr', ['ROLE_USER'], '0102030405', $companies[array_rand($companies)], 'test', $userCount);
         $userCount++;
-        $this->createUser($manager, 'Admin', 'Administrateur', 'admin@admin.fr', ['ROLE_ADMIN'], $faker->phoneNumber(), $companies[array_rand($companies)], 'test', $userCount);
+        $this->createUser($manager, 'Admin', 'Administrateur', 'admin@admin.fr', ['ROLE_USER', 'ROLE_ADMIN'], $faker->phoneNumber(), $companies[array_rand($companies)], 'test', $userCount);
         $userCount++;
-        $this->createUser($manager, 'Super', 'Administrateur', 'super@admin.fr', ['ROLE_SUPERADMIN'], $faker->phoneNumber(), $companies[array_rand($companies)], 'test', $userCount);
+        $this->createUser($manager, 'Super', 'Administrateur', 'super@admin.fr', ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN'], $faker->phoneNumber(), $companies[array_rand($companies)], 'test', $userCount);
 
         $manager->flush();
     }
@@ -52,6 +53,10 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user->setLastname($lastName);
         $user->setEmail($email);
         $user->setRoles($roles);
+        if (in_array("ROLE_ADMIN", $roles)) {
+            $company->setUser($user);
+        }
+        ;
         $user->setPhone($phone);
         $user->setCompany($company);
 
@@ -59,8 +64,9 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user->setPassword($hashedPassword);
 
         $manager->persist($user);
-
-        $this->addReference(self::USER_REFERENCE_PREFIX . $userCount, $user);
+        if (!in_array("ROLE_ADMIN", $roles)) {
+            $this->addReference(self::USER_REFERENCE_PREFIX . $userCount, $user);
+        }
     }
 
     public function getDependencies(): array

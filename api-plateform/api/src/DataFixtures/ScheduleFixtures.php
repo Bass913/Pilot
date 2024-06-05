@@ -58,7 +58,7 @@ class ScheduleFixtures extends Fixture implements DependentFixtureInterface
         }
 
         $users = [];
-        for ($i = 1; $i < 63; $i++) { // Ajustez ce nombre selon le nombre total d'utilisateurs
+        for ($i = 1; $i < 61; $i++) { // Ajustez ce nombre selon le nombre total d'utilisateurs
             $users[] = $this->getReference(UserFixtures::USER_REFERENCE_PREFIX . $i);
         }
 

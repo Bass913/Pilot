@@ -20,7 +20,7 @@ class UnavailabilityFixtures extends Fixture implements DependentFixtureInterfac
         $endOfWeek = (clone $startOfWeek)->modify('+6 days 23:59:59');
 
         // Récupérer le nombre d'utilisateurs
-        $userCount = count($manager->getRepository(User::class)->findAll());
+        $userCount = 60;
 
         for ($i = 0; $i < $userCount; $i++) {
             $user = $this->getReference(UserFixtures::USER_REFERENCE_PREFIX . $i);
