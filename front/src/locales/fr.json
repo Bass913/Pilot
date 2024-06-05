@@ -71,5 +71,20 @@
     "establishments": "Établissements",
     "services": "Prestations",
     "employees": "Employés",
-    "schedule": "Planning"
+    "schedule": "Planning",
+    "requests": "Demandes",
+    "name": "Nom",
+    "address": "Adresse",
+    "employee": "Employé",
+    "zipcode": "Code postal",
+    "city": "Ville",
+    "error.unauthorized.title": "Accès non autorisé",
+    "error.unauthorized.message": "Vous n'êtes pas autorisé à accéder à cette page.",
+    "error.unauthorized.back": "Retour à l'accueil",
+    "booking": "Réservation",
+    "bookings": "Réservations",
+    "shedules": "Horaires",
+    "user": "Utilisateur",
+    "users": "Utilisateurs",
+    "admin": "Admin"
 }

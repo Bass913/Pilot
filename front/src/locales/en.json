@@ -71,5 +71,20 @@
     "establishments": "Establishments",
     "services": "Services",
     "employees": "Employees",
-    "schedule": "Schedule"
+    "schedule": "Schedule",
+    "requests": "Requests",
+    "name": "name",
+    "address": "address",
+    "employee": "Employee",
+    "zipcode": "Zipcode",
+    "city": "City",
+    "error.unauthorized.title": "Unauthorized",
+    "error.unauthorized.message": "You are not authorized to access this page",
+    "error.unauthorized.back": "Back to home",
+    "booking": "Booking",
+    "bookings": "Bookings",
+    "shedules": "Schedules",
+    "user": "User",
+    "users": "Users",
+    "admin": "Admin"
 }

@@ -52,33 +52,59 @@ const DashboardLayout = ({ children }) => {
 				href: "/admin",
 				icon: HomeIcon,
 				current: location.pathname === "/admin",
+				allowedRoles: ["ROLE_EMPLOYEE", "ROLE_ADMIN"],
 			},
 			{
 				name: t("establishments"),
 				href: "/admin/providers",
 				icon: BuildingStorefrontIcon,
 				current: location.pathname === "/admin/providers",
+				allowedRoles: ["ROLE_ADMIN"],
 			},
 			{
 				name: t("services"),
 				href: "/admin/services",
 				icon: WrenchScrewdriverIcon,
 				current: location.pathname === "/admin/services",
+				allowedRoles: ["ROLE_ADMIN"],
 			},
 			{
 				name: t("employees"),
 				href: "/admin/employees",
 				icon: UserGroupIcon,
 				current: location.pathname === "/admin/employees",
+				allowedRoles: ["ROLE_ADMIN"],
 			},
 			{
 				name: t("schedule"),
 				href: "/admin/schedule",
 				icon: CalendarDaysIcon,
 				current: location.pathname === "/admin/schedule",
+				allowedRoles: ["ROLE_ADMIN", "ROLE_EMPLOYEE"],
+			},
+			{
+				name: t("bookings"),
+				href: "/admin/bookings",
+				icon: CalendarDaysIcon,
+				current: location.pathname === "/admin/bookings",
+				allowedRoles: ["ROLE_ADMIN", "ROLE_EMPLOYEE"],
+			},
+			{
+				name: t("requests"),
+				href: "/admin/requests",
+				icon: BellAlertIcon,
+				current: location.pathname === "/admin/requests",
+				allowedRoles: ["ROLE_SUPERADMIN"],
+			},
+			{
+				name: t("users"),
+				href: "/admin/users",
+				icon: UserGroupIcon,
+				current: location.pathname === "/admin/users",
+				allowedRoles: ["ROLE_SUPERADMIN"],
 			},
 		]);
-	}, [t, i18n.language]);
+	}, [t, i18n.language, location.pathname]);
 
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -176,24 +202,44 @@ const DashboardLayout = ({ children }) => {
 													role="list"
 													className="-mx-2 space-y-1"
 												>
-													{navigation.map((item) => (
-														<li key={item.name}>
-															<Link
-																to={item.href}
-																className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold ${
-																	item.current
-																		? "text-gray-500"
-																		: "hover:bg-gray-100"
-																}`}
-															>
-																<item.icon
-																	className="h-6 w-6 shrink-0"
-																	aria-hidden="true"
-																/>
-																{item.name}
-															</Link>
-														</li>
-													))}
+													{navigation.map((item) => {
+														const hasAllowedRole =
+															item.allowedRoles.some(
+																(allowedRole) =>
+																	user.roles.includes(
+																		allowedRole
+																	)
+															);
+
+														if (hasAllowedRole) {
+															return (
+																<li
+																	key={
+																		item.name
+																	}
+																>
+																	<Link
+																		to={
+																			item.href
+																		}
+																		className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold ${
+																			item.current
+																				? "text-gray-500"
+																				: "hover:bg-gray-100"
+																		}`}
+																	>
+																		<item.icon
+																			className="h-6 w-6 shrink-0"
+																			aria-hidden="true"
+																		/>
+																		{
+																			item.name
+																		}
+																	</Link>
+																</li>
+															);
+														}
+													})}
 												</ul>
 											</li>
 										</ul>
@@ -248,24 +294,38 @@ const DashboardLayout = ({ children }) => {
 						>
 							<li>
 								<ul role="list" className="-mx-2 space-y-1">
-									{navigation.map((item) => (
-										<li key={item.name}>
-											<Link
-												to={item.href}
-												className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold ${
-													item.current
-														? "text-primary-700"
-														: "hover:bg-gray-100"
-												}`}
-											>
-												<item.icon
-													className="h-6 w-6 shrink-0"
-													aria-hidden="true"
-												/>
-												{!sidebarLarge ? "" : item.name}
-											</Link>
-										</li>
-									))}
+									{navigation.map((item) => {
+										const hasAllowedRole =
+											item.allowedRoles.some(
+												(allowedRole) =>
+													user.roles.includes(
+														allowedRole
+													)
+											);
+
+										if (hasAllowedRole) {
+											return (
+												<li key={item.name}>
+													<Link
+														to={item.href}
+														className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold ${
+															item.current
+																? "text-primary-700"
+																: "hover:bg-gray-100"
+														}`}
+													>
+														<item.icon
+															className="h-6 w-6 shrink-0"
+															aria-hidden="true"
+														/>
+														{!sidebarLarge
+															? ""
+															: item.name}
+													</Link>
+												</li>
+											);
+										}
+									})}
 								</ul>
 							</li>
 							<li className="mt-auto -mx-2">
@@ -344,7 +404,7 @@ const DashboardLayout = ({ children }) => {
 			<main
 				className={`lg:pl-20 ${!sidebarLarge ? "lg:pl-0" : "lg:pl-64"}`}
 			>
-				{children}
+				<div className="px-4 py-4 sm:px-6">{children}</div>
 			</main>
 		</div>
 	);

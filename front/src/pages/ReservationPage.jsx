@@ -36,8 +36,7 @@ function Reservation() {
 		try {
 			const response = await apiService.getCompany(id);
 			setProvider(response.data);
-			setEmployees(response.data.employees || []);
-			console.log("Provider fetched:", response.data);
+			setEmployees(response.data.users || []);
 		} catch (error) {
 			console.error("Error while fetching provider:", error);
 		}
@@ -158,13 +157,13 @@ function Reservation() {
 									</span>{" "}
 									{t("your-time-slot-choice")}
 								</h2>
-								<TimeSlotChooser
+								{/* <TimeSlotChooser
 									timeSlotsWithAvailability={
 										timeSlotsWithAvailability
 									}
 									selectedSlot={timeSlotSelected}
 									onSlotSelection={handleSlotSelection}
-								/>
+								/> */}
 							</div>
 						</div>
 					)}

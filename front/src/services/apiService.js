@@ -16,14 +16,20 @@ apiClient.interceptors.response.use(
 );
 
 const apiService = {
-	getCompanies({ search = null }) {
+	getCompanies({ search = null, page = 1 }) {
 		const url = search
-			? `/companies?search=${search.trim()}`
-			: "/companies";
+			? `/companies?search=${search.trim()}&page=${page}`
+			: "/companies?page=" + page;
 		return apiClient.get(url);
 	},
 	getCompany(id) {
 		return apiClient.get(`/companies/${id}`);
+	},
+	getServices({ page = 1 }) {
+		return apiClient.get(`/services?page=${page}`);
+	},
+	getUsers({ page = 1 }) {
+		return apiClient.get(`/users?page=${page}`);
 	},
 };
 

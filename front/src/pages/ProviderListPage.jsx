@@ -23,7 +23,6 @@ function ProviderList() {
 
 			const response = await apiService.getCompanies({ search });
 			setProviders(response.data["hydra:member"]);
-			console.log("Garages récupérés :", response.data["hydra:member"]);
 		} catch (error) {
 			console.error(
 				"Erreur lors de la récupération des garages :",

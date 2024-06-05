@@ -32,9 +32,13 @@ export default function Header({ user }) {
 						className="hover:bg-gray-100 p-4 rounded text-sm flex items-center gap-2 text-gray-800"
 						onClick={changeLanguage}
 					>
-						<img src={`/flags/${language}.svg`} alt={language} className="w-5 h-5" />
+						<img
+							src={`/flags/${language}.svg`}
+							alt={language}
+							className="w-5 h-5"
+						/>
 					</Button>
-					
+
 					{user ? (
 						<>
 							<NavLink to="/profile">
@@ -43,6 +47,13 @@ export default function Header({ user }) {
 									{user.firstname} {user.lastname}
 								</Button>
 							</NavLink>
+							{user.roles.includes("ROLE_ADMIN") && (
+								<NavLink to="/admin">
+									<Button className="bg-gray-200 hover:bg-gray-300 p-4 rounded text-sm flex items-center gap-2 text-gray-800">
+										{t("admin")}
+									</Button>
+								</NavLink>
+							)}
 							<Button
 								className="text-white bg-primary-600 hover:bg-primary-600 p-4 rounded text-sm flex items-center gap-2 hover:bg-primary-700"
 								onClick={logout}
