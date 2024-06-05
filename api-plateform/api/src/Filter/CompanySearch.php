@@ -30,7 +30,6 @@ final class CompanySearch extends AbstractFilter
         $queryBuilder->leftJoin("$alias.speciality", 'speciality');
         $queryBuilder->leftJoin("$alias.companyServices", 'companyService');
         $queryBuilder->leftJoin('companyService.service', 'service');
-
     }
 
     public function getDescription(string $resourceClass): array
@@ -46,6 +45,4 @@ final class CompanySearch extends AbstractFilter
             ],
         ];
     }
-
-
 }

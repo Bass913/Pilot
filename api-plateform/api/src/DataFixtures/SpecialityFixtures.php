@@ -32,5 +32,4 @@ class SpecialityFixtures extends Fixture
 
         $manager->flush();
     }
-
 }
