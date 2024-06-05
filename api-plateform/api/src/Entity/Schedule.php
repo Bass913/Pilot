@@ -22,11 +22,11 @@ class Schedule
     private ?string $dayOfWeek = null;
 
     #[Groups(['read-company-details'])]
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $startTime = null;
 
     #[Groups(['read-company-details'])]
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endTime = null;
 
     #[ORM\ManyToOne(inversedBy: 'schedules')]

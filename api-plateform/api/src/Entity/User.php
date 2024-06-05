@@ -70,13 +70,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[Groups(['read-company-details'])]
-
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Unavailability::class)]
     private Collection $unavailabilities;
 
     #[Groups(['read-company-details'])]
-
-    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Schedule::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Schedule::class)]
     private Collection $schedules;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
@@ -86,6 +84,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Booking::class)]
     private Collection $bookings;
 
+    #[Groups(['user:read', 'user:create'])]
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $phone = null;
 
