@@ -70,7 +70,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $firstname = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details', , 'user:read:planning'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details',  'user:read:planning'])]
     #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
     private ?string $lastname = null;
 
