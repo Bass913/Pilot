@@ -25,9 +25,6 @@ class Booking
     #[ORM\Column(length: 255)]
     private ?string $startDate = null;
 
-    #[Groups(['read-booking', 'read-company-details'])]
-    #[ORM\Column(length: 255)]
-    private ?string $endDate = null;
 
     #[Groups(['read-booking', 'read-company-details'])]
     #[ORM\Column(length: 255)]
@@ -40,6 +37,9 @@ class Booking
     #[ORM\ManyToOne(inversedBy: 'bookings')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $client = null;
+
+    #[ORM\ManyToOne]
+    private ?User $employee = null;
 
     public function getId(): ?Uuid
     {
@@ -54,18 +54,6 @@ class Booking
     public function setStartDate(string $startDate): static
     {
         $this->startDate = $startDate;
-
-        return $this;
-    }
-
-    public function getEndDate(): ?string
-    {
-        return $this->endDate;
-    }
-
-    public function setEndDate(string $endDate): static
-    {
-        $this->endDate = $endDate;
 
         return $this;
     }
@@ -102,6 +90,18 @@ class Booking
     public function setClient(?User $client): static
     {
         $this->client = $client;
+
+        return $this;
+    }
+
+    public function getEmployee(): ?User
+    {
+        return $this->employee;
+    }
+
+    public function setEmployee(?User $employee): static
+    {
+        $this->employee = $employee;
 
         return $this;
     }
