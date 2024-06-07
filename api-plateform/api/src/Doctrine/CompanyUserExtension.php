@@ -18,7 +18,7 @@ final class CompanyUserExtension implements QueryCollectionExtensionInterface
             return;
         }
 
-        if($operation->getName() === "_api_/companies/{id}/employees_get_collection"){
+        if($operation->getName() === "_api_/companies/{id}/employees_get_collection" || $operation->getName() === "_api_/companies/{id}/employees/planning_get_collection"){
             $this->addWhereEmployees($queryBuilder);
         }
     }
@@ -28,13 +28,18 @@ final class CompanyUserExtension implements QueryCollectionExtensionInterface
     private function addWhereEmployees(QueryBuilder $queryBuilder,): void
     {
         $users = $queryBuilder->getQuery()->getResult();
+
         $filteredUsers = array_filter($users, function($user) {
             $roles = $user->getRoles();
-            return in_array("ROLE_EMPLOYEE", $roles);
+            return $roles === ["ROLE_USER", "ROLE_EMPLOYEE"];
         });
 
+        $filteredUserIds = array_map(function($user) {
+            return $user->getId();
+        }, $filteredUsers);
+
         $rootAlias = $queryBuilder->getRootAliases()[0];
-        $queryBuilder->andWhere(sprintf('%s IN (:filteredUsers)', $rootAlias));
-        $queryBuilder->setParameter('filteredUsers', $filteredUsers);
+        $queryBuilder->andWhere(sprintf('%s.id IN (:filteredUserIds)', $rootAlias));
+        $queryBuilder->setParameter('filteredUserIds', $filteredUserIds);
     }
 }

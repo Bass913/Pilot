@@ -20,11 +20,11 @@ class Unavailability
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     private ?Uuid $id = null;
 
-    #[Groups(['read-company-details'])]
+    #[Groups(['read-company-details', 'user:read:planning'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $startDate = null;
 
-    #[Groups(['read-company-details'])]
+    #[Groups(['read-company-details', 'user:read:planning'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $endDate = null;
 
