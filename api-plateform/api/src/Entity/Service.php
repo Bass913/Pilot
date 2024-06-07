@@ -11,7 +11,7 @@ use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ServicesRepository::class)]
 #[ApiResource]
-class Services
+class Service
 {
 
     #[ORM\Id]

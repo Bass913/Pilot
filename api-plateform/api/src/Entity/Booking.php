@@ -32,7 +32,7 @@ class Booking
 
     #[ORM\ManyToOne(inversedBy: 'bookings')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?CompanyServices $companyService = null;
+    private ?CompanyService $companyService = null;
 
     #[ORM\ManyToOne(inversedBy: 'bookings')]
     #[ORM\JoinColumn(nullable: false)]
@@ -70,12 +70,12 @@ class Booking
         return $this;
     }
 
-    public function getCompanyService(): ?CompanyServices
+    public function getCompanyService(): ?CompanyService
     {
         return $this->companyService;
     }
 
-    public function setCompanyService(?CompanyServices $companyService): static
+    public function setCompanyService(?CompanyService $companyService): static
     {
         $this->companyService = $companyService;
 

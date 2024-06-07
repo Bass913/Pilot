@@ -28,6 +28,7 @@ use Symfony\Component\Uid\Uuid;
                 'id' => new Link(fromProperty: 'companyServices', fromClass: Company::class)
             ],
         ),
+        new GetCollection(),
         new Get(),
         new Post(),
         new Put(),
@@ -36,7 +37,7 @@ use Symfony\Component\Uid\Uuid;
     ],
     normalizationContext: ['groups' => ['read-company-service']]
 )]
-class CompanyServices
+class CompanyService
 {
     #[Groups(['read-company-details', 'read-company-service'])]
     #[ORM\Id]
@@ -59,7 +60,7 @@ class CompanyServices
     #[Groups(['read-company-details', 'read-company-service'])]
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Services $service = null;
+    private ?Service $service = null;
 
     #[ORM\OneToMany(mappedBy: 'companyService', targetEntity: Booking::class)]
     private Collection $bookings;
@@ -110,12 +111,12 @@ class CompanyServices
         return $this;
     }
 
-    public function getService(): ?Services
+    public function getService(): ?Service
     {
         return $this->service;
     }
 
-    public function setService(?Services $service): static
+    public function setService(?Service $service): static
     {
         $this->service = $service;
 

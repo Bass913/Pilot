@@ -5,7 +5,7 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\CompanyServices;
+use App\Entity\CompanyService;
 use Faker\Factory;
 
 class CompanyServicesFixtures extends Fixture implements DependentFixtureInterface
@@ -28,7 +28,7 @@ class CompanyServicesFixtures extends Fixture implements DependentFixtureInterfa
 
         foreach ($companies as $companyData) {
             foreach ($services as $service) {
-                $companyService = new CompanyServices();
+                $companyService = new CompanyService();
                 $companyService->setCompany($companyData);
                 $companyService->setPrice($faker->numberBetween(50, 100));
                 $companyService->setDuration(30);
