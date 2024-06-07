@@ -31,6 +31,13 @@ use Symfony\Component\Uid\Uuid;
                 'id' => new Link(fromProperty: 'users', fromClass: Company::class)
             ],
         ),
+        new GetCollection(
+            uriTemplate: '/companies/{id}/employees/planning',
+            uriVariables: [
+                'id' => new Link(fromProperty: 'users', fromClass: Company::class)
+            ],
+            normalizationContext: ['groups' => ['user:read:planning']]
+        ),
         new Post(
             uriTemplate: '/register',
             denormalizationContext: ['groups' => ['user:register']],
@@ -58,12 +65,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Uuid $id;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details', 'user:read:planning'])]
     #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details', , 'user:read:planning'])]
     #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
     private ?string $lastname = null;
 
@@ -89,18 +96,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 8, groups: ['user:register', 'user:create'])]
     private ?string $password = null;
 
-    #[Groups(['read-company-details'])]
+    #[Groups(['read-company-details', 'user:read:planning'])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Unavailability::class)]
     private Collection $unavailabilities;
 
-    #[Groups(['read-company-details'])]
+    #[Groups(['read-company-details', 'user:read:planning'])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Schedule::class)]
     private Collection $schedules;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Company $company = null;
 
-    #[Groups(['read-company-details', 'user:read'])]
+    #[Groups(['read-company-details', 'user:read:planning'])]
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Booking::class)]
     private Collection $clientBookings;
 
