@@ -31,6 +31,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
     operations: [
         new Get(normalizationContext: ['groups' => ['read-company-details']]),
         new GetCollection(normalizationContext: ['groups' => ['read-company']]),
+        new Get(
+            uriTemplate: '/companies/{id}/planning',
+            normalizationContext: ['groups' => ['read-company-planning']]
+        ),
         new Post(),
         new Patch(),
         new Put()
@@ -96,10 +100,11 @@ class Company
     #[ORM\Column(nullable: true)]
     private ?float $reviewRating = null;
 
+    #[Groups(['read-company-details', 'read-company-planning'])]
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Unavailability::class)]
     private Collection $unavailabilities;
 
-    #[Groups(['read-company-details'])]
+    #[Groups(['read-company-details', 'read-company-planning'])]
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Schedule::class)]
     private Collection $schedules;
 
