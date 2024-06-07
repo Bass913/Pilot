@@ -78,11 +78,11 @@ class Company
 
     #[Groups(['read-company-details', 'read-company'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 11, scale: 8, nullable: true)]
-    private ?string $longitude = null;
+    private ?float $longitude = null;
 
     #[Groups(['read-company-details', 'read-company'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 8, nullable: true)]
-    private ?string $latitude = null;
+    private ?float $latitude = null;
 
     #[Groups(['read-company-details'])]
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: CompanyServices::class)]
@@ -221,24 +221,24 @@ class Company
         return $this;
     }
 
-    public function getLongitude(): ?string
+    public function getLongitude(): ?float
     {
         return $this->longitude;
     }
 
-    public function setLongitude(?string $longitude): static
+    public function setLongitude(?float $longitude): static
     {
         $this->longitude = $longitude;
 
         return $this;
     }
 
-    public function getLatitude(): ?string
+    public function getLatitude(): ?float
     {
         return $this->latitude;
     }
 
-    public function setLatitude(?string $latitude): static
+    public function setLatitude(?float $latitude): static
     {
         $this->latitude = $latitude;
 
