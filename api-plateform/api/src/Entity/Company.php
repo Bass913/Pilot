@@ -472,14 +472,4 @@ class Company
     {
         return $this->file;
     }
-
-    public function setImage(EmbeddedFile $image): void
-    {
-        $this->image = $image;
-    }
-
-    public function getImage(): ?EmbeddedFile
-    {
-        return $this->image;
-    }
 }
