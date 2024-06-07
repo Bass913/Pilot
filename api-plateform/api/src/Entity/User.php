@@ -29,7 +29,12 @@ use Symfony\Component\Uid\Uuid;
             uriTemplate: '/users/{id}/bookings',
             normalizationContext: ['groups' => ['user:read:booking']]
         ),
-
+        new Get(
+            uriTemplate: '/me',
+            provider: User::class,
+            normalizationContext: ['groups' => ['user:read']],
+            security: "is_granted('ROLE_USER')"
+        ),
         new GetCollection(
             uriTemplate: '/companies/{id}/employees',
             uriVariables: [
@@ -70,12 +75,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Uuid $id;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details', 'user:read:planning', 'read-review','read-booking'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details', 'user:read:planning', 'read-review', 'read-booking'])]
     #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details',  'user:read:planning', 'read-review','read-booking'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details',  'user:read:planning', 'read-review', 'read-booking'])]
     #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
     private ?string $lastname = null;
 
