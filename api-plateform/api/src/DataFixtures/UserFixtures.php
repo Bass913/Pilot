@@ -55,10 +55,15 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user->setRoles($roles);
         if (in_array("ROLE_ADMIN", $roles)) {
             $company->setUser($user);
+
         }
+
         ;
         $user->setPhone($phone);
-        $user->setCompany($company);
+        if (!in_array("ROLE_SUPERADMIN", $user->roles)) {
+            $user->setCompany($company);
+        }
+        ;
 
         $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
         $user->setPassword($hashedPassword);

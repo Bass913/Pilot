@@ -28,10 +28,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
 #[ApiResource(
+    denormalizationContext: ['groups' => ['write-company']],
     operations: [
         new Get(normalizationContext: ['groups' => ['read-company-details']]),
         new GetCollection(normalizationContext: ['groups' => ['read-company']]),
-        new Post(),
+        new Post(
+            inputFormats: ['multipart' => ['multipart/form-data']]
+        ),
         new Patch(),
         new Put()
     ],
@@ -46,28 +49,27 @@ class Company
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[Groups(['read-company-details', 'read-company'])]
-
+    #[Groups(['read-company-details', 'read-company', 'write-company'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-    #[Groups(['read-company-details', 'read-company'])]
+    #[Groups(['read-company-details', 'read-company', 'write-company'])]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[Groups(['read-company-details'])]
+    #[Groups(['read-company-details', 'write-company'])]
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[Groups(['read-company-details', 'read-company'])]
+    #[Groups(['read-company-details', 'read-company', 'write-company'])]
     #[ORM\Column(length: 10)]
     private ?string $zipcode = null;
 
-    #[Groups(['read-company-details', 'read-company'])]
+    #[Groups(['read-company-details', 'read-company', 'write-company'])]
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 
+    #[Groups(['read-company-details', 'read-company', 'write-company'])]
     #[Vich\UploadableField(mapping: 'kbis', fileNameProperty: 'kbis')]
-    #[Assert\NotNull(groups: ['write-company'])]
     public ?File $file = null;
 
     #[ORM\Column(length: 255)]
