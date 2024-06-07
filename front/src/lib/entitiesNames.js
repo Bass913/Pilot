@@ -31,6 +31,10 @@ const entitiesNames = {
 		label: "booking",
 		labelPlural: "bookings",
 	},
+	companyService: {
+		label: "service",
+		labelPlural: "services",
+	},
 };
 
 export default entitiesNames;

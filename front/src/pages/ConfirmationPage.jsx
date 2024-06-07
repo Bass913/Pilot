@@ -1,20 +1,55 @@
 import { NavLink, useParams } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
 import DefaultLayout from "../layouts/DefaultLayout";
-import providers from "../data/providers";
 import CompanyHeader from "../components/CompanyHeader";
 import Loader from "../components/Loader";
 import { getFormattedDate } from "../utils/schedule";
+import apiService from "../services/apiService";
+import { useEffect, useState } from "react";
+import { formatPrice } from "../utils/priceFormatter";
 
 function Reservation() {
 	const { id } = useParams();
+	const [provider, setProvider] = useState(null);
+	const { user } = useUser();
 
-	const provider = providers.find((provider) => provider.id === parseInt(id));
+	const fetchProvider = async () => {
+		try {
+			const response = await apiService.getCompany(id);
+			setProvider(response.data);
+		} catch (error) {
+			console.error("Error while fetching provider:", error);
+		}
+	};
+
+	useEffect(() => {
+		fetchProvider();
+	}, [id]);
 
 	const { serviceSelected, timeSlotSelected, employeeSelected } = useUser();
 
-	const handleReservation = () => {
-		alert("Réservation confirmée");
+	const handleReservation = async () => {
+		const dateTimeString = `${timeSlotSelected.day}T${timeSlotSelected.timeSlot}:00`;
+		// const startDate = new Date(dateTimeString);
+
+		const bookingData = {
+			startDate: dateTimeString,
+			companyService: serviceSelected["@id"],
+			client: `/users/${user.id}`,
+			status: "pending",
+			employee: employeeSelected["@id"],
+		};
+
+		try {
+			const response = await apiService.createBooking(bookingData, {
+				headers: {
+					"Content-Type": "application/ld+json",
+				},
+			});
+			console.log("Booking created successfully:", response);
+		} catch (error) {
+			console.error("Error creating booking:", error);
+		}
 	};
 
 	return (
@@ -40,11 +75,11 @@ function Reservation() {
 								<div className="mt-2 bg-white p-6 rounded-lg shadow-md lg:p-8 flex items-center justify-between">
 									<div className="flex items-center gap-4">
 										<p className="text-gray-800">
-											{serviceSelected.name}
+											{serviceSelected.service.name}
 										</p>
 										<div className="rounded-full bg-gray-300 p-0.5"></div>
 										<p className="text-gray-700 font-light text-sm">
-											{serviceSelected.price} €
+											{formatPrice(serviceSelected.price)}
 										</p>
 									</div>
 									<NavLink to={`/companies/${id}`}>
@@ -79,13 +114,15 @@ function Reservation() {
 												<p className="text-gray-800 font-light text-sm">
 													avec
 													<span className="font-medium ml-1">
-														{employeeSelected?.name}
+														{`${employeeSelected?.firstname} ${employeeSelected?.lastname}`}
 													</span>
 												</p>
 											</div>
 										)}
 									</div>
-									<NavLink to={`/companies/${id}/reservation`}>
+									<NavLink
+										to={`/companies/${id}/reservation`}
+									>
 										<button className="text-primary-600 font-normal underline hover:text-primary-800 text-sm">
 											Modifier
 										</button>

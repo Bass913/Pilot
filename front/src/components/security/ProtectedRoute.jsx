@@ -3,8 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../../hooks/useUser";
 import UnauthorizedPage from "../../pages/error/UnauthorizedPage";
 
-const ProtectedRoute = ({ element: Component, allowedRoles, ...rest }) => {
+const ProtectedRoute = ({
+	element: Component,
+	allowedRoles,
+	model,
+	...rest
+}) => {
 	const { user } = useUser();
+
+	if (user.roles.includes("ROLE_SUPERADMIN")) {
+		if (model === "service") model = "companyService";
+	}
+
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -24,7 +34,7 @@ const ProtectedRoute = ({ element: Component, allowedRoles, ...rest }) => {
 		return <UnauthorizedPage />;
 	}
 
-	return <Component allowedRoles={allowedRoles} {...rest} />;
+	return <Component allowedRoles={allowedRoles} model={model} {...rest} />;
 };
 
 export default ProtectedRoute;

@@ -8,6 +8,7 @@ const columnNames = {
 	lastname: "lastname",
 	email: "email",
 	phone: "phone",
+	"service.name": "name",
 };
 
 export default columnNames;

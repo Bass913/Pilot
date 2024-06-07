@@ -28,8 +28,14 @@ const apiService = {
 	getServices({ page = 1 }) {
 		return apiClient.get(`/services?page=${page}`);
 	},
+	getCompanyServices({ companyId, page = 1 }) {
+		return apiClient.get(`/companies/${companyId}/services?page=${page}`);
+	},
 	getUsers({ page = 1 }) {
 		return apiClient.get(`/users?page=${page}`);
+	},
+	createBooking(booking, config) {
+		return apiClient.post("/bookings", booking, config);
 	},
 };
 

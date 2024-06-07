@@ -6,13 +6,15 @@ import Table from "../../components/admin/Table";
 import entitiesNames from "../../lib/entitiesNames";
 import { useLocation } from "react-router-dom";
 import Loader from "../../components/Loader";
+import { useUser } from "../../hooks/useUser";
 
-function DynamicEntityPage({ model, allowedRoles }) {
+function DynamicEntityPage({ model }) {
 	const location = useLocation();
 	const [data, setData] = useState([]);
 	const { t } = useTranslation();
 	const [loading, setLoading] = useState(true);
 	const [page, setPage] = useState(1);
+	const { user } = useUser();
 
 	const fetchData = async () => {
 		try {
@@ -32,10 +34,16 @@ function DynamicEntityPage({ model, allowedRoles }) {
 					});
 					break;
 				case "user":
-					response = await apiService.getUsers({ search: null });
+					response = await apiService.getUsers({ page });
 					break;
 				case "service":
 					response = await apiService.getServices({ page });
+					break;
+				case "companyService":
+					response = await apiService.getCompanyServices({
+						companyId: user.companyId,
+						page,
+					});
 					break;
 				case "employee":
 					response = await apiService.getUsers({ page }); // to change to getEmployees

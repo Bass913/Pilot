@@ -7,6 +7,15 @@ function getDateFromSlotTime(date, time) {
 	return new Date(year, month - 1, day, hours, minutes);
 }
 
+function getDateFromDateTimeString(dateTimeString) {
+	const date = new Date(dateTimeString);
+	const hours = date.getUTCHours().toString().padStart(2, "0");
+	const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+	const seconds = date.getUTCSeconds().toString().padStart(2, "0");
+
+	return `${hours}:${minutes}:${seconds}`;
+}
+
 function getDays(startDate, endDate) {
 	const days = [];
 
@@ -40,13 +49,16 @@ function getFormattedDate(date, language) {
 	return formatter.format(new Date(date));
 }
 
-function getTimeSlotsFromSchedule(days, schedule) {
+function getTimeSlotsFromSchedule(days, schedules) {
 	const timeSlots = {};
 
 	days.forEach((day) => {
 		const weekDay = weekDays[new Date(day).getDay()];
-		const openingHour = schedule[weekDay]?.opening;
-		const closingHour = schedule[weekDay]?.closing;
+		const schedule = schedules.find(
+			(schedule) => schedule.dayOfWeek === weekDay
+		);
+		const openingHour = getDateFromDateTimeString(schedule?.startTime);
+		const closingHour = getDateFromDateTimeString(schedule?.endTime);
 
 		if (!openingHour || !closingHour) {
 			timeSlots[day] = [];
@@ -84,6 +96,7 @@ function getTimeSlotsFromSchedule(days, schedule) {
 }
 
 function getTimeSlotsWithAvailability(timeSlots, unavailabilities) {
+	console.log(unavailabilities);
 	const timeSlotsWithAvailability = {};
 
 	Object.keys(timeSlots).forEach((day) => {
@@ -96,8 +109,8 @@ function getTimeSlotsWithAvailability(timeSlots, unavailabilities) {
 
 		unavailabilities.forEach((unavailability) => {
 			const dayDate = new Date(day);
-			const unavailabilityStart = unavailability.start;
-			const unavailabilityEnd = unavailability.end;
+			const unavailabilityStart = unavailability.startDate;
+			const unavailabilityEnd = unavailability.endDate;
 			const unavailabilityStartDate = new Date(unavailabilityStart);
 			const unavailabilityEndDate = new Date(unavailabilityEnd);
 			if (

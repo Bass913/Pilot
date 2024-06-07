@@ -15,6 +15,7 @@ function ProviderList() {
 	});
 	const [isLoading, setIsLoading] = useState(true);
 	const locationUrl = useLocation();
+	const [providers, setProviders] = useState([]);
 
 	const fetchCompanies = async () => {
 		try {
@@ -31,9 +32,8 @@ function ProviderList() {
 		}
 	};
 
-	const [providers, setProviders] = useState([]);
-
 	const fetchData = async () => {
+		console.log("fetchData");
 		try {
 			const loader = new MapsLoader({
 				apiKey: process.env.GOOGLE_MAPS_API_KEY,
@@ -52,7 +52,7 @@ function ProviderList() {
 						document.getElementById("map"),
 						{
 							center: location,
-							zoom: 12,
+							zoom: 10,
 						}
 					);
 					for (const provider of providers) {
@@ -76,8 +76,12 @@ function ProviderList() {
 	};
 
 	useEffect(() => {
-		fetchCompanies().then(() => fetchData());
+		fetchCompanies();
 	}, []);
+
+	useEffect(() => {
+		fetchData();
+	}, [providers]);
 
 	return (
 		<DefaultLayout>

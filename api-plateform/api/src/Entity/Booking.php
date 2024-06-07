@@ -21,7 +21,7 @@ class Booking
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[Groups(['read-booking', 'read-company-details'])]
+    #[Groups(['read-booking', 'read-company-details', 'user:read'])]
     #[ORM\Column(length: 255)]
     private ?string $startDate = null;
 
@@ -31,14 +31,12 @@ class Booking
     private ?string $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'bookings')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?CompanyService $companyService = null;
 
     #[ORM\ManyToOne(inversedBy: 'bookings')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?User $client = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'bookings')]
     private ?User $employee = null;
 
     public function getId(): ?Uuid

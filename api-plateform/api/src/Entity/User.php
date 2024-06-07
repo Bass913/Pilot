@@ -91,9 +91,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Company $company = null;
 
-    #[Groups(['read-company-details'])]
+    #[Groups(['read-company-details', 'user:read'])]
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Booking::class)]
-    private Collection $bookings;
+    private Collection $clientBookings;
+
+    #[Groups(['read-company-details', 'user:read'])]
+    #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Booking::class)]
+    private Collection $employeeBookings;
 
     #[Groups(['user:read', 'user:create'])]
     #[ORM\Column(length: 20, nullable: true)]
@@ -107,7 +111,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->unavailabilities = new ArrayCollection();
         $this->schedules = new ArrayCollection();
-        $this->bookings = new ArrayCollection();
+        $this->clientBookings = new ArrayCollection();
+        $this->employeeBookings = new ArrayCollection();
         $this->companies = new ArrayCollection();
     }
 
@@ -282,24 +287,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Booking>
      */
-    public function getBookings(): Collection
+    public function getClientBookings(): Collection
     {
-        return $this->bookings;
+        return $this->clientBookings;
     }
 
-    public function addBooking(Booking $booking): static
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getEmployeeBookings(): Collection
     {
-        if (!$this->bookings->contains($booking)) {
-            $this->bookings->add($booking);
+        return $this->employeeBookings;
+    }
+
+    public function addClientBooking(Booking $booking): static
+    {
+        if (!$this->clientBookings->contains($booking)) {
+            $this->clientBookings->add($booking);
             $booking->setClient($this);
         }
 
         return $this;
     }
 
-    public function removeBooking(Booking $booking): static
+    public function addEmployeeBooking(Booking $booking): static
     {
-        if ($this->bookings->removeElement($booking)) {
+        if (!$this->employeeBookings->contains($booking)) {
+            $this->employeeBookings->add($booking);
+            $booking->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClientBooking(Booking $booking): static
+    {
+        if ($this->clientBookings->removeElement($booking)) {
+            // set the owning side to null (unless already changed)
+            if ($booking->getClient() === $this) {
+                $booking->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeEmployeeBooking(Booking $booking): static
+    {
+        if ($this->employeeBookings->removeElement($booking)) {
             // set the owning side to null (unless already changed)
             if ($booking->getClient() === $this) {
                 $booking->setClient(null);
@@ -333,7 +368,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->companies->contains($company)) {
             $this->companies->add($company);
-            $company->setUserId($this);
+            $company->setUser($this);
         }
 
         return $this;
@@ -343,8 +378,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->companies->removeElement($company)) {
             // set the owning side to null (unless already changed)
-            if ($company->getUserId() === $this) {
-                $company->setUserId(null);
+            if ($company->getUser() === $this) {
+                $company->setUser(null);
             }
         }
 

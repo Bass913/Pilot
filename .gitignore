@@ -3,3 +3,5 @@ api-plateform/db_data
 api-plateform/caddy_data
 api-plateform/caddy_config
 .idea
+api-plateform/api/composer.lock
+api-plateform/api/migrations
