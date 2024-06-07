@@ -72,7 +72,7 @@ class Company
     private ?string $latitude = null;
 
     #[Groups(['read-company-details'])]
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: CompanyServices::class)]
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: CompanyService::class)]
     private Collection $companyServices;
 
     #[Groups(['read-company-details'])]
@@ -233,14 +233,14 @@ class Company
     }
 
     /**
-     * @return Collection<int, CompanyServices>
+     * @return Collection<int, CompanyService>
      */
     public function getCompanyServices(): Collection
     {
         return $this->companyServices;
     }
 
-    public function addCompanyService(CompanyServices $companyService): static
+    public function addCompanyService(CompanyService $companyService): static
     {
         if (!$this->companyServices->contains($companyService)) {
             $this->companyServices->add($companyService);
@@ -250,7 +250,7 @@ class Company
         return $this;
     }
 
-    public function removeCompanyService(CompanyServices $companyService): static
+    public function removeCompanyService(CompanyService $companyService): static
     {
         if ($this->companyServices->removeElement($companyService)) {
             // set the owning side to null (unless already changed)

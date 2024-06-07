@@ -25,7 +25,7 @@ class Speciality
     #[ORM\OneToMany(mappedBy: 'speciality', targetEntity: Company::class)]
     private Collection $companies;
 
-    #[ORM\OneToMany(mappedBy: 'speciality', targetEntity: Services::class)]
+    #[ORM\OneToMany(mappedBy: 'speciality', targetEntity: Service::class)]
     private Collection $services;
 
     public function __construct()
@@ -82,14 +82,14 @@ class Speciality
     }
 
     /**
-     * @return Collection<int, Services>
+     * @return Collection<int, Service>
      */
     public function getServices(): Collection
     {
         return $this->services;
     }
 
-    public function addService(Services $service): static
+    public function addService(Service $service): static
     {
         if (!$this->services->contains($service)) {
             $this->services->add($service);
@@ -99,7 +99,7 @@ class Speciality
         return $this;
     }
 
-    public function removeService(Services $service): static
+    public function removeService(Service $service): static
     {
         if ($this->services->removeElement($service)) {
             // set the owning side to null (unless already changed)

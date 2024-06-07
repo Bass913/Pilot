@@ -29,12 +29,6 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'id' => new Link(fromProperty: 'users', fromClass: Company::class)
             ],
         ),
-        new GetCollection(
-            uriTemplate: '/companies/{id}/clients',
-            uriVariables: [
-                'id' => new Link(fromProperty: 'users', fromClass: Company::class)
-            ],
-        ),
         new Post(
             denormalizationContext: ['groups' => ['user:create']],
             validationContext: ['groups' => ['user:create']]

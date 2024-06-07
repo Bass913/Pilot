@@ -4,7 +4,7 @@ namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\Services;
+use App\Entity\Service;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class ServicesFixtures extends Fixture implements DependentFixtureInterface
@@ -25,7 +25,7 @@ class ServicesFixtures extends Fixture implements DependentFixtureInterface
         }
 
         foreach (self::SERVICE_REFERENCE as $key => $name) {
-            $service = new Services();
+            $service = new Service();
             $service->setName($name);
             $service->setSpeciality($specialities[array_rand($specialities)]);
             $manager->persist($service);

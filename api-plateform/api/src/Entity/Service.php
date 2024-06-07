@@ -9,7 +9,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ServicesRepository::class)]
 #[ApiResource]
-class Services
+class Service
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
