@@ -4,13 +4,14 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use ApiPlatform\OpenApi\Model;
 use App\Filter\CompanySearch;
+use App\State\SaveKbisProcessor;
 use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -19,6 +20,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
+
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
 #[ApiResource(
@@ -59,6 +65,10 @@ class Company
     #[Groups(['read-company-details', 'read-company'])]
     #[ORM\Column(length: 255)]
     private ?string $city = null;
+
+    #[Vich\UploadableField(mapping: 'kbis', fileNameProperty: 'kbis')]
+    #[Assert\NotNull(groups: ['write-company'])]
+    public ?File $file = null;
 
     #[ORM\Column(length: 255)]
     private ?string $kbis = null;
@@ -106,7 +116,7 @@ class Company
     private ?int $reviewCount = null;
 
     #[Groups(['read-company-details', 'read-company'])]
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(type: Types::ARRAY , nullable: true)]
     private ?array $images = null;
 
     #[ORM\ManyToOne(inversedBy: 'companies')]
@@ -445,5 +455,31 @@ class Company
         $this->user = $user;
 
         return $this;
+    }
+
+    public function setFile(?File $file = null): void
+    {
+        $this->file = $file;
+
+        if (null !== $file) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    public function setImage(EmbeddedFile $image): void
+    {
+        $this->image = $image;
+    }
+
+    public function getImage(): ?EmbeddedFile
+    {
+        return $this->image;
     }
 }

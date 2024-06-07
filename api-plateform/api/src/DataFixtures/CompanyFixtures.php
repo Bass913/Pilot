@@ -47,8 +47,8 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
             $company->setCity($faker->city());
             $company->setKbis($faker->fileExtension());
             $company->setActive($faker->boolean());
-            $company->setLatitude($faker->latitude(-90, 90));
-            $company->setLongitude($faker->longitude(-180, 180));
+            $company->setLatitude($faker->latitude(42.34, 48.86));
+            $company->setLongitude($faker->longitude(-4.73, 3.17));
 
             $numImages = rand(2, 7);
 

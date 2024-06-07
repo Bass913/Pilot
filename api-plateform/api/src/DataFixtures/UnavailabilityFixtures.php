@@ -17,7 +17,7 @@ class UnavailabilityFixtures extends Fixture implements DependentFixtureInterfac
 
         // Calculer les dates de début et de fin de la semaine en cours
         $startOfWeek = (new \DateTime())->modify('this week');
-        $endOfWeek = (clone $startOfWeek)->modify('+6 days 23:59:59');
+        $endOfWeek = (clone $startOfWeek)->modify('+18 days 23:59:59');
 
         // Récupérer le nombre d'utilisateurs
         $userCount = 60;
