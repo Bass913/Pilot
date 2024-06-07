@@ -107,7 +107,7 @@ class Company
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
     private Collection $users;
 
-    #[Groups(['read-company-details'])]
+    #[Groups(['read-company-details', 'read-company'])]
     #[ORM\ManyToOne(inversedBy: 'companies')]
     private ?Speciality $speciality;
 

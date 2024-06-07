@@ -33,7 +33,6 @@ function ProviderList() {
 	};
 
 	const fetchData = async () => {
-		console.log("fetchData");
 		try {
 			const loader = new MapsLoader({
 				apiKey: process.env.GOOGLE_MAPS_API_KEY,

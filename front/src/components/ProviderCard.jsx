@@ -32,6 +32,9 @@ function ProviderCard({ provider }) {
 						{provider.name}
 					</h2>
 					<p className="text-sm text-gray-600 flex gap-2 items-center">
+						{provider.speciality.name}
+					</p>
+					<p className="text-sm text-gray-600 flex gap-2 items-center underline">
 						<MapPinIcon className="w-4 text-gray-400" />
 						{getAddress(provider)}
 					</p>
