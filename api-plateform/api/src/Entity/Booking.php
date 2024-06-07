@@ -5,13 +5,25 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\Link;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
+use ApiPlatform\Metadata\GetCollection;
 
 #[ORM\Entity(repositoryClass: BookingRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['read-booking']]
+    normalizationContext: ['groups' => ['read-booking']],
+    operations: [
+        new GetCollection(
+            uriTemplate: '/companies/{id}/bookings',
+            uriVariables: [
+                'id' => new Link(fromClass: CompanyService::class, fromProperty: 'company')
+            ],
+            normalizationContext: ['groups' => ['read-booking']],
+            filters: ['booking.search']
+        ),
+    ]
 )]
 class Booking
 {

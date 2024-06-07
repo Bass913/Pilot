@@ -1,5 +1,0 @@
-docker exec -it pilot-php-1 php bin/console d:d:d --force
-docker exec -it pilot-php-1 php bin/console d:d:c
-docker exec -it pilot-php-1 php bin/console make:migration
-docker exec -it pilot-php-1 php bin/console d:m:m
-docker exec -it pilot-php-1 php bin/console d:f:l -n
