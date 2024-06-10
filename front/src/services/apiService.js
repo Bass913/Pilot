@@ -43,6 +43,15 @@ const apiService = {
 	getSpecialities() {
 		return apiClient.get("/specialities");
 	},
+	getReviewCategories() {
+		return apiClient.get("/category_reviews");
+	},
+	addRating(rating) {
+		return apiClient.post("/ratings", rating);
+	},
+	addReview(review) {
+		return apiClient.post("/reviews", review);
+	},
 	register(user) {
 		return apiClient.post("/register", user);
 	},

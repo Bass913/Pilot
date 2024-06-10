@@ -2,11 +2,46 @@ import { getFormattedDate } from "../../utils/schedule";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import AddFeedbackModal from "../modals/AddFeedbackModal";
+import { useState } from "react";
+import apiService from "../../services/apiService";
 
 function ReservationCard({ reservation }) {
 	const { t } = useTranslation();
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [reviewCompany, setReviewCompany] = useState(null);
 
 	const isDatePassed = new Date(reservation.date) < new Date();
+
+	const handleOpenModal = (company) => () => {
+		setReviewCompany(company);
+		setIsModalOpen(true);
+	};
+
+	const handleCloseModal = () => {
+		setIsModalOpen(false);
+	};
+
+	const handleFeedbackSubmit = (feedback) => {
+		console.log("Feedback submitted:", feedback);
+		// create ratings in the database, then the review with the comment
+		// feedback.ratings.forEach((categoryId, value) => {
+		//     apiService.addRating(
+		//         {
+		//             category: `/category_reviews/${categoryId}`,
+		//             value: value,
+		//         }
+		//     );
+		// });
+		// apiService.addReview(
+		//     {
+		//         company: `/companies/${reviewCompany.id}`,
+		//         user: `/users/${reviewCompany.user.id}`,
+		//         comment: feedback.feedback,
+		//         ratings: feedback.ratings,
+		//     }
+		// );
+	};
 
 	return (
 		<div
@@ -56,13 +91,27 @@ function ReservationCard({ reservation }) {
 						</NavLink>
 					</>
 				) : (
-					<NavLink to={`/companies/${reservation.id}`}>
-						<button className="text-primary-600 font-normal hover:text-primary-800 text-sm">
-							{t("reschedule")}
+					<>
+						<NavLink to={`/companies/${reservation.id}`}>
+							<button className="text-primary-600 font-normal hover:text-primary-800 text-sm">
+								{t("reschedule")}
+							</button>
+						</NavLink>
+						<button
+							className="text-primary-600 font-normal hover:text-primary-800 text-sm"
+							onClick={handleOpenModal(reservation.company)}
+						>
+							{t("add-feedback")}
 						</button>
-					</NavLink>
+					</>
 				)}
 			</div>
+			<AddFeedbackModal
+				isOpen={isModalOpen}
+				onClose={handleCloseModal}
+				onSubmit={handleFeedbackSubmit}
+				company={reviewCompany}
+			/>
 		</div>
 	);
 }

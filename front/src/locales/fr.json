@@ -90,5 +90,9 @@
     "specialities": "Spécialités",
     "upcoming-reservations": "Réservations à venir",
     "past-reservations": "Réservations passées",
-    "reschedule": "Replanifier"
+    "reschedule": "Replanifier",
+    "add-feedback": "Ajouter un avis",
+    "add-feedback-to": "Ajouter un avis à",
+    "enter-your-feedback": "Entrez votre avis",
+    "submit": "Envoyer"
 }

@@ -90,5 +90,9 @@
     "specialities": "Specialities",
     "upcoming-reservations": "Upcoming reservations",
     "past-reservations": "Past reservations",
-    "reschedule": "Reschedule"
+    "reschedule": "Reschedule",
+    "add-feedback": "Add feedback",
+    "add-feedback-to": "Add feedback to",
+    "enter-your-feedback": "Enter your feedback",
+    "submit": "Submit"
 }
