@@ -46,12 +46,12 @@ class Rating
     #[ORM\JoinColumn(nullable: false)]
     private ?Review $review = null;
 
-    #[Groups(['read-company-details', 'read-review', 'read-rating'])]
+    #[Groups(['read-company-details', 'read-review', 'read-rating', 'add-review'])]
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?CategoryReview $category = null;
 
-    #[Groups(['read-company-details', 'read-review'])]
+    #[Groups(['read-company-details', 'read-review', 'add-review'])]
     #[ORM\Column]
     private ?int $value = null;
 
