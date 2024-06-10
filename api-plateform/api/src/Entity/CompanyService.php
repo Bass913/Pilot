@@ -47,17 +47,18 @@ class CompanyService
     private ?Uuid $id = null;
 
 
-    #[Groups(['read-company-details', 'read-company-service'])]
+    #[Groups(['read-company-details', 'read-company-service', 'read-booking','user:read:booking'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $price = null;
 
     #[ORM\Column]
     private ?int $duration = null;
 
+    #[Groups(['read-booking','user:read:booking'])]
     #[ORM\ManyToOne(inversedBy: 'companyServices')]
     private ?Company $company = null;
 
-    #[Groups(['read-company-details', 'read-company-service'])]
+    #[Groups(['read-company-details', 'read-company-service', 'read-booking','user:read:booking'])]
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Service $service = null;

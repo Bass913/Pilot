@@ -50,11 +50,11 @@ class Company
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[Groups(['read-company-details', 'read-company'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking','user:read:booking'])]
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-    #[Groups(['read-company-details', 'read-company'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking','user:read:booking'])]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
@@ -62,11 +62,11 @@ class Company
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[Groups(['read-company-details', 'read-company'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking','user:read:booking'])]
     #[ORM\Column(length: 10)]
     private ?string $zipcode = null;
 
-    #[Groups(['read-company-details', 'read-company'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking','user:read:booking'])]
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 

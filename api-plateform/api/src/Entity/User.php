@@ -25,6 +25,11 @@ use Symfony\Component\Uid\Uuid;
     operations: [
         new Get(normalizationContext: ['groups' => ['user:read']]),
         new GetCollection(normalizationContext: ['groups' => ['user:read']]),
+        new Get(
+            uriTemplate: '/users/{id}/bookings',
+            normalizationContext: ['groups' => ['user:read:booking']]
+        ),
+
         new GetCollection(
             uriTemplate: '/companies/{id}/employees',
             uriVariables: [
@@ -65,12 +70,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Uuid $id;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details', 'user:read:planning', 'read-review'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details', 'user:read:planning', 'read-review','read-booking'])]
     #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details',  'user:read:planning', 'read-review'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details',  'user:read:planning', 'read-review','read-booking'])]
     #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
     private ?string $lastname = null;
 
@@ -107,7 +112,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Company $company = null;
 
-    #[Groups(['read-company-details', 'user:read:planning'])]
+    #[Groups(['read-company-details', 'user:read:planning', 'user:read:booking'])]
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Booking::class)]
     private Collection $clientBookings;
 
