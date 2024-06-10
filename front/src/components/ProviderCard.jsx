@@ -3,15 +3,14 @@ import { MapPinIcon, StarIcon } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { getAddress } from "../utils/addressFormatter";
 
 function ProviderCard({ provider }) {
 	const { t } = useTranslation();
 	const [expanded, setExpanded] = useState(false);
 	const navigate = useNavigate();
 
-	function getAddress(provider) {
-		return `${provider.address} ${provider.zipcode} ${provider.city}`;
-	}
+	
 
 	return (
 		<div className="bg-white p-5 flex-col border-b border-gray-200 hover:drop-shadow-xl cursor-pointer transition-all">

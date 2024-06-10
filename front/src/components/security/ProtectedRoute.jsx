@@ -11,10 +11,6 @@ const ProtectedRoute = ({
 }) => {
 	const { user } = useUser();
 
-	if (user.roles.includes("ROLE_SUPERADMIN")) {
-		if (model === "service") model = "companyService";
-	}
-
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -25,6 +21,10 @@ const ProtectedRoute = ({
 
 	if (!user) {
 		return null;
+	}
+
+	if (user.roles.includes("ROLE_SUPERADMIN")) {
+		if (model === "service") model = "companyService";
 	}
 
 	const hasAllowedRole = allowedRoles.some((allowedRole) =>

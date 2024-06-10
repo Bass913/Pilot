@@ -82,12 +82,11 @@ function Reservation() {
 			)
 		: [];
 	// console.log("Days with time slots:", daysWithTimeSlots);
-	const timeSlotsWithAvailability = employeeSelected
-		? getTimeSlotsWithAvailability(
-				daysWithTimeSlots,
-				employeeSelected.unavailabilities
-			)
-		: [];
+	const timeSlotsWithAvailability = getTimeSlotsWithAvailability(
+		daysWithTimeSlots,
+		employeeSelected?.unavailabilities,
+		employeeSelected?.schedules
+	);
 
 	useEffect(() => {
 		setTimeSlotSelected(null);

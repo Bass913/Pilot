@@ -95,8 +95,11 @@ function getTimeSlotsFromSchedule(days, schedules) {
 	return timeSlots;
 }
 
-function getTimeSlotsWithAvailability(timeSlots, unavailabilities) {
-	console.log(unavailabilities);
+function getTimeSlotsWithAvailability(
+	timeSlots,
+	unavailabilities = [],
+	employeeSchedules = []
+) {
 	const timeSlotsWithAvailability = {};
 
 	Object.keys(timeSlots).forEach((day) => {
@@ -123,6 +126,29 @@ function getTimeSlotsWithAvailability(timeSlots, unavailabilities) {
 					if (
 						dayDate >= unavailabilityStartDate &&
 						dayDate <= unavailabilityEndDate
+					) {
+						timeSlot.available = false;
+					}
+				});
+			}
+		});
+
+		employeeSchedules.forEach((schedule) => {
+			const dayDate = new Date(day);
+			const scheduleStart = schedule.startDate;
+			const scheduleEnd = schedule.endDate;
+			const scheduleStartDate = new Date(scheduleStart);
+			const scheduleEndDate = new Date(scheduleEnd);
+			if (
+				dayDate.getDate() >= scheduleStartDate.getDate() &&
+				dayDate.getDate() <= scheduleEndDate.getDate()
+			) {
+				timeSlotsWithAvailability[day].forEach((timeSlot) => {
+					const dayDate = getDateFromSlotTime(day, timeSlot.time);
+					dayDate.setHours(dayDate.getHours() + 2);
+					if (
+						dayDate >= scheduleStartDate &&
+						dayDate <= scheduleEndDate
 					) {
 						timeSlot.available = false;
 					}
