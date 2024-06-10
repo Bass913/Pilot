@@ -29,7 +29,9 @@ use Symfony\Component\Uid\Uuid;
             ],
         ),
         new Get(),
-        new Post(),
+        new Post(
+            denormalizationContext: ['groups' => ['add-review']]
+        ),
         new Put(),
         new Patch(),
         new Delete()
@@ -45,21 +47,27 @@ class Review
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[Groups(['read-company-details','read-review'])]
+    #[Groups(['read-company-details','read-review','add-review'])]
     #[ORM\Column(length: 255)]
     private ?string $date = null;
 
 
+    #[Groups(['add-review'])]
     #[ORM\ManyToOne(inversedBy: 'reviews')]
     private ?Company $company = null;
 
-    #[Groups(['read-company-details', 'read-review'])]
+    #[Groups(['read-company-details', 'read-review','add-review'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $comment = null;
 
-    #[Groups(['read-company-details', 'read-review'])]
-    #[ORM\OneToMany(mappedBy: 'review', targetEntity: Rating::class)]
+    #[Groups(['read-company-details', 'read-review','add-review'])]
+    #[ORM\OneToMany(mappedBy: 'review', targetEntity: Rating::class, cascade: ['persist'])]
     private Collection $ratings;
+
+    #[Groups(['add-review', 'read-review'])]
+    #[ORM\ManyToOne(inversedBy: 'reviews')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?User $client = null;
 
     public function __construct()
     {
@@ -134,6 +142,18 @@ class Review
                 $rating->setReview(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getClient(): ?User
+    {
+        return $this->client;
+    }
+
+    public function setClient(?User $client): static
+    {
+        $this->client = $client;
 
         return $this;
     }

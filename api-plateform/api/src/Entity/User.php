@@ -65,12 +65,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Uuid $id;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details', 'user:read:planning'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details', 'user:read:planning', 'read-review'])]
     #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details',  'user:read:planning'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details',  'user:read:planning', 'read-review'])]
     #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
     private ?string $lastname = null;
 
@@ -111,7 +111,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Booking::class)]
     private Collection $clientBookings;
 
-    #[Groups(['read-company-details', 'user:read'])]
+    #[Groups(['read-company-details'])]
     #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Booking::class)]
     private Collection $employeeBookings;
 
@@ -122,6 +122,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Company::class)]
     private Collection $companies;
 
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Review::class)]
+    private Collection $reviews;
+
 
     public function __construct()
     {
@@ -130,6 +133,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->clientBookings = new ArrayCollection();
         $this->employeeBookings = new ArrayCollection();
         $this->companies = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -396,6 +400,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($company->getUser() === $this) {
                 $company->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): static
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews->add($review);
+            $review->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): static
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getClient() === $this) {
+                $review->setClient(null);
             }
         }
 
