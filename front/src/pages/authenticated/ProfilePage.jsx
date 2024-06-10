@@ -184,16 +184,6 @@ function ProfilePage() {
 								{tabs[2].current && (
 									<div>
 										<div className="mt-10">
-											<div className="space-y-1">
-												<h3 className="text-lg font-medium leading-6 text-gray-900">
-													{t("your-reservations")}
-												</h3>
-												<p className="max-w-2xl text-sm text-gray-500">
-													{t(
-														"find-your-reservations"
-													)}
-												</p>
-											</div>
 											<ReservationsSection />
 										</div>
 									</div>

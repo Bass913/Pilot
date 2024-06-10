@@ -4,7 +4,7 @@
     "my-reservations": "My Reservations",
     "my-account": "My Account",
     "your-reservations": "Your Reservations",
-    "find-your-reservations": "Find your upcoming appointments",
+    "find-your-reservations": "Find here your appointments",
     "edit": "Change",
     "postpone": "Postpone",
     "cancel": "Cancel",
@@ -87,5 +87,8 @@
     "user": "User",
     "users": "Users",
     "admin": "Admin",
-    "specialities": "Specialities"
+    "specialities": "Specialities",
+    "upcoming-reservations": "Upcoming reservations",
+    "past-reservations": "Past reservations",
+    "reschedule": "Reschedule"
 }
