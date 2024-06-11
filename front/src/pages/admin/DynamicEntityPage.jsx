@@ -70,7 +70,9 @@ function DynamicEntityPage({ model }) {
 				{t(entitiesNames[model].labelPlural)}
 			</h1>
 			{loading ? (
-				<Loader />
+				<div className="flex justify-center h-96 items-center">
+					<Loader />
+				</div>
 			) : (
 				<Table
 					data={data}

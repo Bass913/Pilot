@@ -104,7 +104,11 @@ function ProviderList() {
 					</div>
 				</div>
 				<div className="w-5/12 bg-primary-100" id="map">
-					{isLoading && <Loader />}
+					{isLoading && (
+						<div className="flex justify-center items-center h-screen">
+							<Loader />
+						</div>
+					)}
 				</div>
 			</div>
 		</DefaultLayout>

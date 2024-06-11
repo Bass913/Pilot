@@ -12,7 +12,9 @@ function TimeSlotChooser({
 	};
 
 	return (
-		<div className="mt-2 bg-white p-6 rounded-lg shadow-md lg:p-8 grid grid-cols-7 gap-3">
+		<div
+			className={`mt-2 bg-white p-6 rounded-lg shadow-md lg:p-8 grid grid-cols-7 gap-3`}
+		>
 			{Object.keys(timeSlotsWithAvailability).map((day, dayIndex) => (
 				<div
 					key={dayIndex}

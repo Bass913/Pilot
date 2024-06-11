@@ -2,6 +2,7 @@
     {
         "id": 1,
         "company": {
+            "id": 1,
             "name": "Le super garage",
             "address": "75 rue de la rue, 75000 Paris"
         },
@@ -16,6 +17,7 @@
     {
         "id": 2,
         "company": {
+            "id": 1,
             "name": "Le super garage",
             "address": "75 rue de la rue, 75000 Paris"
         },
@@ -30,6 +32,7 @@
     {
         "id": 3,
         "company": {
+            "id": 1,
             "name": "Le super garage",
             "address": "75 rue de la rue, 75000 Paris"
         },

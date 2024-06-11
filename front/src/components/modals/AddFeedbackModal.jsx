@@ -1,22 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import apiService from "../../services/apiService";
 
-const AddFeedbackModal = ({ isOpen, onClose, onSubmit, company }) => {
+const AddFeedbackModal = ({ isOpen, onClose, onSubmit, company, reviewCategories }) => {
+	console.log("company", company);
 	const { t } = useTranslation();
 	const [feedback, setFeedback] = useState("");
-	const [reviewCategories, setReviewCategories] = useState([]);
 	const [ratings, setRatings] = useState({});
 	const [hoveredRating, setHoveredRating] = useState({});
-
-	const fetchServices = async () => {
-		const response = await apiService.getReviewCategories();
-		setReviewCategories(response.data["hydra:member"]);
-	};
-
-	useEffect(() => {
-		fetchServices();
-	}, []);
 
 	const handleRatingChange = (serviceId, rating) => {
 		setRatings({ ...ratings, [serviceId]: rating });

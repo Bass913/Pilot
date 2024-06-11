@@ -81,7 +81,7 @@ function getTimeSlotsFromSchedule(days, schedules) {
 		for (
 			let totalMinutes = openingHourTotalMinutes;
 			totalMinutes < closingHourTotalMinutes;
-			totalMinutes += 20
+			totalMinutes += 30
 		) {
 			const hours = Math.floor(totalMinutes / 60);
 			const minutes = totalMinutes % 60;

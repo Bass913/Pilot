@@ -94,7 +94,13 @@ function Reservation() {
 
 	return (
 		<DefaultLayout>
-			{showAlert && <Alert onClose={handleCloseAlert} />}
+			{showAlert && (
+				<Alert
+					onClose={handleCloseAlert}
+					message="not-logged-in-error"
+					type="login"
+				/>
+			)}
 			<div className="flex justify-center w-full bg-gray-100">
 				<div
 					className="max-w-5xl w-full flex flex-col py-10 px-6"

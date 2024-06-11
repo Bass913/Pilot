@@ -94,5 +94,12 @@
     "add-feedback": "Add feedback",
     "add-feedback-to": "Add feedback to",
     "enter-your-feedback": "Enter your feedback",
-    "submit": "Submit"
+    "submit": "Submit",
+    "not-logged-in-error": "You must be logged in to access this page",
+    "cancel-appointment-confirmation": "Are you sure you want to cancel this appointment?",
+    "yes": "Yes",
+    "no": "No",
+    "edit-booking": "Edit booking",
+    "select-time-slot": "Select time slot",
+    "select-employee": "Select employee"
 }

@@ -60,7 +60,9 @@ function Reservation() {
 					style={{ minHeight: "calc(100vh - 5rem)" }}
 				>
 					{provider === null ? (
-						<Loader />
+						<div className="flex justify-center h-screen">
+							<Loader />
+						</div>
 					) : (
 						<div>
 							<CompanyHeader provider={provider} />

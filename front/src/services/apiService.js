@@ -7,6 +7,18 @@ const apiClient = axios.create({
 	},
 });
 
+apiClient.interceptors.request.use(
+	(config) => {
+		if (config.method === "patch") {
+			config.headers["Content-Type"] = "application/merge-patch+json";
+		}
+		return config;
+	},
+	(error) => {
+		return Promise.reject(error);
+	}
+);
+
 apiClient.interceptors.response.use(
 	(response) => response,
 	(error) => {
@@ -34,6 +46,18 @@ const apiService = {
 	getUsers({ page = 1 }) {
 		return apiClient.get(`/users?page=${page}`);
 	},
+	getBookings({ page = 1 }) {
+		return apiClient.get(`/bookings?page=${page}`);
+	},
+	getBooking(id) {
+		return apiClient.get(`/bookings/${id}`);
+	},
+	getUserBookings(userId) {
+		return apiClient.get(`/users/${userId}/bookings`);
+	},
+	updateBooking(bookingId, booking) {
+		return apiClient.patch(bookingId, booking);
+	},
 	createBooking(booking, config) {
 		return apiClient.post("/bookings", booking, config);
 	},
@@ -46,10 +70,10 @@ const apiService = {
 	getReviewCategories() {
 		return apiClient.get("/category_reviews");
 	},
-	addRating(rating) {
+	createRating(rating) {
 		return apiClient.post("/ratings", rating);
 	},
-	addReview(review) {
+	createReview(review) {
 		return apiClient.post("/reviews", review);
 	},
 	register(user) {

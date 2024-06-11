@@ -94,5 +94,12 @@
     "add-feedback": "Ajouter un avis",
     "add-feedback-to": "Ajouter un avis à",
     "enter-your-feedback": "Entrez votre avis",
-    "submit": "Envoyer"
+    "submit": "Envoyer",
+    "not-logged-in-error": "Vous n'êtes pas connecté. Veuillez vous connecter pour continuer.",
+    "cancel-appointment-confirmation": "Êtes-vous sûr de vouloir annuler ce rendez-vous ?",
+    "yes": "Oui",
+    "no": "Non",
+    "edit-booking": "Modifier la réservation",
+    "select-time-slot": "Sélectionnez un créneau horaire",
+    "select-employee": "Sélectionnez un employé"
 }

@@ -175,11 +175,11 @@ const router = createBrowserRouter([
 router.subscribe(() => window.scrollTo(0, 0));
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-	<React.StrictMode>
+	// <React.StrictMode>
 		<I18nextProvider i18n={i18n}>
 			<UserProvider>
 				<RouterProvider router={router} />
 			</UserProvider>
 		</I18nextProvider>
-	</React.StrictMode>
+	// </React.StrictMode>
 );

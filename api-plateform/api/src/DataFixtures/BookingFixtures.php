@@ -47,8 +47,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
                 // Generate a random hour between 8 and 17 (8 AM to 6 PM)
                 $startDate->setTime($hour, 0);
 
-
-                $booking->setStartDate($startDate->format('Y-m-d H:i:s'));
+                $booking->setStartDate($startDate->format(\DateTime::ATOM));
 
 
                 $manager->persist($booking);
