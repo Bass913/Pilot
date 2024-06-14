@@ -67,7 +67,7 @@ const SearchBar = ({ initialGarageSearch = "", initialAddressSearch = "" }) => {
 			onSubmit={handleSubmit}
 			className="flex items-center justify-center w-full md:w-150 lg:w-175 bg-white rounded-lg p-2 h-20 relative"
 		>
-			{showServices && (
+			{showServices && (servicesToShow.length > 0 && specialitiesToShow.length > 0) && (
 				<div className="absolute top-5 left-0 h-52 w-full flex text-gray-600 transform translate-y-16 bg-white rounded-lg overflow-hidden shadow-md">
 					{servicesToShow.length > 0 && (
 						<div className="w-5/12 h-full py-2">
