@@ -13,6 +13,14 @@ function CompanySchedule({ schedules }) {
 		sunday: t("sunday"),
 	};
 
+	const orderedDays = Object.keys(days);
+
+	const sortedSchedules = schedules.sort((a, b) => {
+		return (
+			orderedDays.indexOf(a.dayOfWeek) - orderedDays.indexOf(b.dayOfWeek)
+		);
+	});
+
 	const getHourFromDate = (date) => {
 		const hour = date.split("T")[1].split(":");
 		return `${hour[0]}:${hour[1]}`;
@@ -21,7 +29,7 @@ function CompanySchedule({ schedules }) {
 	return (
 		<div className="bg-white px-5 py-2 rounded-md shadow-md">
 			<ul className="mx-5 text-gray-800">
-				{schedules.map(
+				{sortedSchedules.map(
 					({ dayOfWeek, startTime, endTime }, index, array) => (
 						<li
 							key={dayOfWeek}
