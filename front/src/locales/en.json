@@ -103,5 +103,7 @@
     "select-time-slot": "Select time slot",
     "select-employee": "Select employee",
     "close": "Close",
-    "view-kbis": "View Certificate"
+    "view-kbis": "View Certificate",
+    "accept": "Accept",
+    "decline": "Decline"
 }

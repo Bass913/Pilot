@@ -103,5 +103,7 @@
     "select-time-slot": "Sélectionnez un créneau horaire",
     "select-employee": "Sélectionnez un employé",
     "close": "Fermer",
-    "view-kbis": "Voir l'extrait Kbis"
+    "view-kbis": "Voir l'extrait Kbis",
+    "accept": "Accepter",
+    "decline": "Refuser"
 }
