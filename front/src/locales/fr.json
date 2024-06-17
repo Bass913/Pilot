@@ -101,5 +101,7 @@
     "no": "Non",
     "edit-booking": "Modifier la réservation",
     "select-time-slot": "Sélectionnez un créneau horaire",
-    "select-employee": "Sélectionnez un employé"
+    "select-employee": "Sélectionnez un employé",
+    "close": "Fermer",
+    "view-kbis": "Voir l'extrait Kbis"
 }

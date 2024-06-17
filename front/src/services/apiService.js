@@ -87,8 +87,11 @@ const apiService = {
 	adminCreateUser(user) {
 		return apiClient.post("/admin/users", user);
 	},
-	async createRequest(request) {
-		await apiClient.post("/requests", request);
+	getRequests() {
+		return apiClient.get("/requests");
+	},
+	createRequest(request) {
+		return apiClient.post("/requests", request);
 	},
 };
 

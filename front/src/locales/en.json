@@ -101,5 +101,7 @@
     "no": "No",
     "edit-booking": "Edit booking",
     "select-time-slot": "Select time slot",
-    "select-employee": "Select employee"
+    "select-employee": "Select employee",
+    "close": "Close",
+    "view-kbis": "View Certificate"
 }

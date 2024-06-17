@@ -22,7 +22,7 @@ class RequestFixtures extends Fixture
             $request->setFirstname($faker->firstName());
             $request->setLastname($faker->lastName());
             $request->setPhone($faker->phoneNumber());
-            $request->setKbis($faker->fileExtension());
+            $request->setKbis("kbis.pdf");
             $request->setCreatedAt(new \DateTimeImmutable($faker->date()));
             $request->setUpdatedAt(new \DateTimeImmutable($faker->date()));
             $manager->persist($request);
