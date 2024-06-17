@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\RequestRepository;
 use ApiPlatform\Metadata\ApiResource;
+use App\State\RequestStateProcessor;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -23,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
         )
     ]
 )]
+#[Post(processor: RequestStateProcessor::class)]
 class Request
 {
     #[ORM\Id]
