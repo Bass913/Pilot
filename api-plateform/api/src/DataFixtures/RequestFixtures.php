@@ -10,7 +10,7 @@ use Faker\Factory;
 
 class RequestFixtures extends Fixture
 {
-    public const REQUEST_REFERENCE_COUNT = 100;
+    public const REQUEST_REFERENCE_COUNT = 10;
 
     public function load(ObjectManager $manager)
     {
