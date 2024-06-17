@@ -1,5 +1,8 @@
 import BecomeAPartnerLayout from "../layouts/BecomeAPartnerLayout";
 import { useTranslation } from "react-i18next";
+import apiService from "../services/apiService";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function BecomeAPartner() {
 	const { t } = useTranslation();
@@ -15,27 +18,44 @@ function BecomeAPartner() {
 		"Tuning et personnalisation",
 	];
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
+
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const formData = new FormData();
 		formData.append("firstname", e.target.firstname.value);
 		formData.append("lastname", e.target.lastname.value);
-		formData.append("postal_code", e.target.postal_code.value);
 		formData.append("phone", e.target.phone.value);
-		formData.append("speciality", e.target.speciality.value);
 		formData.append("email", e.target.email.value);
-		formData.append("kbis", e.target.kbis.files[0]);
+		formData.append("file", e.target.kbis.files[0]);
+
+		try {
+			apiService.createRequest(formData);
+			toast.success("La demande a bien été envoyée.")
+		} catch (error) {
+			console.error("Error submitting form:", error);
+		}
 	};
 
 	return (
 		<BecomeAPartnerLayout>
-			<form method="POST" onSubmit={handleSubmit} className="lg:min-w-120">
+			<ToastContainer
+				position="bottom-right"
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="dark"
+				transition:Bounce
+			/>
+			<form method="POST" encType="multipart/form-data" onSubmit={handleSubmit} className="lg:min-w-120">
 				<h1
 					className="text-xl font-normal text-gray-900 text-center mb-8"
 					dangerouslySetInnerHTML={{ __html: t("add-company-title") }}
-				>
-				</h1>
+				></h1>
 				<div className="flex flex-row gap-5 mt-5">
 					<div className="w-1/2">
 						<label

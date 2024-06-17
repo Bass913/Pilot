@@ -12,12 +12,17 @@ apiClient.interceptors.request.use(
 		if (config.method === "patch") {
 			config.headers["Content-Type"] = "application/merge-patch+json";
 		}
+		if (config.url === "/requests") {
+			config.headers["Content-Type"] = "multipart/form-data";
+		}
 		return config;
 	},
 	(error) => {
 		return Promise.reject(error);
 	}
 );
+
+
 
 apiClient.interceptors.response.use(
 	(response) => response,
@@ -81,6 +86,9 @@ const apiService = {
 	},
 	adminCreateUser(user) {
 		return apiClient.post("/admin/users", user);
+	},
+	async createRequest(request) {
+		await apiClient.post("/requests", request);
 	},
 };
 

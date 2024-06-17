@@ -8,8 +8,6 @@ use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\Review;
 use Faker\Factory;
-use App\Repository\ReviewRepository;
-use App\Entity\Company;
 
 class ReviewFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -30,6 +28,11 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
             $categories[$key] = $this->getReference($key);
         }
 
+        $users = [];
+        for ($i = 1; $i < 61; $i++) { // Ajustez ce nombre selon le nombre total d'utilisateurs
+            $users[] = $this->getReference(UserFixtures::USER_REFERENCE_PREFIX . $i);
+        }
+
         $companyRatings = [];
         $companyReviewCounts = [];
 
@@ -39,6 +42,7 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
                 $review->setDate($faker->date());
                 $review->setComment($faker->sentence());
                 $review->setCompany($company);
+                $review->setClient($users[array_rand($users)]);
                 for ($i = 0; $i < rand(3, 5); $i++) {
                     $rating = new Rating();
                     $rating->setReview($review);
@@ -78,6 +82,6 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
 
     public function getDependencies(): array
     {
-        return [CompanyFixtures::class];
+        return [CompanyFixtures::class, UserFixtures::class];
     }
 }
