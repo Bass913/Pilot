@@ -105,5 +105,9 @@
     "close": "Close",
     "view-kbis": "View Certificate",
     "accept": "Accept",
-    "decline": "Decline"
+    "decline": "Decline",
+    "showing": "Showing",
+    "to": "to",
+    "of": "of",
+    "results": "results"
 }

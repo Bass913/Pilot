@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import columnNames from "../../lib/columnNames";
 import { selectColumns } from "../../utils/columnsSelector";
 import { useTranslation } from "react-i18next";
 import { getValue } from "../../utils/tableDataUpdater";
 import { useNavigate } from "react-router-dom";
+import Pagination from "../Pagination";
 
 function Table({ model, data, page, onChangePage }) {
 	const { t } = useTranslation();
@@ -23,14 +23,6 @@ function Table({ model, data, page, onChangePage }) {
 		setColumns(selectedData.length ? Object.keys(selectedData[0]) : []);
 		setDataToShow(selectedData);
 	}, [data, page]);
-
-	const goToTheNextPage = () => {
-		setCurrentPage((prevPage) => prevPage + 1);
-	};
-
-	const goToThePreviousPage = () => {
-		setCurrentPage((prevPage) => prevPage - 1);
-	};
 
 	useEffect(() => {
 		onChangePage(currentPage);
@@ -84,7 +76,11 @@ function Table({ model, data, page, onChangePage }) {
 											{columns.map((col) => (
 												<td
 													key={col}
-													className={`whitespace-nowrap pl-4 pr-3 text-sm sm:pl-6 cursor-pointer ${col === "images" ? "py-1" : "py-4"}`}
+													className={`whitespace-nowrap pl-4 pr-3 text-sm sm:pl-6 cursor-pointer ${
+														col === "images"
+															? "py-1"
+															: "py-4"
+													}`}
 													onClick={() =>
 														showDetails(index)
 													}
@@ -121,87 +117,12 @@ function Table({ model, data, page, onChangePage }) {
 						</table>
 					</div>
 
-					<div className="flex justify-between items-center mt-4">
-						<div className="flex-1 flex justify-between sm:hidden">
-							<button
-								type="button"
-								className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-sm text-gray-700 bg-white hover:bg-gray-50"
-							>
-								Previous
-							</button>
-							<button
-								type="button"
-								className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-sm text-gray-700 bg-white hover:bg-gray-50"
-							>
-								Next
-							</button>
-						</div>
-						<div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-							<div>
-								<p className="text-sm text-gray-700">
-									Affichage de{" "}
-									<span>
-										{currentPage > 0
-											? (currentPage - 1) * itemsPerPage +
-												1
-											: 0}
-									</span>{" "}
-									à{" "}
-									<span>
-										{currentPage * itemsPerPage > total
-											? total
-											: currentPage * itemsPerPage}
-									</span>{" "}
-									parmi <span>{total}</span> résultats
-								</p>
-							</div>
-							<div>
-								<nav
-									className="relative z-0 inline-flex rounded-sm shadow-sm -space-x-px"
-									aria-label="Pagination"
-								>
-									<button
-										type="button"
-										className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50 ${
-											currentPage === 1
-												? "bg-gray-50"
-												: "bg-white"
-										}`}
-										onClick={goToThePreviousPage}
-										disabled={currentPage === 1}
-									>
-										<span className="sr-only">
-											Précédent
-										</span>
-										<ChevronLeftIcon className="h-5 w-5" />
-									</button>
-									<button
-										type="button"
-										className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-									>
-										{currentPage}
-									</button>
-									<button
-										type="button"
-										className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50 ${
-											currentPage >=
-											Math.ceil(total / itemsPerPage)
-												? "bg-gray-50"
-												: "bg-white"
-										}`}
-										onClick={goToTheNextPage}
-										disabled={
-											currentPage >=
-											Math.ceil(total / itemsPerPage)
-										}
-									>
-										<span className="sr-only">Suivant</span>
-										<ChevronRightIcon className="h-5 w-5" />
-									</button>
-								</nav>
-							</div>
-						</div>
-					</div>
+					<Pagination
+						currentPage={currentPage}
+						totalItems={total}
+						itemsPerPage={itemsPerPage}
+						onPageChange={setCurrentPage}
+					/>
 				</div>
 			</div>
 		</div>
