@@ -15,16 +15,16 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: RequestRepository::class)]
 #[Vich\Uploadable]
 #[ApiResource(
-    processor: RequestStateProcessor::class,
     normalizationContext: ['groups' => ['request:read']],
     denormalizationContext: ['groups' => ['request:write']],
     operations: [
         new GetCollection(),
         new Post(
             inputFormats: ['multipart' => ['multipart/form-data']]
-        )   
+        )
     ]
 )]
+#[Post(processor: RequestStateProcessor::class)]
 class Request
 {
     #[ORM\Id]
