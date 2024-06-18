@@ -9,6 +9,8 @@ use App\Entity\Request;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+
 
 class RequestStateProcessor implements ProcessorInterface
 {
@@ -29,22 +31,21 @@ class RequestStateProcessor implements ProcessorInterface
 
         $result = $this->persistProcessor->process($data, $operation, $uriVariables, $context);
 
-        $this->sendWelcomeEmail($data);        
+        $this->sendWelcomeEmail($data);
 
         return $result;
-        }
+    }
 
     private function sendWelcomeEmail(Request $request): void
     {
-        // Your welcome email logic...
-        // $this->mailer->send(...);
-        $email = (new Email())
+        $email = (new TemplatedEmail())
             ->from('challenge-pilot@gmail.com')
             ->to($request->getEmail())
             ->subject('Time for Symfony Mailer!')
-            ->text('Sending emails is fun again!')
-            ->html('<p>See Twig integration for better HTML integration!</p>');
-
+            ->htmlTemplate('emails/request.html.twig')
+            ->context([
+                'firstname' => $request->getFirstname(),
+            ]);
         $this->mailer->send($email);
     }
 }

@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: RequestRepository::class)]
 #[Vich\Uploadable]
 #[ApiResource(
+    processor: RequestStateProcessor::class,
     normalizationContext: ['groups' => ['request:read']],
     denormalizationContext: ['groups' => ['request:write']],
     operations: [
@@ -24,7 +25,6 @@ use Doctrine\ORM\Mapping as ORM;
         )
     ]
 )]
-#[Post(processor: RequestStateProcessor::class)]
 class Request
 {
     #[ORM\Id]
