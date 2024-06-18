@@ -105,5 +105,9 @@
     "close": "Fermer",
     "view-kbis": "Voir l'extrait Kbis",
     "accept": "Accepter",
-    "decline": "Refuser"
+    "decline": "Refuser",
+    "showing": "Affichage de",
+    "to": "à",
+    "of": "sur",
+    "results": "résultats"
 }

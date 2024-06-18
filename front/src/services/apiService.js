@@ -22,8 +22,6 @@ apiClient.interceptors.request.use(
 	}
 );
 
-
-
 apiClient.interceptors.response.use(
 	(response) => response,
 	(error) => {
@@ -87,8 +85,8 @@ const apiService = {
 	adminCreateUser(user) {
 		return apiClient.post("/admin/users", user);
 	},
-	getRequests() {
-		return apiClient.get("/requests");
+	getRequests({ page = 1 }) {
+		return apiClient.get("/requests?page=" + page);
 	},
 	createRequest(request) {
 		return apiClient.post("/requests", request);
