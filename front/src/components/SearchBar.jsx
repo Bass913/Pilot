@@ -30,14 +30,14 @@ const SearchBar = ({ initialGarageSearch = "", initialAddressSearch = "" }) => {
 
 	const filterServices = (search) => {
 		const servicesFiltered = services.filter((service) =>
-			t(service.name).toLowerCase().includes(search.toLowerCase())
+			service.name.toLowerCase().includes(search.toLowerCase())
 		);
 		setServicesToShow(servicesFiltered);
 	};
 
 	const filterSpecialities = (search) => {
 		const specialitiesFiltered = specialities.filter((speciality) =>
-			t(speciality.name).toLowerCase().includes(search.toLowerCase())
+			speciality.name.toLowerCase().includes(search.toLowerCase())
 		);
 		setSpecialitiesToShow(specialitiesFiltered);
 	};
@@ -48,69 +48,75 @@ const SearchBar = ({ initialGarageSearch = "", initialAddressSearch = "" }) => {
 	}, []);
 
 	const handleGarageSearchChange = (e) => {
-		setGarageSearch(e.target.value);
-		filterServices(e.target.value);
-		filterSpecialities(e.target.value);
+		const value = e.target.value;
+		setGarageSearch(value);
+		filterServices(value);
+		filterSpecialities(value);
 	};
+
 	const handleAddressSearchChange = (e) => {
 		setAddressSearch(e.target.value);
 	};
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const url = garageSearch
-			? `/companies?search=${garageSearch}`
+			? `/companies?search=${encodeURIComponent(garageSearch)}`
 			: "/companies";
 		navigate(url);
 	};
+
 	return (
 		<div
 			onSubmit={handleSubmit}
 			className="flex items-center justify-center w-full md:w-150 lg:w-175 bg-white rounded-lg p-2 h-20 relative"
 		>
-			{showServices && (servicesToShow.length > 0 && specialitiesToShow.length > 0) && (
-				<div className="absolute top-5 left-0 h-52 w-full flex text-gray-600 transform translate-y-16 bg-white rounded-lg overflow-hidden shadow-md">
-					{servicesToShow.length > 0 && (
-						<div className="w-5/12 h-full py-2">
-							<p className="text-sm text-gray-800 font-normal py-2 px-3 underline">
-								{t("services")}
-							</p>
-							<ul className="flex flex-col w-full h-full overflow-y-auto align-start">
-								{servicesToShow.map((service) => (
-									<li
-										key={service.id}
-										className="text-sm text-gray-600 font-normal py-2 px-4 hover:bg-gray-100 w-full cursor-pointer"
-										onClick={() =>
-											setGarageSearch(t(service.name))
-										}
-									>
-										{t(service.name)}
-									</li>
-								))}
-							</ul>
-						</div>
-					)}
-					{specialitiesToShow.length > 0 && (
-						<div className="w-7/12 h-full py-2">
-							<p className="text-sm text-gray-800 font-normal py-2 px-3 underline">
-								{t("specialities")}
-							</p>
-							<ul className="flex flex-col w-full h-full overflow-y-auto align-start">
-								{specialitiesToShow.map((speciality) => (
-									<li
-										key={speciality.id}
-										className="text-sm text-gray-600 font-normal py-2 px-4 hover:bg-gray-100 w-full cursor-pointer"
-										onClick={() =>
-											setGarageSearch(t(speciality.name))
-										}
-									>
-										{t(speciality.name)}
-									</li>
-								))}
-							</ul>
-						</div>
-					)}
-				</div>
-			)}
+			{showServices &&
+				(servicesToShow.length > 0 ||
+					specialitiesToShow.length > 0) && (
+					<div className="absolute top-5 left-0 h-52 w-full flex text-gray-600 transform translate-y-16 bg-white rounded-lg overflow-hidden shadow-md">
+						{servicesToShow.length > 0 && (
+							<div className="w-5/12 h-full py-2">
+								<p className="text-sm text-gray-800 font-normal py-2 px-3 underline">
+									{t("services")}
+								</p>
+								<ul className="flex flex-col w-full h-full overflow-y-auto align-start">
+									{servicesToShow.map((service) => (
+										<li
+											key={service.id}
+											className="text-sm text-gray-600 font-normal py-2 px-4 hover:bg-gray-100 w-full cursor-pointer"
+											onClick={() =>
+												setGarageSearch(service.name)
+											}
+										>
+											{t(service.name)}
+										</li>
+									))}
+								</ul>
+							</div>
+						)}
+						{specialitiesToShow.length > 0 && (
+							<div className="w-7/12 h-full py-2">
+								<p className="text-sm text-gray-800 font-normal py-2 px-3 underline">
+									{t("specialities")}
+								</p>
+								<ul className="flex flex-col w-full h-full overflow-y-auto align-start">
+									{specialitiesToShow.map((speciality) => (
+										<li
+											key={speciality.id}
+											className="text-sm text-gray-600 font-normal py-2 px-4 hover:bg-gray-100 w-full cursor-pointer"
+											onClick={() =>
+												setGarageSearch(speciality.name)
+											}
+										>
+											{t(speciality.name)}
+										</li>
+									))}
+								</ul>
+							</div>
+						)}
+					</div>
+				)}
 			<div className="w-6 ml-2">
 				<MagnifyingGlassIcon className="w-full text-gray-600" />
 			</div>
@@ -122,7 +128,7 @@ const SearchBar = ({ initialGarageSearch = "", initialAddressSearch = "" }) => {
 					placeholder={t("search-provider")}
 					name="search"
 					onChange={handleGarageSearchChange}
-					value={garageSearch}
+					value={t(garageSearch)} // Utilisation de la traduction dans l'input
 					onFocus={() => setShowServices(true)}
 					onBlur={() => {
 						setTimeout(() => {
@@ -138,7 +144,7 @@ const SearchBar = ({ initialGarageSearch = "", initialAddressSearch = "" }) => {
 					placeholder={t("search-address")}
 					name="search"
 					onChange={handleAddressSearchChange}
-					value={addressSearch}
+					value={t(addressSearch)} // Utilisation de la traduction dans l'input
 				/>
 			</div>
 			<Button
