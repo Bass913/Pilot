@@ -76,12 +76,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Uuid $id;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details', 'user:read:planning', 'read-review', 'read-booking'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'user:read:planning', 'read-review', 'read-booking'])]
     #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'read-company-details',  'user:read:planning', 'read-review', 'read-booking'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update',  'user:read:planning', 'read-review', 'read-booking'])]
     #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
     private ?string $lastname = null;
 
@@ -107,22 +107,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 8, groups: ['user:register', 'user:create'])]
     private ?string $password = null;
 
-    #[Groups(['read-company-details', 'user:read:planning'])]
+    #[Groups(['user:read:planning'])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Unavailability::class)]
     private Collection $unavailabilities;
 
-    #[Groups(['read-company-details', 'user:read:planning'])]
+    #[Groups(['user:read:planning'])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Schedule::class)]
     private Collection $schedules;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Company $company = null;
 
-    #[Groups(['read-company-details', 'user:read:planning', 'user:read:booking'])]
+    #[Groups(['user:read:planning', 'user:read:booking'])]
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Booking::class)]
     private Collection $clientBookings;
 
-    #[Groups(['read-company-details'])]
     #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Booking::class)]
     private Collection $employeeBookings;
 

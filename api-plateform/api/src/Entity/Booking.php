@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Post;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\Link;
@@ -28,6 +29,7 @@ use ApiPlatform\Metadata\GetCollection;
             normalizationContext: ['groups' => ['read-booking']],
             filters: ['booking.search']
         ),
+        new Post(),
     ]
 )]
 class Booking
@@ -38,12 +40,12 @@ class Booking
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[Groups(['read-booking', 'read-company-details', 'user:read:planning', 'user:read:booking'])]
+    #[Groups(['read-booking', 'user:read:planning', 'user:read:booking'])]
     #[ORM\Column(length: 255)]
     private ?string $startDate = null;
 
 
-    #[Groups(['read-booking', 'read-company-details', 'user:read:planning', 'user:read:booking'])]
+    #[Groups(['read-booking', 'user:read:planning', 'user:read:booking'])]
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 

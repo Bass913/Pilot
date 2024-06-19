@@ -108,7 +108,6 @@ class Company
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Schedule::class)]
     private Collection $schedules;
 
-    #[Groups(['read-company-details'])]
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
     private Collection $users;
 
