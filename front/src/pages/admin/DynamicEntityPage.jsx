@@ -53,6 +53,7 @@ function DynamicEntityPage({ model }) {
 						companyId: user.companyId,
 						page,
 					});
+					break;
 				case "booking":
 					response = await apiService.getBookings({ page });
 					break;

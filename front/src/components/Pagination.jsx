@@ -40,21 +40,27 @@ function Pagination({ currentPage, totalItems, itemsPerPage, onPageChange }) {
 			</div>
 			<div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
 				<div>
-					<p className="text-sm text-gray-700">
-						{t("showing")}{" "}
-						<span>
-							{currentPage > 0
-								? (currentPage - 1) * itemsPerPage + 1
-								: 0}
-						</span>{" "}
-						{t("to")}{" "}
-						<span>
-							{currentPage * itemsPerPage > totalItems
-								? totalItems
-								: currentPage * itemsPerPage}
-						</span>{" "}
-						{t("of")} <span>{totalItems}</span> {t("results")}
-					</p>
+					{totalItems ? (
+						<p className="text-sm text-gray-700">
+							{t("showing")}{" "}
+							<span>
+								{currentPage > 0
+									? (currentPage - 1) * itemsPerPage + 1
+									: 0}
+							</span>{" "}
+							{t("to")}{" "}
+							<span>
+								{currentPage * itemsPerPage > totalItems
+									? totalItems
+									: currentPage * itemsPerPage}
+							</span>{" "}
+							{t("of")} <span>{totalItems}</span> {t("results")}
+						</p>
+					) : (
+						<p className="text-sm text-gray-700">
+							{t("no-results")}
+						</p>
+					)}
 				</div>
 				<div>
 					<nav
@@ -76,17 +82,17 @@ function Pagination({ currentPage, totalItems, itemsPerPage, onPageChange }) {
 							type="button"
 							className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
 						>
-							{currentPage}
+							{totalItems ? currentPage : "0"}
 						</button>
 						<button
 							type="button"
 							className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50 ${
-								currentPage === totalPages
+								currentPage === totalPages || !totalItems
 									? "bg-gray-50"
 									: "bg-white"
 							}`}
 							onClick={goToTheNextPage}
-							disabled={currentPage === totalPages}
+							disabled={currentPage === totalPages || !totalItems}
 						>
 							<span className="sr-only">{t("next")}</span>
 							<ChevronRightIcon className="h-5 w-5" />

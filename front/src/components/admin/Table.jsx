@@ -15,7 +15,7 @@ function Table({ model, data, page, onChangePage }) {
 	const [dataToShow, setDataToShow] = useState([]);
 	const [hoveredRow, setHoveredRow] = useState(null);
 	const itemsPerPage = 10;
-	const total = data["hydra:totalItems"];
+	const total = data["hydra:totalItems"] || 0;
 
 	useEffect(() => {
 		const selectedData =
