@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use App\DataProviders\CurrentUserDataProvider;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -31,7 +32,7 @@ use Symfony\Component\Uid\Uuid;
         ),
         new Get(
             uriTemplate: '/me',
-            provider: User::class,
+            provider: CurrentUserDataProvider::class,
             normalizationContext: ['groups' => ['user:read']],
             security: "is_granted('ROLE_USER')"
         ),

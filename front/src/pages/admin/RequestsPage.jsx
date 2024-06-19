@@ -30,7 +30,6 @@ function RequestsPage() {
 	};
 
 	useEffect(() => {
-		console.log("currentPage", currentPage);
 		fetchRequests(currentPage);
 	}, [currentPage]);
 

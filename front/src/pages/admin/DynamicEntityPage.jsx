@@ -48,6 +48,20 @@ function DynamicEntityPage({ model }) {
 				case "employee":
 					response = await apiService.getUsers({ page }); // to change to getEmployees
 					break;
+				case "companyEmployee":
+					response = await apiService.getCompanyEmployees({
+						companyId: user.companyId,
+						page,
+					});
+				case "booking":
+					response = await apiService.getBookings({ page });
+					break;
+				case "companyBooking":
+					response = await apiService.getCompanyBookings({
+						companyId: user.companyId,
+						page,
+					});
+					break;
 				default:
 					break;
 			}

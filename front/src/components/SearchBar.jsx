@@ -17,7 +17,7 @@ const SearchBar = ({ initialGarageSearch = "", initialAddressSearch = "" }) => {
 	const navigate = useNavigate();
 
 	const fetchServices = async () => {
-		const response = await apiService.getServices();
+		const response = await apiService.getServices({ page: 1 });
 		setServices(response.data["hydra:member"]);
 		setServicesToShow(response.data["hydra:member"]);
 	};

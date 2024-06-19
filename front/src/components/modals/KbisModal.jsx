@@ -20,17 +20,18 @@ function KbisModal({ isOpen, onClose, selectedRequest, onAccept, onDecline }) {
 							src={`http://localhost/uploads/kbis/${selectedRequest.kbis}`}
 							title="Document Viewer"
 							className="w-full h-96 border border-gray-200"
+							allowFullScreen={true}
 						/>
 					)}
 					<div className="mt-4 flex justify-end space-x-2">
 						<button
-							className="rounded-md border border-primary-500 bg-primary-500 text-white px-4 py-2 mr-2 hover:bg-primary-600 shadow-sm px-4 py-2 bg-white text-sm font-medium"
+							className="rounded-md border border-primary-500 bg-primary-500 text-white px-4 py-2 mr-2 hover:bg-primary-600 shadow-sm px-4 py-2 text-sm font-medium"
 							onClick={() => onAccept(selectedRequest)}
 						>
 							{t("accept")}
 						</button>
 						<button
-							className="rounded-md border border-red-500 bg-red-500 text-white px-4 py-2 hover:bg-red-600 shadow-sm px-4 py-2 bg-white text-sm font-medium"
+							className="rounded-md border border-red-500 bg-red-500 text-white px-4 py-2 hover:bg-red-600 shadow-sm px-4 py-2 text-sm font-medium"
 							onClick={() => onDecline(selectedRequest)}
 						>
 							{t("decline")}

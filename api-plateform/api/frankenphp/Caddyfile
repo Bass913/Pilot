@@ -82,5 +82,15 @@
 	# In this case, they will be handled by the PHP app.
 	reverse_proxy @pwa http://{$PWA_UPSTREAM}
 
+	# Serve static files from public/uploads
+	@uploads {
+		path /uploads/*
+	}
+	
+	handle @uploads {
+		root * /app/public
+		file_server
+	}
+
 	php_server
 }

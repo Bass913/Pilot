@@ -19,7 +19,15 @@ const entitiesNames = {
 		label: "service",
 		labelPlural: "services",
 	},
+	companyService: {
+		label: "service",
+		labelPlural: "services",
+	},
 	employee: {
+		label: "employee",
+		labelPlural: "employees",
+	},
+	companyEmployee: {
 		label: "employee",
 		labelPlural: "employees",
 	},
@@ -27,13 +35,17 @@ const entitiesNames = {
 		label: "schedule",
 		labelPlural: "schedules",
 	},
+	companySchedule: {
+		label: "schedule",
+		labelPlural: "schedules",
+	},
 	booking: {
 		label: "booking",
 		labelPlural: "bookings",
 	},
-	companyService: {
-		label: "service",
-		labelPlural: "services",
+	companyBooking: {
+		label: "booking",
+		labelPlural: "bookings",
 	},
 };
 

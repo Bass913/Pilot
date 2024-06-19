@@ -39,7 +39,7 @@ export default function Header({ user }) {
 						/>
 					</Button>
 
-					{user ? (
+					{user && user.roles ? (
 						<>
 							<NavLink to="/profile">
 								<Button className="hover:bg-gray-100 p-4 rounded text-sm flex items-center gap-2 text-gray-800">

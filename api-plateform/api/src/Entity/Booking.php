@@ -16,6 +16,11 @@ use ApiPlatform\Metadata\GetCollection;
     normalizationContext: ['groups' => ['read-booking']],
     operations: [
         new GetCollection(
+            uriTemplate: '/bookings',
+            normalizationContext: ['groups' => ['read-booking']],
+            filters: ['booking.search']
+        ),
+        new GetCollection(
             uriTemplate: '/companies/{id}/bookings',
             uriVariables: [
                 'id' => new Link(fromClass: CompanyService::class, fromProperty: 'company')
@@ -42,7 +47,7 @@ class Booking
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 
-    #[Groups(['read-booking','user:read:booking'])]
+    #[Groups(['read-booking', 'user:read:booking'])]
     #[ORM\ManyToOne(inversedBy: 'bookings')]
     private ?CompanyService $companyService = null;
 

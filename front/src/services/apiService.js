@@ -31,6 +31,7 @@ apiClient.interceptors.response.use(
 );
 
 const apiService = {
+	// Companies
 	getCompanies({ search = null, page = 1 }) {
 		const url = search
 			? `/companies?search=${search.trim()}&page=${page}`
@@ -40,17 +41,32 @@ const apiService = {
 	getCompany(id) {
 		return apiClient.get(`/companies/${id}`);
 	},
+
+	// Services
 	getServices({ page = 1 }) {
 		return apiClient.get(`/services?page=${page}`);
 	},
 	getCompanyServices({ companyId, page = 1 }) {
 		return apiClient.get(`/companies/${companyId}/services?page=${page}`);
 	},
+
+	// Users
 	getUsers({ page = 1 }) {
 		return apiClient.get(`/users?page=${page}`);
 	},
+	adminCreateUser(user) {
+		return apiClient.post("/admin/users", user);
+	},
+	getCompanyEmployees({ companyId, page = 1 }) {
+		return apiClient.get(`/companies/${companyId}/employees?page=${page}`);
+	},
+
+	// Bookings
 	getBookings({ page = 1 }) {
 		return apiClient.get(`/bookings?page=${page}`);
+	},
+	getCompanyBookings({ companyId, page = 1 }) {
+		return apiClient.get(`/companies/${companyId}/bookings?page=${page}`);
 	},
 	getBooking(id) {
 		return apiClient.get(`/bookings/${id}`);
@@ -64,27 +80,34 @@ const apiService = {
 	createBooking(booking, config) {
 		return apiClient.post("/bookings", booking, config);
 	},
-	getServices() {
-		return apiClient.get("/services");
-	},
+
+	// Specialities
 	getSpecialities() {
 		return apiClient.get("/specialities");
 	},
+
+	// Categories
 	getReviewCategories() {
 		return apiClient.get("/category_reviews");
 	},
+
+	// Reviews / Ratings
 	createRating(rating) {
 		return apiClient.post("/ratings", rating);
 	},
 	createReview(review) {
 		return apiClient.post("/reviews", review);
 	},
+
+	// Auth
 	register(user) {
 		return apiClient.post("/register", user);
 	},
-	adminCreateUser(user) {
-		return apiClient.post("/admin/users", user);
+	getMe() {
+		return apiClient.get("/me");
 	},
+
+	// Requests
 	getRequests({ page = 1 }) {
 		return apiClient.get("/requests?page=" + page);
 	},
