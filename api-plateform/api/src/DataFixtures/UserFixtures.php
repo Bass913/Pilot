@@ -61,6 +61,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user->setLastname($lastName);
         $user->setEmail($email);
         $user->setRoles($roles);
+        $user->setActive(true);
+
         if (in_array("ROLE_ADMIN", $roles)) {
             $company->setUser($user);
         }

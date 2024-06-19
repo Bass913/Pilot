@@ -135,6 +135,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Review::class)]
     private Collection $reviews;
 
+    #[ORM\Column]
+    private ?bool $active = false;
 
     public function __construct()
     {
@@ -442,6 +444,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $review->setClient(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): static
+    {
+        $this->active = $active;
 
         return $this;
     }

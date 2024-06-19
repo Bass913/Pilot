@@ -8,6 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Faker\Factory;
 use App\Entity\User;
+use App\Entity\Company;
 
 class UnavailabilityFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -22,6 +23,13 @@ class UnavailabilityFixtures extends Fixture implements DependentFixtureInterfac
         // Récupérer le nombre d'utilisateurs
         $userCount = 60;
 
+        $companies = [];
+
+        for ($i = 0; $i < CompanyFixtures::COMPANY_REFERENCE_COUNT; $i++) {
+            $companies[] = $this->getReference('company-' . $i);
+        }
+
+        // Ajouter des indisponibilités pour les utilisateurs
         for ($i = 0; $i < $userCount; $i++) {
             $user = $this->getReference(UserFixtures::USER_REFERENCE_PREFIX . $i);
 
@@ -43,11 +51,45 @@ class UnavailabilityFixtures extends Fixture implements DependentFixtureInterfac
             }
         }
 
+        // Ajouter des indisponibilités pour les entreprises
+        foreach ($companies as $company) {
+            // Une indisponibilité pour toute la journée (8h à 18h) sur un jour aléatoire de la semaine
+            $randomDay = $faker->dateTimeBetween($startOfWeek, $endOfWeek);
+            $startOfDay = (clone $randomDay)->setTime(8, 0);
+            $endOfDay = (clone $randomDay)->setTime(18, 0);
+
+            $unavailability = new Unavailability();
+            $unavailability->setCompany($company);
+            $unavailability->setStartDate($startOfDay);
+            $unavailability->setEndDate($endOfDay);
+
+            $manager->persist($unavailability);
+
+            // Une indisponibilité entre midi et 14h pour chaque jour de la semaine (lundi à samedi)
+            for ($k = 0; $k < 6; $k++) {
+                $specificDay = (clone $startOfWeek)->modify("+$k day");
+                $startMidday = (clone $specificDay)->setTime(12, 0);
+                $endMidday = (clone $startMidday)->modify('+2 hours');
+
+                // S'assurer que endMidday ne dépasse pas la fin de la période définie
+                if ($endMidday > $endOfWeek) {
+                    $endMidday = $endOfWeek;
+                }
+
+                $unavailability = new Unavailability();
+                $unavailability->setCompany($company);
+                $unavailability->setStartDate($startMidday);
+                $unavailability->setEndDate($endMidday);
+
+                $manager->persist($unavailability);
+            }
+        }
+
         $manager->flush();
     }
 
     public function getDependencies(): array
     {
-        return [UserFixtures::class];
+        return [UserFixtures::class, CompanyFixtures::class];
     }
 }

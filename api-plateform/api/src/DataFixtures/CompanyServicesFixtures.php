@@ -27,7 +27,12 @@ class CompanyServicesFixtures extends Fixture implements DependentFixtureInterfa
         }
 
         foreach ($companies as $companyData) {
-            foreach ($services as $service) {
+            $shuffledServices = $services;
+            shuffle($shuffledServices);
+
+            $selectedServices = array_slice($shuffledServices, 0, 4);
+
+            foreach ($selectedServices as $service) {
                 $companyService = new CompanyService();
                 $companyService->setCompany($companyData);
                 $companyService->setPrice($faker->numberBetween(50, 100));
