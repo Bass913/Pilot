@@ -36,15 +36,27 @@ function Reservation() {
 		try {
 			const response = await apiService.getCompany(id);
 			setProvider(response.data);
-			setEmployees(response.data.users || []);
+			// setEmployees(response.data.users || []);
 			// console.log("Provider fetched:", response.data);
 		} catch (error) {
 			console.error("Error while fetching provider:", error);
 		}
 	};
 
+	const fetchEmployeesSchedule = async () => {
+		try {
+			const response = await apiService.getCompanyEmployeesSchedule(id);
+			setEmployees(response.data["hydra:member"]);
+			// console.log("Employees fetched:", response.data);
+			// console.log("Employees fetched:", response.data);
+		} catch (error) {
+			console.error("Error while fetching employees:", error);
+		}
+	};
+
 	useEffect(() => {
 		fetchProvider();
+		fetchEmployeesSchedule();
 	}, [id]);
 
 	const handleEmployeeSelection = (employee) => {
@@ -78,7 +90,8 @@ function Reservation() {
 	const daysWithTimeSlots = provider
 		? getTimeSlotsFromSchedule(
 				getDays(startDate, endDate),
-				provider.schedules
+				provider.schedules,
+				serviceSelected.duration
 			)
 		: [];
 	// console.log("Days with time slots:", daysWithTimeSlots);
@@ -121,7 +134,7 @@ function Reservation() {
 								<div className="mt-2 bg-white p-6 rounded-lg shadow-md lg:p-8 flex items-center justify-between">
 									<div className="flex items-center gap-4">
 										<p className="text-gray-800">
-											{serviceSelected.service.name}
+											{t(serviceSelected.service.name)}
 										</p>
 										<div className="rounded-full bg-gray-300 p-0.5"></div>
 										<p className="text-gray-700 font-light text-sm">

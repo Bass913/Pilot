@@ -26,7 +26,7 @@ function ServicesChooser({ services }) {
 					key={index}
 					className={`block py-4 text-base flex justify-between items-center ${index !== services.length - 1 && "border-b border-gray-200"}`}
 				>
-					<p className="font-normal">{service.service.name}</p>
+					<p className="font-normal">{t(service.service.name)}</p>
 					<div className="flex gap-6 items-center">
 						<p className="font-normal">
 							{formatPrice(service.price)}

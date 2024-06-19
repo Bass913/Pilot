@@ -9,10 +9,10 @@ use App\Entity\CategoryReview;
 class CategoryReviewFixtures extends Fixture
 {
     public const CATEGORY_REFERENCE = [
-        "qualite" => "Qualité de service",
-        "prix" => "Prix",
-        "delai" => "Délai",
-        "accueil" => "Accueil"
+        "quality" => "review-quality",
+        "price" => "review-price",
+        "time" => "review-time",
+        "welcome" => "review-welcome",
     ];
 
     public function load(ObjectManager $manager)

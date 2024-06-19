@@ -7,11 +7,13 @@ import { getFormattedDate } from "../utils/schedule";
 import apiService from "../services/apiService";
 import { useEffect, useState } from "react";
 import { formatPrice } from "../utils/priceFormatter";
+import { useTranslation } from "react-i18next";
 
 function Reservation() {
 	const { id } = useParams();
 	const [provider, setProvider] = useState(null);
 	const { user } = useUser();
+	const { t } = useTranslation();
 
 	const fetchProvider = async () => {
 		try {
@@ -77,7 +79,7 @@ function Reservation() {
 								<div className="mt-2 bg-white p-6 rounded-lg shadow-md lg:p-8 flex items-center justify-between">
 									<div className="flex items-center gap-4">
 										<p className="text-gray-800">
-											{serviceSelected.service.name}
+											{t(serviceSelected.service.name)}
 										</p>
 										<div className="rounded-full bg-gray-300 p-0.5"></div>
 										<p className="text-gray-700 font-light text-sm">

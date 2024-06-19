@@ -113,7 +113,12 @@ const apiService = {
 	},
 	createRequest(request) {
 		return apiClient.post("/requests", request);
-	}
+	},
+
+	// Schedule
+	getCompanyEmployeesSchedule(companyId) {
+		return apiClient.get(`/companies/${companyId}/employees/planning`);
+	},
 };
 
 export default apiService;

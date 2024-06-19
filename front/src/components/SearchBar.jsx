@@ -30,14 +30,14 @@ const SearchBar = ({ initialGarageSearch = "", initialAddressSearch = "" }) => {
 
 	const filterServices = (search) => {
 		const servicesFiltered = services.filter((service) =>
-			service.name.toLowerCase().includes(search.toLowerCase())
+			t(service.name).toLowerCase().includes(search.toLowerCase())
 		);
 		setServicesToShow(servicesFiltered);
 	};
 
 	const filterSpecialities = (search) => {
 		const specialitiesFiltered = specialities.filter((speciality) =>
-			speciality.name.toLowerCase().includes(search.toLowerCase())
+			t(speciality.name).toLowerCase().includes(search.toLowerCase())
 		);
 		setSpecialitiesToShow(specialitiesFiltered);
 	};
@@ -80,10 +80,10 @@ const SearchBar = ({ initialGarageSearch = "", initialAddressSearch = "" }) => {
 										key={service.id}
 										className="text-sm text-gray-600 font-normal py-2 px-4 hover:bg-gray-100 w-full cursor-pointer"
 										onClick={() =>
-											setGarageSearch(service.name)
+											setGarageSearch(t(service.name))
 										}
 									>
-										{service.name}
+										{t(service.name)}
 									</li>
 								))}
 							</ul>
@@ -100,10 +100,10 @@ const SearchBar = ({ initialGarageSearch = "", initialAddressSearch = "" }) => {
 										key={speciality.id}
 										className="text-sm text-gray-600 font-normal py-2 px-4 hover:bg-gray-100 w-full cursor-pointer"
 										onClick={() =>
-											setGarageSearch(speciality.name)
+											setGarageSearch(t(speciality.name))
 										}
 									>
-										{speciality.name}
+										{t(speciality.name)}
 									</li>
 								))}
 							</ul>
