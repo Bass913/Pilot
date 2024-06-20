@@ -147,5 +147,6 @@
     "review-quality": "Quality",
     "review-price": "Price",
     "review-time": "Duration",
-    "review-welcome": "Welcome"
+    "review-welcome": "Welcome",
+    "duration": "Duration"
 }

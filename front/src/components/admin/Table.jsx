@@ -5,6 +5,11 @@ import { useTranslation } from "react-i18next";
 import { getValue } from "../../utils/tableDataUpdater";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../Pagination";
+import {
+	EllipsisVerticalIcon,
+	PencilIcon,
+	TrashIcon,
+} from "@heroicons/react/24/outline";
 
 function Table({ model, data, page, onChangePage }) {
 	const { t } = useTranslation();
@@ -33,6 +38,17 @@ function Table({ model, data, page, onChangePage }) {
 		navigate(dataItem["@id"]);
 	};
 
+	const handleEdit = (index) => {
+		const dataItem = data["hydra:member"][index];
+		navigate(`${dataItem["@id"]}/edit`);
+	};
+
+	const handleDelete = (index) => {
+		const dataItem = data["hydra:member"][index];
+		// Implémentez la logique de suppression ici, par exemple, en appelant une API pour supprimer l'élément
+		console.log("Supprimer l'élément avec ID:", dataItem["@id"]);
+	};
+
 	return (
 		<div className="mt-8 flow-root">
 			<div className="overflow-x-auto">
@@ -54,6 +70,12 @@ function Table({ model, data, page, onChangePage }) {
 											</span>
 										</th>
 									))}
+									<th
+										scope="col"
+										className="py-3.5 pl-4 pr-3 text-left text-gray-900 sm:pl-6 relative uppercase text-xs font-bold w-20"
+									>
+										{t("actions")}
+									</th>
 								</tr>
 							</thead>
 							<tbody className="divide-y divide-gray-200 bg-white">
@@ -67,20 +89,12 @@ function Table({ model, data, page, onChangePage }) {
 											onMouseLeave={() =>
 												setHoveredRow(null)
 											}
-											className={`${
-												hoveredRow === index
-													? "text-primary-500 bg-gray-50"
-													: "text-gray-900"
-											}`}
+											className={`${hoveredRow === index ? "text-primary-500 bg-gray-50" : "text-gray-900"}`}
 										>
 											{columns.map((col) => (
 												<td
 													key={col}
-													className={`whitespace-nowrap pl-4 pr-3 text-sm sm:pl-6 cursor-pointer ${
-														col === "images"
-															? "py-1"
-															: "py-4"
-													}`}
+													className={`whitespace-nowrap pl-4 pr-3 text-sm sm:pl-6 cursor-pointer ${col === "images" ? "py-1" : "py-4"}`}
 													onClick={() =>
 														showDetails(index)
 													}
@@ -96,17 +110,58 @@ function Table({ model, data, page, onChangePage }) {
 														/>
 													) : (
 														<span>
-															{getValue(row, col)}
+															{col ===
+																"service.name" &&
+															model ===
+																"companyService"
+																? t(
+																		getValue(
+																			row,
+																			col
+																		)
+																	)
+																: getValue(
+																		row,
+																		col
+																	)}
 														</span>
 													)}
 												</td>
 											))}
+											<td className="whitespace-nowrap pl-4 pr-3 text-sm sm:pl-6 py-4 flex items-center justify-end w-20">
+												{hoveredRow === index ? (
+													<>
+														<button
+															className="text-gray-600 hover:text-gray-900 mr-4 bg-gray-100 p-1 rounded-full hover:bg-gray-200"
+															onClick={() =>
+																handleEdit(
+																	index
+																)
+															}
+														>
+															<PencilIcon className="w-5 h-5" />
+														</button>
+														<button
+															className="text-red-600 hover:text-red-900 bg-gray-100 p-1 rounded-full hover:bg-gray-200"
+															onClick={() =>
+																handleDelete(
+																	index
+																)
+															}
+														>
+															<TrashIcon className="w-5 h-5" />
+														</button>
+													</>
+												) : (
+													<EllipsisVerticalIcon className="w-5 h-5 text-gray-500" />
+												)}
+											</td>
 										</tr>
 									))
 								) : (
 									<tr>
 										<td
-											colSpan={columns.length}
+											colSpan={columns.length + 1}
 											className="text-center text-gray-500 text-sm font-semibold py-6"
 										>
 											Aucune donnée disponible
