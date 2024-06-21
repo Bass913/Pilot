@@ -15,6 +15,7 @@ use ApiPlatform\Metadata\GetCollection;
 #[ORM\Entity(repositoryClass: BookingRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['read-booking']],
+    order: ['startDate' => 'DESC'],
     operations: [
         new GetCollection(
             uriTemplate: '/bookings',

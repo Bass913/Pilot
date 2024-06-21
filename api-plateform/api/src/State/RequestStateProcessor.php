@@ -31,21 +31,22 @@ class RequestStateProcessor implements ProcessorInterface
 
         $result = $this->persistProcessor->process($data, $operation, $uriVariables, $context);
 
-        $this->sendWelcomeEmail($data);
+        $this->sendRequestMail($data);
 
         return $result;
     }
 
-    private function sendWelcomeEmail(Request $request): void
+    private function sendRequestMail(Request $request): void
     {
-        $email = (new TemplatedEmail())
+        $emailClient = (new TemplatedEmail())
             ->from('challenge-pilot@gmail.com')
+            ->cc("wtr.esgi@gmail.com")
             ->to($request->getEmail())
-            ->subject('Time for Symfony Mailer!')
+            ->subject("Demande d'ajout d'établissement")
             ->htmlTemplate('emails/request.html.twig')
             ->context([
                 'firstname' => $request->getFirstname(),
             ]);
-        $this->mailer->send($email);
+        $this->mailer->send($emailClient);
     }
 }
