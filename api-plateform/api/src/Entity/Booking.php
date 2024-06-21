@@ -61,6 +61,10 @@ class Booking
     #[ORM\ManyToOne(inversedBy: 'employeeBookings')]
     private ?User $employee = null;
 
+    #[ORM\ManyToOne(inversedBy: 'bookings')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Company $company = null;
+
     public function getId(): ?Uuid
     {
         return $this->id;
@@ -122,6 +126,18 @@ class Booking
     public function setEmployee(?User $employee): static
     {
         $this->employee = $employee;
+
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): static
+    {
+        $this->company = $company;
 
         return $this;
     }
