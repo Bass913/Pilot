@@ -32,7 +32,7 @@ function BecomeAPartner() {
 			await apiService.createRequest(formData);
 			toast.success("La demande a bien été envoyée.")
 		} catch (error) {
-			console.error("Error submitting form:", error);
+			console.error("Error submitting form :", error);
 		}
 	};
 
