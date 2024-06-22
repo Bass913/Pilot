@@ -9,9 +9,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
-use ApiPlatform\OpenApi\Model;
 use App\Filter\CompanySearch;
-use App\State\SaveKbisProcessor;
 use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -126,6 +124,9 @@ class Company
     #[ORM\ManyToOne(inversedBy: 'companies')]
     private ?User $user = null;
 
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Booking::class)]
+    private Collection $bookings;
+
 
     public function __construct()
     {
@@ -134,6 +135,7 @@ class Company
         $this->unavailabilities = new ArrayCollection();
         $this->schedules = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -469,5 +471,35 @@ class Company
     public function getFile(): ?File
     {
         return $this->file;
+    }
+
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): static
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings->add($booking);
+            $booking->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): static
+    {
+        if ($this->bookings->removeElement($booking)) {
+            // set the owning side to null (unless already changed)
+            if ($booking->getCompany() === $this) {
+                $booking->setCompany(null);
+            }
+        }
+
+        return $this;
     }
 }

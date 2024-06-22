@@ -11,7 +11,8 @@ const columnNames = {
 	"service.name": "name",
 	"companyService.service.name": "service",
 	employee: "employee",
-	startDate: "date"
+	startDate: "date",
+	duration: "duration",
 };
 
 export default columnNames;

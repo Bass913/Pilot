@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const AddFeedbackModal = ({ isOpen, onClose, onSubmit, company, reviewCategories }) => {
+const AddFeedbackModal = ({
+	isOpen,
+	onClose,
+	onSubmit,
+	company,
+	reviewCategories,
+}) => {
 	console.log("company", company);
 	const { t } = useTranslation();
 	const [feedback, setFeedback] = useState("");
@@ -54,7 +60,7 @@ const AddFeedbackModal = ({ isOpen, onClose, onSubmit, company, reviewCategories
 								{reviewCategories.map((service) => (
 									<div key={service.id} className="mt-2">
 										<label className="block text-sm font-medium text-gray-700">
-											{service.name}
+											{t(service.name)}
 										</label>
 										<div className="flex space-x-1 mt-1">
 											{[1, 2, 3, 4, 5].map((star) => (

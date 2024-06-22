@@ -49,7 +49,7 @@ function getFormattedDate(date, language) {
 	return formatter.format(new Date(date));
 }
 
-function getTimeSlotsFromSchedule(days, schedules) {
+function getTimeSlotsFromSchedule(days, schedules, serviceDuration = 30) {
 	const timeSlots = {};
 
 	days.forEach((day) => {
@@ -81,7 +81,7 @@ function getTimeSlotsFromSchedule(days, schedules) {
 		for (
 			let totalMinutes = openingHourTotalMinutes;
 			totalMinutes < closingHourTotalMinutes;
-			totalMinutes += 30
+			totalMinutes += serviceDuration
 		) {
 			const hours = Math.floor(totalMinutes / 60);
 			const minutes = totalMinutes % 60;

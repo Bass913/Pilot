@@ -20,17 +20,32 @@ const UpdateBookingModal = ({ isOpen, onClose, onSubmit, booking }) => {
 	const [selectedSlot, setSelectedSlot] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [bookingDetails, setBookingDetails] = useState(null);
+	const [employees, setEmployees] = useState([]);
+	console.log("booking", booking);
+	const companyId = booking
+		? booking.companyService.company["@id"].split("/").pop()
+		: null;
 
 	const fetchProvider = async () => {
+		if (!companyId) return;
 		try {
-			const response = await apiService.getCompany(
-				booking.companyService.company["@id"].split("/").pop()
-			);
+			const response = await apiService.getCompany(companyId);
 			setProvider(response.data);
 		} catch (error) {
 			console.error("Error while fetching provider:", error);
 		} finally {
 			setLoading(false);
+		}
+	};
+
+	const fetchEmployees = async () => {
+		if (!companyId) return;
+		try {
+			const response =
+				await apiService.getCompanyEmployeesSchedule(companyId);
+			setEmployees(response.data["hydra:member"]);
+		} catch (error) {
+			console.error("Error while fetching employees:", error);
 		}
 	};
 
@@ -65,6 +80,7 @@ const UpdateBookingModal = ({ isOpen, onClose, onSubmit, booking }) => {
 		});
 		fetchBookingDetails();
 		fetchProvider();
+		fetchEmployees();
 	}, [booking]);
 
 	const handleSlotSelection = (day, timeSlot) => {
@@ -128,7 +144,7 @@ const UpdateBookingModal = ({ isOpen, onClose, onSubmit, booking }) => {
 										{t("select-employee")}
 									</p>
 									<EmployeeChooser
-										employees={provider.users}
+										employees={employees}
 										selectedEmployee={employeeSelected}
 										onEmployeeSelect={setEmployeeSelected}
 									/>

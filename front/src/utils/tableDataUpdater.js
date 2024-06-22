@@ -19,7 +19,7 @@ export const getValue = (row, col) => {
 		return formatDate(row[col]);
 	}
 
-	if (col === "totalAmount") {
+	if (col === "totalAmount" || col === "price") {
 		return formatPrice(row[col]);
 	}
 
@@ -33,6 +33,14 @@ export const getValue = (row, col) => {
 
 	if (col === "images") {
 		return row[col][0];
+	}
+
+	if (col === "duration") {
+		return row[col] + " min";
+	}
+
+	if (col === "service.name") {
+		return row[col];
 	}
 
 	if (col === "roles") {

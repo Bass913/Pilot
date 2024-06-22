@@ -15,6 +15,7 @@ use ApiPlatform\Metadata\GetCollection;
 #[ORM\Entity(repositoryClass: BookingRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['read-booking']],
+    order: ['startDate' => 'DESC'],
     operations: [
         new GetCollection(
             uriTemplate: '/bookings',
@@ -59,6 +60,10 @@ class Booking
     #[Groups(['read-booking'])]
     #[ORM\ManyToOne(inversedBy: 'employeeBookings')]
     private ?User $employee = null;
+
+    #[ORM\ManyToOne(inversedBy: 'bookings')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Company $company = null;
 
     public function getId(): ?Uuid
     {
@@ -121,6 +126,18 @@ class Booking
     public function setEmployee(?User $employee): static
     {
         $this->employee = $employee;
+
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): static
+    {
+        $this->company = $company;
 
         return $this;
     }

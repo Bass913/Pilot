@@ -101,7 +101,7 @@ function ReservationCard({ reservation, reviewCategories }) {
 			</div>
 			<div className="flex items-center gap-4 mt-4">
 				<p className="text-gray-800">
-					{reservation.companyService.service.name}
+					{t(reservation.companyService.service.name)}
 				</p>
 				<div className="rounded-full bg-gray-300 p-0.5"></div>
 				<p className="text-gray-700 font-light text-sm">

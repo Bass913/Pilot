@@ -20,7 +20,7 @@ class Schedule
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[Groups(['user:read:planning', 'read-company-planning'])]
+    #[Groups(['read-company-details', 'user:read:planning', 'read-company-planning'])]
     #[ORM\Column(length: 9)]
     private ?string $dayOfWeek = null;
 

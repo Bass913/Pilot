@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\RequestRepository;
 use ApiPlatform\Metadata\ApiResource;
-use App\State\RequestStateProcessor;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -15,7 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: RequestRepository::class)]
 #[Vich\Uploadable]
 #[ApiResource(
-    processor: RequestStateProcessor::class,
     normalizationContext: ['groups' => ['request:read']],
     denormalizationContext: ['groups' => ['request:write']],
     operations: [
