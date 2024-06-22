@@ -21,11 +21,25 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
         foreach ($users as $user) {
             for ($j = 0; $j < 3; $j++) { // Ajoute 3 rendez-vous par utilisateur
                 $booking = new Booking();
-                $booking->setCompanyService($companyServices[array_rand($companyServices)]);
+                $companyService = $companyServices[array_rand($companyServices)];
+                $booking->setCompanyService($companyService);
                 $booking->setClient($user);
-                $employee = $users[array_rand($users)];
+
+                $company = $companyService->getCompany();
+                $employeesInCompany = array_filter($users, function ($u) use ($company) {
+                    return $u->getCompany() === $company;
+                });
+
+                if (empty($employeesInCompany)) {
+                    continue;
+                }
+
+                $employee = $employeesInCompany[array_rand($employeesInCompany)];
                 $booking->setEmployee($employee);
-                $booking->setCompany($employee->getCompany());
+
+                //$employee = $users[array_rand($users)];
+                //$booking->setEmployee($employee);
+                $booking->setCompany($company);
                 $booking->setStatus("test");
                 // Randomly decide if the booking date should be in the upcoming week or in the past
                 $isUpcomingWeek = (bool) random_int(0, 1);

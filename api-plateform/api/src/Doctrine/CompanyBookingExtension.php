@@ -18,7 +18,7 @@ final class CompanyBookingExtension implements QueryCollectionExtensionInterface
         Operation $operation = null,
         array $context = []
     ): void {
-        $this->addFilterConditions($queryBuilder, $resourceClass, $context);
+        //$this->addFilterConditions($queryBuilder, $resourceClass, $context);
     }
 
     public function applyToItem(
@@ -29,7 +29,7 @@ final class CompanyBookingExtension implements QueryCollectionExtensionInterface
         Operation $operation = null,
         array $context = []
     ): void {
-        $this->addFilterConditions($queryBuilder, $resourceClass, $context);
+        //$this->addFilterConditions($queryBuilder, $resourceClass, $context);
     }
 
     private function addFilterConditions(QueryBuilder $queryBuilder, string $resourceClass, array $context): void

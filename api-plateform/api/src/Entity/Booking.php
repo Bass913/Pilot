@@ -25,10 +25,9 @@ use ApiPlatform\Metadata\GetCollection;
         new GetCollection(
             uriTemplate: '/companies/{id}/bookings',
             uriVariables: [
-                'id' => new Link(fromClass: CompanyService::class, fromProperty: 'company')
+                'id' => new Link(fromClass: Company::class, fromProperty: 'bookings')
             ],
-            normalizationContext: ['groups' => ['read-booking']],
-            filters: ['booking.search']
+            normalizationContext: ['groups' => ['read-booking']]
         ),
         new Post(),
     ]
