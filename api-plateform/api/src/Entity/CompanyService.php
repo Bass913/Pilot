@@ -30,12 +30,18 @@ use Symfony\Component\Uid\Uuid;
         ),
         new GetCollection(),
         new Get(),
-        new Post(),
+        new Post(
+            security: "is_granted('ROLE_ADMIN')",
+            securityMessage: 'Only admins can add books.'
+
+        ),
         new Put(),
         new Patch(),
         new Delete()
     ],
-    normalizationContext: ['groups' => ['read-company-service']]
+    normalizationContext: ['groups' => ['read-company-service']],
+    security: "is_granted('ROLE_USER')",
+
 )]
 class CompanyService
 {

@@ -38,7 +38,6 @@ final class CompanySearch extends AbstractFilter
             return;
         }*/
 
-
         $alias = $queryBuilder->getRootAliases()[0];
 
         if ($property === 'search') {
@@ -50,16 +49,20 @@ final class CompanySearch extends AbstractFilter
                 ->leftJoin('companyService.service', 'service')
                 ->andWhere($queryBuilder->expr()->orX(
                     $queryBuilder->expr()->like("LOWER($alias.name)", ':search'),
-                    $queryBuilder->expr()->like("LOWER($alias.address)", ':search'),
                     $queryBuilder->expr()->like("LOWER(speciality.name)", ':search'),
                     $queryBuilder->expr()->like("LOWER(service.name)", ':search')
                 ))
                 ->setParameter('search', "%$lowerValue%");
         }
+        if ($property === 'city') {
+            $lowerValue = strtolower($value);
 
-        /*if ($property === 'address') {
+            $queryBuilder
+                ->andWhere($queryBuilder->expr()->like("LOWER($alias.city)", ':city'))
+                ->setParameter('city', "%$lowerValue%");
+        }
 
-        }*/
+
     }
 
 
@@ -75,11 +78,11 @@ final class CompanySearch extends AbstractFilter
                     'description' => 'Filter by a search term in name, speciality name, or service name',
                 ],
             ],
-            'address' => [
-                'property' => 'address',
+            'city' => [
+                'property' => 'city',
                 'type' => Type::BUILTIN_TYPE_STRING,
                 'required' => false,
-                'swagger' => ['description' => 'Filter by address.']
+                'swagger' => ['description' => 'Filter by city.']
             ]
         ];
     }
