@@ -36,27 +36,15 @@ jobs:
           push: true
           tags: bass913/challenge-pilot:latest
 
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   needs: build
+      # Configurer SSH pour se connecter au Droplet DigitalOcean
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
 
-  #   steps:
-  #     # Récupère le code source du repository
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-
-  #     # Installe la clé SSH pour se connecter au serveur distant
-  #     - name: Install SSH key
-  #       uses: webfactory/ssh-agent@v0.9.0
-  #       with:
-  #         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-  #     # Déploie l'image Docker sur DigitalOcean
-  #     - name: Deploy to DigitalOcean
-  #       env:
-  #         DOCKER_HOST: ssh://root@your-droplet-ip
-  #       run: |
-  #         docker pull your-docker-username/your-repo-name:latest
-  #         docker stop your-container-name || true
-  #         docker rm your-container-name || true
-  #         docker run -d --name your-container-name -p 80:80 your-docker-username/your-repo-name:latest
+      # Déployer sur le Droplet DigitalOcean
+      - name: Deploy to DigitalOcean Droplet
+        run: |
+          ssh -o StrictHostKeyChecking=no root@143.244.189.241 << 'EOF'
+          docker pull bass913/challenge-pilot:latest
+          EOF
