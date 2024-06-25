@@ -23,8 +23,7 @@ jobs:
       # Copier les fichiers vers le serveur distant
       - name: Copy files to server
         run: |
-          scp -o StrictHostKeyChecking=no -r ./ root@143.244.189.241:/root/pilot
-
+          scp -o StrictHostKeyChecking=no -r ./* root@143.244.189.241:/root/pilot
       # Déployer sur le Droplet DigitalOcean
       - name: Deploy to DigitalOcean Droplet
         run: |
