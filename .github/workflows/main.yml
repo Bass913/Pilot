@@ -26,12 +26,12 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       # Build et push l'image Docker
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: ./api-platform/api
-          push: true
-          tags: bass913/challenge-pilot:latest
+      - name: Build and push
+          uses: docker/bake-action@v5
+          with:
+            context: './api-platform/api'
+            push: true
+            tags: bass913/challenge-pilot:latest
 
   # deploy:
   #   runs-on: ubuntu-latest
