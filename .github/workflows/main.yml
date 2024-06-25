@@ -42,8 +42,9 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
 
-      # # Déployer sur le Droplet DigitalOcean
-      # - name: Deploy to DigitalOcean Droplet
-      #   run: |
-      #     ssh -o StrictHostKeyChecking=no root@143.244.189.241 << 'EOF'
-      #     EOF
+      # Déployer sur le Droplet DigitalOcean
+      - name: Deploy to DigitalOcean Droplet
+        run: |
+          ssh -o StrictHostKeyChecking=no root@143.244.189.241 << 'EOF'
+          docker pull bass913/challenge-pilot:latest
+          EOF
