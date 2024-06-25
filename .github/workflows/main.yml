@@ -29,9 +29,8 @@ jobs:
       - name: Build and push
         uses: docker/bake-action@v5
         with:
-          context: './api-platform/api'
+          source: './api-platform/api'
           push: true
-          tags: bass913/challenge-pilot:latest
 
   # deploy:
   #   runs-on: ubuntu-latest
