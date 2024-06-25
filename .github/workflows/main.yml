@@ -10,6 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Récupère le code source du repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+    -   name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
       # Configure Docker Buildx pour le build multi-plateforme
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -23,10 +30,11 @@ jobs:
 
       # Build et push l'image Docker
       - name: Build and push
-        uses: docker/bake-action@v5
+        uses: docker/build-push-action@v4
         with:
-          source: "${{ github.server_url }}/${{ github.repository }}.git#${{ github.ref }}"
+          context: ./api-platform/api
           push: true
+          tags: bass913/challenge-pilot:latest
 
   # deploy:
   #   runs-on: ubuntu-latest
