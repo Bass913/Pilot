@@ -17,8 +17,8 @@ services:
       MERCURE_PUBLIC_URL: https://${SERVER_NAME:-localhost}/.well-known/mercure
       MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
     volumes:
-      - ./api-plateform/caddy_data:/data
-      - ./api-plateform/caddy_config:/config
+      - ./api-platform/caddy_data:/data
+      - ./api-platform/caddy_config:/config
     ports:
       # HTTP
       - target: 80
@@ -67,7 +67,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-!ChangeMe!}
       - POSTGRES_USER=${POSTGRES_USER:-app}
     volumes:
-      - ./api-plateform/db_data:/var/lib/postgresql/data
+      - ./api-platform/db_data:/var/lib/postgresql/data
       # you may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./api/docker/db/data:/var/lib/postgresql/data
 ###< doctrine/doctrine-bundle ###

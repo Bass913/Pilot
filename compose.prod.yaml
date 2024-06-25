@@ -2,7 +2,7 @@
 services:
   php:
     build:
-      context: ./api-plateform/api
+      context: ./api-platform/api
       target: frankenphp_prod
     environment:
       APP_SECRET: ${APP_SECRET}
@@ -11,7 +11,7 @@ services:
 
   pwa:
     build:
-      context: ./api-plateform/pwa
+      context: ./api-platform/pwa
       target: prod
 
   database:
