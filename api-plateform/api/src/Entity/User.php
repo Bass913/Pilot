@@ -38,7 +38,6 @@ use Symfony\Component\Uid\Uuid;
         new Get(
             uriTemplate: '/me',
             normalizationContext: ['groups' => ['user:read']],
-            security: "is_granted('ROLE_USER')",
             name: '_api_/me_get'
         ),
         new GetCollection(
