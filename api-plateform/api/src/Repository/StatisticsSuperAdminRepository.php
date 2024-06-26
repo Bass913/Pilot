@@ -14,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Statistics[]    findAll()
  * @method Statistics[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class StatisticsRepository extends ServiceEntityRepository
+class StatisticsSuperAdminRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -23,7 +23,7 @@ class StatisticsRepository extends ServiceEntityRepository
 
     public function getStatistics(): Statistics
     {
-        $totalReservations = $this->getTodaysReservations();
+        $totalReservations = $this->getTotalReservations();
         $totalClients = $this->getTotalClients();
         $todaysReservations = $this->getTodaysReservations();
         $weeklyReservations = $this->getWeeklyReservations();
@@ -102,7 +102,7 @@ class StatisticsRepository extends ServiceEntityRepository
             FROM App\Entity\Booking b 
             WHERE b.status = :status
         ')
-            ->setParameter('status', 'Active')
+            ->setParameter('status', 'pending')
             ->getSingleScalarResult();
     }
 
@@ -113,7 +113,7 @@ class StatisticsRepository extends ServiceEntityRepository
         FROM App\Entity\Booking b 
         WHERE b.status = :status
     ')
-            ->setParameter('status', 'Annulée')
+            ->setParameter('status', 'cancelled')
             ->getSingleScalarResult();
     }
 

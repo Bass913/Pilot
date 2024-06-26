@@ -4,18 +4,25 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
-use App\Repository\StatisticsRepository;
+use App\Repository\StatisticsSuperAdminRepository;
+use App\Controller\StatisticsSuperAdminController;
 use App\Controller\StatisticsAdminController;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: StatisticsRepository::class)]
+#[ORM\Entity(repositoryClass: StatisticsSuperAdminRepository::class)]
 #[ApiResource(
     operations: [
         new Get(
-            uriTemplate: '/stats/admin',
+            uriTemplate: '/stats/super_admin',
+            controller: StatisticsSuperAdminController::class,
+            read: false
+        ),
+        new Get(
+            uriTemplate: '/stats/admin/{id}',
             controller: StatisticsAdminController::class,
             read: false
         )
+
     ]
 )]
 class Statistics
