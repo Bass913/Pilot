@@ -27,8 +27,8 @@ jobs:
       - name: Deploy to DigitalOcean Droplet
         run: |
           ssh -o StrictHostKeyChecking=no root@143.244.189.241 << 'EOF'
-          cd /var/www/html
-          docker compose -f compose.yaml -f compose.prod.yaml down
+          cd /var/www/html/api-platform
+          docker compose down
           SERVER_NAME=challenge.pilot.us.to \
           APP_SECRET=ChangeMe \
           POSTGRES_PASSWORD=ChangeMe \
