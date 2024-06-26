@@ -29,6 +29,13 @@ use Symfony\Component\Uid\Uuid;
             uriTemplate: '/users/{id}/bookings',
             normalizationContext: ['groups' => ['user:read:booking']]
         ),
+        new Get(
+            uriTemplate: '/users/{id}/companies',
+            normalizationContext: ['groups' => ['user:read:company']]
+        ),
+        new Get(
+            uriTemplate: '/users/{id}/companies/employees',
+        ),
         new GetCollection(
             uriTemplate: '/companies/{id}/employees',
             uriVariables: [
@@ -113,6 +120,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Schedule::class)]
     private Collection $schedules;
 
+    #[Groups(['user:read:company'])]
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Company $company = null;
 

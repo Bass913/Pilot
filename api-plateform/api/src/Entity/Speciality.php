@@ -22,7 +22,7 @@ class Speciality
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     private ?Uuid $id = null;
 
-    #[Groups(['read-company-details', 'read-company'])]
+    #[Groups(['read-company-details', 'read-company', 'user:read:company'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
