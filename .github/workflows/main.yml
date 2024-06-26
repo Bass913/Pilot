@@ -19,16 +19,16 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
-
       # Copier les fichiers vers le serveur distant
       - name: Copy files to server
         run: |
-          scp -o StrictHostKeyChecking=no -r ./* root@143.244.189.241:/root/pilot
+          scp -o StrictHostKeyChecking=no -r ./* root@143.244.189.241:/var/www/html
       # Déployer sur le Droplet DigitalOcean
       - name: Deploy to DigitalOcean Droplet
         run: |
           ssh -o StrictHostKeyChecking=no root@143.244.189.241 << 'EOF'
-          cd /root/pilot/api-platform
+          cd /var/www/html
+          docker compose -f compose.yaml -f compose.prod.yaml down
           SERVER_NAME=challenge.pilot.us.to \
           APP_SECRET=ChangeMe \
           POSTGRES_PASSWORD=ChangeMe \
