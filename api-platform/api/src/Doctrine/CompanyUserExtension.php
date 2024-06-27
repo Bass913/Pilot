@@ -20,10 +20,10 @@ final class CompanyUserExtension implements QueryCollectionExtensionInterface
     }
     public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, Operation $operation = null, array $context = []): void
     {
-        var_dump($this->security->isGranted("ROLE_ADMIN"));
+        /*var_dump($this->security->isGranted("ROLE_ADMIN"));
         var_dump($this->security->getUser()->getUserIdentifier());
 
-        die();
+        die();*/
         if($resourceClass !== User::class ){
             return;
         }
