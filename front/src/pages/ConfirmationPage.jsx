@@ -8,6 +8,7 @@ import apiService from "../services/apiService";
 import { useEffect, useState } from "react";
 import { formatPrice } from "../utils/priceFormatter";
 import { useTranslation } from "react-i18next";
+import { getISODateFromSlot } from "../utils/dateFormatter";
 
 function Reservation() {
 	const { id } = useParams();
@@ -31,16 +32,13 @@ function Reservation() {
 	const { serviceSelected, timeSlotSelected, employeeSelected } = useUser();
 
 	const handleReservation = async () => {
-		const dateTimeString = `${timeSlotSelected.day}T${timeSlotSelected.timeSlot}:00`;
-		// const startDate = new Date(dateTimeString);
-
 		const bookingData = {
-			startDate: dateTimeString,
+			startDate: getISODateFromSlot(timeSlotSelected),
 			companyService: serviceSelected["@id"],
 			client: `/users/${user.id}`,
 			status: "pending",
 			employee: employeeSelected["@id"],
-			company: provider["@id"], 
+			company: provider["@id"],
 		};
 
 		try {
