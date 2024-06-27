@@ -30,7 +30,7 @@ services:
         protocol: tcp
       # HTTP/3
       - target: 443
-        published: ${HTTP3_PORT:-3002}
+        published: ${HTTP3_PORT:-3000}
         protocol: udp
 
   pwa:
