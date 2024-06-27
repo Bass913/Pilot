@@ -116,8 +116,8 @@ function ProviderDetail() {
 									</div>
 								</div>
 
-								<div className="w-full lg:w-132">
-									<div className="w-full lg:w-132 mb-10">
+								<div className="w-full ">
+									<div className="w-full mb-10">
 										<h4 className="text-lg font-medium text-gray-800 mb-4">
 											{t("opening-hours")}
 										</h4>
@@ -126,7 +126,7 @@ function ProviderDetail() {
 										/>
 									</div>
 
-									<div className="w-full lg:w-132 mb-10">
+									<div className="w-full mb-10">
 										<h4 className="text-lg font-medium text-gray-800 mb-4">
 											{t("similar-services")}
 										</h4>
