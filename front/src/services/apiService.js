@@ -46,8 +46,8 @@ const apiService = {
 	},
 
 	// Services
-	getServices({ page = 1 }) {
-		return apiClient.get(`/services?page=${page}`);
+	getServices({ pagination = true, page = 1 }) {
+		return apiClient.get(`/services?page=${page}&pagination=${pagination}`);
 	},
 	getCompanyServices({ companyId, page = 1 }) {
 		return apiClient.get(`/companies/${companyId}/services?page=${page}`);
