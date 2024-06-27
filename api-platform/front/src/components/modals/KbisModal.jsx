@@ -17,7 +17,7 @@ function KbisModal({ isOpen, onClose, selectedRequest, onAccept, onDecline }) {
                     </h2>
                     {selectedRequest && (
                         <iframe
-                            src={`${import.meta.env.VITE_API_URL}/uploads/kbis/${selectedRequest.kbis}`}
+                            src={`${import.meta.env.VITE_API_URL}uploads/kbis/${selectedRequest.kbis}`}
                             title="Document Viewer"
                             className="w-full h-96 border border-gray-200"
                             allowFullScreen={true}
