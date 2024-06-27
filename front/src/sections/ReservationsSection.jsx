@@ -4,6 +4,7 @@ import apiService from "../services/apiService";
 import { useTranslation } from "react-i18next";
 import { useUser } from "../hooks/useUser";
 import Loader from "../components/Loader";
+import { getISODateFromDate } from "../utils/dateFormatter";
 
 function ReservationsSection() {
 	const { t } = useTranslation();
@@ -39,12 +40,14 @@ function ReservationsSection() {
 	useEffect(() => {
 		setPastReservations(
 			reservations.filter(
-				(reservation) => new Date(reservation.startDate) < now
+				(reservation) =>
+					new Date(getISODateFromDate(reservation.startDate)) < now
 			)
 		);
 		setFutureReservations(
 			reservations.filter(
-				(reservation) => new Date(reservation.startDate) >= now
+				(reservation) =>
+					new Date(getISODateFromDate(reservation.startDate)) >= now
 			)
 		);
 	}, [reservations]);

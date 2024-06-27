@@ -36,8 +36,6 @@ function Reservation() {
 		try {
 			const response = await apiService.getCompany(id);
 			setProvider(response.data);
-			// setEmployees(response.data.users || []);
-			// console.log("Provider fetched:", response.data);
 		} catch (error) {
 			console.error("Error while fetching provider:", error);
 		}
@@ -47,8 +45,6 @@ function Reservation() {
 		try {
 			const response = await apiService.getCompanyEmployeesSchedule(id);
 			setEmployees(response.data["hydra:member"]);
-			// console.log("Employees fetched:", response.data);
-			// console.log("Employees fetched:", response.data);
 		} catch (error) {
 			console.error("Error while fetching employees:", error);
 		}
@@ -94,7 +90,7 @@ function Reservation() {
 				serviceSelected.duration
 			)
 		: [];
-	// console.log("Days with time slots:", daysWithTimeSlots);
+
 	const timeSlotsWithAvailability = getTimeSlotsWithAvailability(
 		daysWithTimeSlots,
 		employeeSelected?.unavailabilities,

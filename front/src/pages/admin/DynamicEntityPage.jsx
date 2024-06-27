@@ -33,6 +33,9 @@ function DynamicEntityPage({ model }) {
 						page,
 					});
 					break;
+				case "companyProvider":
+					response = await apiService.getAdminCompanies(user.id);
+					break;
 				case "user":
 					response = await apiService.getUsers({ page });
 					break;

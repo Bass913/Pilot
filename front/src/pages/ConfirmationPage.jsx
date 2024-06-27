@@ -40,6 +40,7 @@ function Reservation() {
 			client: `/users/${user.id}`,
 			status: "pending",
 			employee: employeeSelected["@id"],
+			company: provider["@id"], 
 		};
 
 		try {
@@ -48,7 +49,6 @@ function Reservation() {
 					"Content-Type": "application/ld+json",
 				},
 			});
-			console.log("Booking created successfully:", response);
 		} catch (error) {
 			console.error("Error creating booking:", error);
 		}

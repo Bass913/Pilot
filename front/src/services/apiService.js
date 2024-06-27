@@ -41,6 +41,9 @@ const apiService = {
 	getCompany(id) {
 		return apiClient.get(`/companies/${id}`);
 	},
+	getAdminCompanies(id) {
+		return apiClient.get(`/users/${id}/companies`);
+	},
 
 	// Services
 	getServices({ page = 1 }) {
@@ -118,6 +121,14 @@ const apiService = {
 	// Schedule
 	getCompanyEmployeesSchedule(companyId) {
 		return apiClient.get(`/companies/${companyId}/employees/planning`);
+	},
+
+	// Statistics
+	getSuperAdminStatistics() {
+		return apiClient.get("/stats/super_admin");
+	},
+	getAdminStatistics(id) {
+		return apiClient.get(`/stats/admin/${id}`);
 	},
 };
 

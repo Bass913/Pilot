@@ -21,7 +21,6 @@ const UpdateBookingModal = ({ isOpen, onClose, onSubmit, booking }) => {
 	const [loading, setLoading] = useState(true);
 	const [bookingDetails, setBookingDetails] = useState(null);
 	const [employees, setEmployees] = useState([]);
-	console.log("booking", booking);
 	const companyId = booking
 		? booking.companyService.company["@id"].split("/").pop()
 		: null;
