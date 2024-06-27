@@ -95,11 +95,13 @@ function getTimeSlotsFromSchedule(days, schedules, serviceDuration = 30) {
 	return timeSlots;
 }
 
-function getTimeSlotsWithAvailability(
+function getTimeSlotsWithAvailability({
 	timeSlots,
-	unavailabilities = [],
-	employeeSchedules = []
-) {
+	employeeUnavailabilities = [],
+	companyUnavailabilities = [],
+	employeeSchedules = [],
+	bookings = [],
+}) {
 	const timeSlotsWithAvailability = {};
 
 	Object.keys(timeSlots).forEach((day) => {
@@ -110,7 +112,34 @@ function getTimeSlotsWithAvailability(
 			available: true,
 		}));
 
-		unavailabilities.forEach((unavailability) => {
+		companyUnavailabilities.forEach((unavailability) => {
+			const dayDate = new Date(day);
+			const unavailabilityStart = unavailability.startDate;
+			const unavailabilityEnd = unavailability.endDate;
+			const unavailabilityStartDate = new Date(unavailabilityStart);
+			const unavailabilityEndDate = new Date(unavailabilityEnd);
+			if (
+				dayDate.getDate() >= unavailabilityStartDate.getDate() &&
+				dayDate.getDate() <= unavailabilityEndDate.getDate()
+			) {
+				timeSlotsWithAvailability[day].forEach((timeSlot) => {
+					const dayDate = getDateFromSlotTime(day, timeSlot.time);
+					dayDate.setHours(dayDate.getHours() + 2);
+					if (
+						dayDate >= unavailabilityStartDate &&
+						dayDate <= unavailabilityEndDate
+					) {
+						// remove timeSlot
+						timeSlotsWithAvailability[day] =
+							timeSlotsWithAvailability[day].filter(
+								(slot) => slot.time !== timeSlot.time
+							);
+					}
+				});
+			}
+		});
+
+		employeeUnavailabilities.forEach((unavailability) => {
 			const dayDate = new Date(day);
 			const unavailabilityStart = unavailability.startDate;
 			const unavailabilityEnd = unavailability.endDate;
@@ -150,6 +179,19 @@ function getTimeSlotsWithAvailability(
 						dayDate >= scheduleStartDate &&
 						dayDate <= scheduleEndDate
 					) {
+						timeSlot.available = false;
+					}
+				});
+			}
+		});
+
+		bookings.forEach((booking) => {
+			const bookingDate = new Date(booking.startDate);
+			const bookingDay = bookingDate.toISOString().substring(0, 10);
+			if (day === bookingDay) {
+				const bookingTime = bookingDate.toISOString().substring(11, 16);
+				timeSlotsWithAvailability[day].forEach((timeSlot) => {
+					if (timeSlot.time === bookingTime) {
 						timeSlot.available = false;
 					}
 				});

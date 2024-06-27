@@ -68,8 +68,10 @@ const apiService = {
 	getBookings({ page = 1 }) {
 		return apiClient.get(`/bookings?page=${page}`);
 	},
-	getCompanyBookings({ companyId, page = 1 }) {
-		return apiClient.get(`/companies/${companyId}/bookings?page=${page}`);
+	getCompanyBookings({ companyId, page = 1, pagination = true }) {
+		return apiClient.get(
+			`/companies/${companyId}/bookings?page=${page}&pagination=${pagination}`
+		);
 	},
 	getBooking(id) {
 		return apiClient.get(`/bookings/${id}`);
