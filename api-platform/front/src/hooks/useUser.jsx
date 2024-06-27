@@ -84,7 +84,7 @@ export const UserProvider = ({ children }) => {
     }, [sidebarLarge]);
 
     const login = async (email, password) => {
-        return fetch(`${import.meta.env.VITE_API_URL}/api/login_check`, {
+        return fetch(`${import.meta.env.VITE_API_URL}api/login_check`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
