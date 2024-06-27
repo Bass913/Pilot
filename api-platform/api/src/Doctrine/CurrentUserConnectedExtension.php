@@ -44,7 +44,7 @@ class CurrentUserConnectedExtension implements QueryCollectionExtensionInterface
         ?Operation $operation = null,
         array $context = []
     ): void {
-        if ($operation && $operation->getName() === '_api_/me_get') {
+        if ($operation && $operation->getName() === '_api_/api/me_get') {
             $this->addWhere($queryBuilder, $resourceClass);
         }
     }
@@ -57,7 +57,7 @@ class CurrentUserConnectedExtension implements QueryCollectionExtensionInterface
         ?Operation $operation = null,
         array $context = []
     ): void {
-        if ($operation && $operation->getName() === '_api_/me_get') {
+        if ($operation && $operation->getName() === '_api_/api/me_get') {
             $this->addWhere($queryBuilder, $resourceClass);
         }
     }

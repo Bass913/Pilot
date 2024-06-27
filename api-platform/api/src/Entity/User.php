@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use App\Doctrine\CurrentUserConnectedExtension;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -31,7 +32,6 @@ use Symfony\Component\Uid\Uuid;
         ),
         new Get(
             uriTemplate: '/api/me',
-            provider: CurrentUserDataProvider::class,
             normalizationContext: ['groups' => ['user:read:login']],
         ),
         new Get(
@@ -43,11 +43,6 @@ use Symfony\Component\Uid\Uuid;
             uriVariables: [
                 'id' => new Link(fromProperty: 'users', fromClass: Company::class)
             ],
-        ),
-        new Get(
-            uriTemplate: '/me',
-            normalizationContext: ['groups' => ['user:read']],
-            name: '_api_/me_get'
         ),
         new GetCollection(
             uriTemplate: '/companies/{id}/employees/planning',

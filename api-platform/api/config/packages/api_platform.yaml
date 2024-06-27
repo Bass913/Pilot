@@ -22,11 +22,6 @@ api_platform:
     collection:
         pagination:
             enabled_parameter_name: pagination
-    swagger:
-        api_keys:
-            JWT:
-                name: Authorization
-                type: header
 
     event_listeners_backward_compatibility_layer: true
     keep_legacy_inflector: false
