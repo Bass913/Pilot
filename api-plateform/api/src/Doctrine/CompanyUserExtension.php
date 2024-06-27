@@ -9,11 +9,21 @@ use Doctrine\ORM\QueryBuilder;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\Query\Expr;
+use Symfony\Bundle\SecurityBundle\Security;
 
 final class CompanyUserExtension implements QueryCollectionExtensionInterface
 {
+    public function __construct(
+        private Security $security,
+    )
+    {
+    }
     public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, Operation $operation = null, array $context = []): void
     {
+        var_dump($this->security->isGranted("ROLE_ADMIN"));
+        var_dump($this->security->getUser()->getUserIdentifier());
+
+        die();
         if($resourceClass !== User::class ){
             return;
         }

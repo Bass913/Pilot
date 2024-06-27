@@ -5,7 +5,7 @@ lexik_jwt_authentication:
     token_ttl: 3600
     # authentication_success_handler: App\EventListener\AuthenticationSuccessListener
 
-    # api_platform:
-    #     check_path: /api/login_check
-    #     username_path: email
-    #     password_path: security.credentials.password
+    api_platform:
+        check_path: /api/login_check
+        username_path: email
+        password_path: password

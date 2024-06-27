@@ -31,13 +31,12 @@ use Symfony\Component\Uid\Uuid;
             normalizationContext: ['groups' => ['user:read:booking']]
         ),
         new Get(
-            uriTemplate: '/me',
+            uriTemplate: '/api/me',
             provider: CurrentUserDataProvider::class,
-            normalizationContext: ['groups' => ['user:read']],
-            security: "is_granted('ROLE_USER')"
+            normalizationContext: ['groups' => ['user:read:login']],
         ),
         new GetCollection(
-            uriTemplate: '/companies/{id}/employees',
+            uriTemplate: '/api/companies/{id}/employees',
             uriVariables: [
                 'id' => new Link(fromProperty: 'users', fromClass: Company::class)
             ],
@@ -72,16 +71,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read','user:read:login' ])]
     private ?Uuid $id;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'user:read:planning', 'read-review', 'read-booking'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'user:read:planning', 'read-review', 'read-booking', 'user:read:login'])]
     #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:register', 'user:read', 'user:create', 'user:update',  'user:read:planning', 'read-review', 'read-booking'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update',  'user:read:planning', 'read-review', 'read-booking', 'user:read:login'])]
     #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
     private ?string $lastname = null;
 
@@ -95,7 +94,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string[]
      */
     #[ORM\Column]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'user:read:login'])]
     private array $roles = [];
 
     /**
@@ -115,6 +114,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Schedule::class)]
     private Collection $schedules;
 
+    #[Groups(['user:read:login'])]
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Company $company = null;
 
