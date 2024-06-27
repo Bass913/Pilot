@@ -17,8 +17,8 @@ services:
       MERCURE_PUBLIC_URL: https://${SERVER_NAME:-localhost}/.well-known/mercure
       MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
     volumes:
-      - ./api-plateform/caddy_data:/data
-      - ./api-plateform/caddy_config:/config
+      - ./caddy_data:/data
+      - ./caddy_config:/config
     ports:
       # HTTP
       - target: 80
