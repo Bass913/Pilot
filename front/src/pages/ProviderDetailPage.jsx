@@ -135,9 +135,9 @@ function ProviderDetail() {
 												(service, index) => (
 													<NavLink
 														to={`/companies?search=${service.name}`}
+														key={service.id}
 													>
 														<div
-															key={service.id}
 															className={`flex items-center justify-between py-4 mx-5 cursor-pointer hover:text-primary-600
 															${index !== similarServices.length - 1 && "border-b border-gray-200"}
 															${index === 0 && "pt-0"}

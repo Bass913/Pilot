@@ -1,14 +1,10 @@
 import { StarIcon } from "@heroicons/react/24/solid";
 import { StarIcon as StarIconOutline } from "@heroicons/react/24/outline";
 import { useTranslation } from "react-i18next";
+import { getFormattedDateFromISO } from "../utils/dateFormatter";
 
 function CompanyReviews({ reviewRating, reviews }) {
 	const { t } = useTranslation();
-
-	function formatDate(date) {
-		const [year, month, day] = date.split("-");
-		return `${day}/${month}/${year}`;
-	}
 
 	function formatRatingValue(value) {
 		return value.toString().replace(".", ",");
@@ -33,7 +29,7 @@ function CompanyReviews({ reviewRating, reviews }) {
 							{review.comment}
 						</p>
 						<p className="text-gray-800 font-light text-sm">
-							{formatDate(review.date)}
+							{getFormattedDateFromISO(review.date)}
 						</p>
 					</div>
 					<div className="hidden md:block">
