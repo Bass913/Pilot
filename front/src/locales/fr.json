@@ -159,5 +159,7 @@
     "distincts-clients-per-week": "Clients distincts par semaine",
     "distincts-services": "Services distincts",
     "similar-services": "Services similaires",
-    "dashboard": "Tableau de bord"
+    "dashboard": "Tableau de bord",
+    "confirm-booking": "Confirmer la réservation",
+    "with": "avec"
 }

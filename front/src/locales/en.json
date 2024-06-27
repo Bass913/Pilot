@@ -159,5 +159,7 @@
     "distincts-clients-per-week": "Distinct clients per week",
     "distincts-services": "Distinct services",
     "similar-services": "Similar services",
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "confirm-booking": "Confirm booking",
+    "with": "with"
 }

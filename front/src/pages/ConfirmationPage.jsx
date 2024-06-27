@@ -47,6 +47,7 @@ function Reservation() {
 					"Content-Type": "application/ld+json",
 				},
 			});
+			window.location.href = "/profile";
 		} catch (error) {
 			console.error("Error creating booking:", error);
 		}
@@ -72,7 +73,7 @@ function Reservation() {
 									<span className="font-medium text-primary-600">
 										1.
 									</span>{" "}
-									Votre prestation
+									{t("your-service")}
 								</h2>
 								<div className="mt-2 bg-white p-6 rounded-lg shadow-md lg:p-8 flex items-center justify-between">
 									<div className="flex items-center gap-4">
@@ -86,7 +87,7 @@ function Reservation() {
 									</div>
 									<NavLink to={`/companies/${id}`}>
 										<button className="text-primary-600 font-normal underline hover:text-primary-800 text-sm">
-											Modifier
+											{t("edit")}
 										</button>
 									</NavLink>
 								</div>
@@ -97,7 +98,7 @@ function Reservation() {
 									<span className="font-medium text-primary-600">
 										2.
 									</span>{" "}
-									Votre horaire
+									{t("your-time-slot-choice")}
 								</h2>
 								<div className="mt-2 bg-white p-6 rounded-lg shadow-md lg:p-8 flex items-center justify-between">
 									<div className="flex items-center gap-4">
@@ -108,13 +109,14 @@ function Reservation() {
 										</p>
 										<div className="rounded-full bg-gray-300 p-0.5"></div>
 										<p className="text-gray-700 font-light text-sm">
-											à {timeSlotSelected?.timeSlot}
+											{t("to")}{" "}
+											{timeSlotSelected?.timeSlot}
 										</p>
 										{employeeSelected && (
 											<div className="flex items-center gap-4">
 												<div className="rounded-full bg-gray-300 p-0.5"></div>
 												<p className="text-gray-800 font-light text-sm">
-													avec
+													{t("with")}
 													<span className="font-medium ml-1">
 														{`${employeeSelected?.firstname} ${employeeSelected?.lastname}`}
 													</span>
@@ -126,21 +128,21 @@ function Reservation() {
 										to={`/companies/${id}/reservation`}
 									>
 										<button className="text-primary-600 font-normal underline hover:text-primary-800 text-sm">
-											Modifier
+											{t("edit")}
 										</button>
 									</NavLink>
 								</div>
 							</div>
 
 							<small className="text-gray-600 mt-2 font-light">
-								Le paiement se fait sur place
+								{t("payment-in-place")}
 							</small>
 							<div className="mt-10">
 								<button
 									className="bg-primary-900 text-white px-6 py-3 rounded-md shadow-md hover:bg-primary-800 w-full"
 									onClick={handleReservation}
 								>
-									Confirmer la réservation
+									{t("confirm-booking")}
 								</button>
 							</div>
 						</div>
