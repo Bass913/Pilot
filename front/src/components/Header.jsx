@@ -50,7 +50,7 @@ export default function Header({ user }) {
 							{user.roles.includes("ROLE_ADMIN") && (
 								<NavLink to="/admin">
 									<Button className="bg-gray-200 hover:bg-gray-300 p-4 rounded text-sm flex items-center gap-2 text-gray-800">
-										{t("admin")}
+										{t("dashboard")}
 									</Button>
 								</NavLink>
 							)}

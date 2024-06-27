@@ -156,6 +156,7 @@ function ReservationCard({ reservation, reviewCategories }) {
 					onClose={handleCloseAlert}
 					message="cancel-appointment-confirmation"
 					type="cancel-appointment"
+					bookingId={reservation["@id"].split("/").pop()}
 				/>
 			)}
 		</div>

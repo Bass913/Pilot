@@ -83,6 +83,9 @@ const apiService = {
 	createBooking(booking, config) {
 		return apiClient.post("/bookings", booking, config);
 	},
+	removeBooking(bookingId) {
+		return apiClient.delete(`/bookings/${bookingId}`);
+	},
 
 	// Specialities
 	getSpecialities() {
