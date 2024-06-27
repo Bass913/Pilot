@@ -148,5 +148,18 @@
     "review-price": "Price",
     "review-time": "Duration",
     "review-welcome": "Welcome",
-    "duration": "Duration"
+    "duration": "Duration",
+    "total-reservations": "Total reservations",
+    "total-clients": "Total clients",
+    "today-reservations": "Today's reservations",
+    "weekly-reservations": "Weekly reservations",
+    "monthly-reservations": "Monthly reservations",
+    "active-reservations": "Active reservations",
+    "cancelled-reservations": "Cancelled reservations",
+    "distincts-clients-per-week": "Distinct clients per week",
+    "distincts-services": "Distinct services",
+    "similar-services": "Similar services",
+    "dashboard": "Dashboard",
+    "confirm-booking": "Confirm booking",
+    "with": "with"
 }

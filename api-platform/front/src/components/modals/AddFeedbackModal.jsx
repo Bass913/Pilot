@@ -8,7 +8,6 @@ const AddFeedbackModal = ({
 	company,
 	reviewCategories,
 }) => {
-	console.log("company", company);
 	const { t } = useTranslation();
 	const [feedback, setFeedback] = useState("");
 	const [ratings, setRatings] = useState({});

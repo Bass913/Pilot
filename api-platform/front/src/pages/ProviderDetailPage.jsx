@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import DefaultLayout from "../layouts/DefaultLayout";
 import Loader from "../components/Loader";
 import ImagesGallery from "../components/ImagesGallery";
@@ -14,6 +14,8 @@ function ProviderDetail() {
 	const { t } = useTranslation();
 	const { id } = useParams();
 	const [provider, setProvider] = useState(null);
+	const [services, setServices] = useState([]);
+	const [similarServices, setSimilarServices] = useState([]);
 
 	const fetchProvider = async () => {
 		try {
@@ -24,9 +26,35 @@ function ProviderDetail() {
 		}
 	};
 
+	const fetchServices = async () => {
+		const response = await apiService.getServices({ pagination: false });
+		setServices(response.data["hydra:member"]);
+	};
+
+	const getSimilarServices = () => {
+		if (!provider) return;
+		const similar = services.filter(
+			(service) =>
+				!provider.companyServices.some(
+					(companyService) =>
+						companyService.service["@id"] === service["@id"]
+				)
+		);
+		const randomSimilarServices = similar
+			.sort(() => 0.5 - Math.random())
+			.slice(0, 5);
+		setSimilarServices(randomSimilarServices);
+	};
+
 	useEffect(() => {
 		fetchProvider();
+		fetchServices();
 	}, []);
+
+	useEffect(() => {
+		if (!services.length) return;
+		getSimilarServices();
+	}, [services, provider]);
 
 	return (
 		<DefaultLayout>
@@ -88,13 +116,45 @@ function ProviderDetail() {
 									</div>
 								</div>
 
-								<div className="w-full lg:w-132">
-									<h4 className="text-lg font-medium text-gray-800 mb-4">
-										{t("opening-hours")}
-									</h4>
-									<CompanySchedule
-										schedules={provider.schedules}
-									/>
+								<div className="w-full ">
+									<div className="w-full mb-10">
+										<h4 className="text-lg font-medium text-gray-800 mb-4">
+											{t("opening-hours")}
+										</h4>
+										<CompanySchedule
+											schedules={provider.schedules}
+										/>
+									</div>
+
+									<div className="w-full mb-10">
+										<h4 className="text-lg font-medium text-gray-800 mb-4">
+											{t("similar-services")}
+										</h4>
+										<div className="bg-white rounded-md shadow-md font-light text-base p-6">
+											{similarServices?.map(
+												(service, index) => (
+													<NavLink
+														to={`/companies?search=${service.name}`}
+														key={service.id}
+													>
+														<div
+															className={`flex items-center justify-between py-4 mx-5 cursor-pointer hover:text-primary-600
+															${index !== similarServices.length - 1 && "border-b border-gray-200"}
+															${index === 0 && "pt-0"}
+															${index === similarServices.length - 1 && "pb-0"}
+														 `}
+														>
+															<p>
+																{t(
+																	service.name
+																)}
+															</p>
+														</div>
+													</NavLink>
+												)
+											)}
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

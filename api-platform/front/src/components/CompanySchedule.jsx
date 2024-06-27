@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 
 function CompanySchedule({ schedules }) {
-	console.log(schedules);
 	const { t } = useTranslation();
 
 	const days = {

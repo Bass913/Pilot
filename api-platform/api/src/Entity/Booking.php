@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Post;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -30,6 +31,7 @@ use ApiPlatform\Metadata\GetCollection;
             normalizationContext: ['groups' => ['read-booking']]
         ),
         new Post(),
+        new Delete()
     ]
 )]
 class Booking

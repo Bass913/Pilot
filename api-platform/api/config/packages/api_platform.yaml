@@ -11,7 +11,7 @@ api_platform:
         html: ["text/html"]
     # Good defaults for REST APIs
     defaults:
-        pagination_enabled: true
+        pagination_client_enabled: true
         pagination_items_per_page: 10
         stateless: true
         cache_headers:
@@ -19,6 +19,14 @@ api_platform:
         extra_properties:
             standard_put: true
             rfc_7807_compliant_errors: true
+    collection:
+        pagination:
+            enabled_parameter_name: pagination
+    swagger:
+        api_keys:
+            JWT:
+                name: Authorization
+                type: header
 
     event_listeners_backward_compatibility_layer: true
     keep_legacy_inflector: false

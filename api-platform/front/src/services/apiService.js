@@ -41,10 +41,13 @@ const apiService = {
 	getCompany(id) {
 		return apiClient.get(`/companies/${id}`);
 	},
+	getAdminCompanies(id) {
+		return apiClient.get(`/users/${id}/companies`);
+	},
 
 	// Services
-	getServices({ page = 1 }) {
-		return apiClient.get(`/services?page=${page}`);
+	getServices({ pagination = true, page = 1 }) {
+		return apiClient.get(`/services?page=${page}&pagination=${pagination}`);
 	},
 	getCompanyServices({ companyId, page = 1 }) {
 		return apiClient.get(`/companies/${companyId}/services?page=${page}`);
@@ -79,6 +82,9 @@ const apiService = {
 	},
 	createBooking(booking, config) {
 		return apiClient.post("/bookings", booking, config);
+	},
+	removeBooking(bookingId) {
+		return apiClient.delete(`/bookings/${bookingId}`);
 	},
 
 	// Specialities
@@ -118,6 +124,14 @@ const apiService = {
 	// Schedule
 	getCompanyEmployeesSchedule(companyId) {
 		return apiClient.get(`/companies/${companyId}/employees/planning`);
+	},
+
+	// Statistics
+	getSuperAdminStatistics() {
+		return apiClient.get("/stats/super_admin");
+	},
+	getAdminStatistics(id) {
+		return apiClient.get(`/stats/admin/${id}`);
 	},
 };
 

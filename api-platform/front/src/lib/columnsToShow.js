@@ -1,5 +1,6 @@
 const columnsToShow = {
 	provider: ["images", "name", "address", "city", "zipcode"],
+	companyProvider: ["images", "name", "address", "city", "zipcode"],
 	service: ["name"],
 	companyService: ["service.name", "duration", "price"],
 	employee: ["firstname", "lastname", "email", "phone"],

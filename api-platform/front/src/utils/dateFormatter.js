@@ -14,6 +14,20 @@ function formatDate(date) {
 	return `${datePart} à ${timePart}`;
 }
 
+function getFormattedDateFromISO(dateString) {
+	const date = new Date(dateString);
+
+	if (isNaN(date.getTime())) {
+		return "Invalid Date";
+	}
+
+	const day = String(date.getUTCDate()).padStart(2, "0");
+	const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+	const year = date.getUTCFullYear();
+
+	return `${day}/${month}/${year}`;
+}
+
 function getISODateFromSlot(selectedSlot) {
 	const { day, timeSlot } = selectedSlot;
 	const [hour, minute] = timeSlot.split(":");
@@ -25,4 +39,4 @@ function getISODateFromSlot(selectedSlot) {
 	return date.toISOString();
 }
 
-export { formatDate, getISODateFromSlot };
+export { formatDate, getISODateFromSlot, getFormattedDateFromISO };

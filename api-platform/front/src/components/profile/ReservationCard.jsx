@@ -37,9 +37,6 @@ function ReservationCard({ reservation, reviewCategories }) {
 	};
 
 	const handleFeedbackSubmit = (feedback) => {
-		console.log("Feedback submitted:", feedback);
-		console.log("Review company:", reviewCompany);
-
 		const ratings = Object.entries(feedback.ratings).map(
 			([categoryId, value]) => ({
 				category: `/category_reviews/${categoryId}`,
@@ -47,19 +44,13 @@ function ReservationCard({ reservation, reviewCategories }) {
 			})
 		);
 
-		console.log("Ratings:", ratings);
-
-		apiService
-			.createReview({
-				company: `${reviewCompany["@id"]}`,
-				client: `users/${user.id}`,
-				comment: feedback.feedback,
-				ratings: ratings,
-				date: new Date().toISOString(),
-			})
-			.then((response) => {
-				console.log("Review added:", response.data);
-			});
+		apiService.createReview({
+			company: `${reviewCompany["@id"]}`,
+			client: `users/${user.id}`,
+			comment: feedback.feedback,
+			ratings: ratings,
+			date: new Date().toISOString(),
+		});
 	};
 
 	// report booking modal
@@ -165,6 +156,7 @@ function ReservationCard({ reservation, reviewCategories }) {
 					onClose={handleCloseAlert}
 					message="cancel-appointment-confirmation"
 					type="cancel-appointment"
+					bookingId={reservation["@id"].split("/").pop()}
 				/>
 			)}
 		</div>

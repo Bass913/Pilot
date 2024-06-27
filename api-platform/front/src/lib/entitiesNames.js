@@ -11,6 +11,10 @@ const entitiesNames = {
 		label: "establishment",
 		labelPlural: "establishments",
 	},
+	companyProvider: {
+		label: "establishment",
+		labelPlural: "establishments",
+	},
 	company: {
 		label: "company",
 		labelPlural: "companies",

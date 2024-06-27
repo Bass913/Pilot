@@ -2,13 +2,16 @@ import React from "react";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import apiService from "../../services/apiService";
 
-function Alert({ onClose, message, type }) {
+function Alert({ onClose, message, type, bookingId }) {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 
 	const handleCancel = () => {
-		console.log("Appointment cancelled");
+		apiService
+			.removeBooking(bookingId)
+			.then(() => window.location.reload());
 	};
 
 	const getButtonLabel = () => {

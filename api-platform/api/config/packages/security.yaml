@@ -12,16 +12,18 @@ security:
     firewalls:
         login:
             pattern: ^/api/login
-            stateless: true
+            stateless: false
+            provider: app_user_provider
             json_login:
                 check_path: /api/login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
                 username_path: email
                 password_path: password
+            jwt: ~
         api:
             pattern: ^/api
-            stateless: true
+            stateless: false
             jwt: ~
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/

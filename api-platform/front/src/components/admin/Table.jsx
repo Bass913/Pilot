@@ -45,8 +45,7 @@ function Table({ model, data, page, onChangePage }) {
 
 	const handleDelete = (index) => {
 		const dataItem = data["hydra:member"][index];
-		// Implémentez la logique de suppression ici, par exemple, en appelant une API pour supprimer l'élément
-		console.log("Supprimer l'élément avec ID:", dataItem["@id"]);
+		console.log("Delete", dataItem);
 	};
 
 	return (
@@ -113,7 +112,7 @@ function Table({ model, data, page, onChangePage }) {
 															{col ===
 																"service.name" &&
 															model ===
-																"companyService"
+																"companyService" || model === "service" || model === "booking"
 																? t(
 																		getValue(
 																			row,
@@ -132,7 +131,7 @@ function Table({ model, data, page, onChangePage }) {
 												{hoveredRow === index ? (
 													<>
 														<button
-															className="text-gray-600 hover:text-gray-900 mr-4 bg-gray-100 p-1 rounded-full hover:bg-gray-200"
+															className="text-gray-600 hover:text-gray-900 mr-2 bg-gray-100 p-1 rounded-full hover:bg-gray-200"
 															onClick={() =>
 																handleEdit(
 																	index

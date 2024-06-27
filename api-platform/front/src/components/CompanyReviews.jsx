@@ -1,50 +1,10 @@
 import { StarIcon } from "@heroicons/react/24/solid";
 import { StarIcon as StarIconOutline } from "@heroicons/react/24/outline";
+import { useTranslation } from "react-i18next";
+import { getFormattedDateFromISO } from "../utils/dateFormatter";
 
 function CompanyReviews({ reviewRating, reviews }) {
-	// "review": {
-	// 		"id": 1,
-	// 		"date": "2021-06-01",
-	// 		"rating": [
-	// 			{
-	// 				"category": {
-	// 					"name": "Qualité de service"
-	// 				},
-	// 				"value": 5
-	// 			},
-	// 			{
-	// 				"category": {
-	// 					"name": "Prix"
-	// 				},
-	// 				"value": 4
-	// 			},
-	// 			{
-	// 				"category": {
-	// 					"name": "Délai"
-	// 				},
-	// 				"value": 5
-	// 			},
-	// 			{
-	// 				"category": {
-	// 					"name": "Accueil"
-	// 				},
-	// 				"value": 3
-	// 			}
-	// 		],
-	// 		"comment": "Super garage, je recommande !"
-	// 	},
-
-	// function calculateReviewAverageRating(review) {
-	// 	const total = review.rating.reduce((acc, rating) => {
-	// 		return acc + rating.value;
-	// 	}, 0);
-	// 	return total / review.rating.length;
-	// }
-
-	function formatDate(date) {
-		const [year, month, day] = date.split("-");
-		return `${day}/${month}/${year}`;
-	}
+	const { t } = useTranslation();
 
 	function formatRatingValue(value) {
 		return value.toString().replace(".", ",");
@@ -60,7 +20,7 @@ function CompanyReviews({ reviewRating, reviews }) {
 						"border-b border-gray-200"
 					}`}
 				>
-					<div>
+					<div className="w-2/3">
 						<p className="text-gray-800 font-medium flex items-center gap-1">
 							{formatRatingValue(reviewRating)}
 							<StarIcon className="w-4 inline-block text-primary-500" />
@@ -69,7 +29,7 @@ function CompanyReviews({ reviewRating, reviews }) {
 							{review.comment}
 						</p>
 						<p className="text-gray-800 font-light text-sm">
-							{formatDate(review.date)}
+							{getFormattedDateFromISO(review.date)}
 						</p>
 					</div>
 					<div className="hidden md:block">
@@ -78,7 +38,7 @@ function CompanyReviews({ reviewRating, reviews }) {
 								key={index}
 								className="text-gray-800 font-light text-sm flex items-center"
 							>
-								{rating.category.name}:{" "}
+								{t(rating.category.name)}:{" "}
 								{formatRatingValue(rating.value)}
 								<StarIconOutline className="w-3 inline-block text-gray-600" />
 							</p>

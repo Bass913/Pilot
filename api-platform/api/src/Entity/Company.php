@@ -48,11 +48,11 @@ class Company
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[Groups(['read-company-details', 'read-company', 'read-booking','user:read:booking'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking','user:read:booking', 'user:read:company'])]
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-    #[Groups(['read-company-details', 'read-company', 'read-booking','user:read:booking'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking','user:read:booking', 'user:read:company'])]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
@@ -60,11 +60,11 @@ class Company
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[Groups(['read-company-details', 'read-company', 'read-booking','user:read:booking'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking','user:read:booking', 'user:read:company'])]
     #[ORM\Column(length: 10)]
     private ?string $zipcode = null;
 
-    #[Groups(['read-company-details', 'read-company', 'read-booking','user:read:booking'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking','user:read:booking', 'user:read:company'])]
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 
@@ -78,11 +78,11 @@ class Company
     #[ORM\Column]
     private ?bool $active = null;
 
-    #[Groups(['read-company-details', 'read-company'])]
+    #[Groups(['read-company-details', 'read-company', 'user:read:company'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 11, scale: 8, nullable: true)]
     private ?float $longitude = null;
 
-    #[Groups(['read-company-details', 'read-company'])]
+    #[Groups(['read-company-details', 'read-company', 'user:read:company'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 8, nullable: true)]
     private ?float $latitude = null;
 
@@ -94,7 +94,7 @@ class Company
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Review::class)]
     private Collection $reviews;
 
-    #[Groups(['read-company-details', 'read-company'])]
+    #[Groups(['read-company-details', 'read-company', 'user:read:company'])]
     #[ORM\Column(nullable: true)]
     private ?float $reviewRating = null;
 
@@ -109,15 +109,15 @@ class Company
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
     private Collection $users;
 
-    #[Groups(['read-company-details', 'read-company'])]
+    #[Groups(['read-company-details', 'read-company', 'user:read:company'])]
     #[ORM\ManyToOne(inversedBy: 'companies')]
     private ?Speciality $speciality;
 
-    #[Groups(['read-company-details', 'read-company'])]
+    #[Groups(['read-company-details', 'read-company', 'user:read:company'])]
     #[ORM\Column(nullable: true)]
     private ?int $reviewCount = null;
 
-    #[Groups(['read-company-details', 'read-company'])]
+    #[Groups(['read-company-details', 'read-company', 'user:read:company'])]
     #[ORM\Column(type: Types::ARRAY , nullable: true)]
     private ?array $images = null;
 

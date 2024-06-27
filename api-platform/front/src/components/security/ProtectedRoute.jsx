@@ -28,6 +28,7 @@ const ProtectedRoute = ({
 		if (model === "booking") model = "companyBooking";
 		if (model === "schedule") model = "companySchedule";
 		if (model === "employee") model = "companyEmployee";
+		if (model === "provider") model = "companyProvider";
 	}
 
 	const hasAllowedRole = allowedRoles.some((allowedRole) =>

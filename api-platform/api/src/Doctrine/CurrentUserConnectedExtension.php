@@ -28,7 +28,6 @@ class CurrentUserConnectedExtension implements QueryCollectionExtensionInterface
 
         $user = $this->security->getUser();
 
-        dump($this->security);
         if (!$user instanceof User) {
             return;
         }
