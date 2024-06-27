@@ -21,6 +21,7 @@ const UpdateBookingModal = ({ isOpen, onClose, onSubmit, booking }) => {
 	const [loading, setLoading] = useState(true);
 	const [bookingDetails, setBookingDetails] = useState(null);
 	const [employees, setEmployees] = useState([]);
+	const [companyBookings, setCompanyBookings] = useState([]);
 	const companyId = booking
 		? booking.companyService.company["@id"].split("/").pop()
 		: null;
@@ -60,6 +61,18 @@ const UpdateBookingModal = ({ isOpen, onClose, onSubmit, booking }) => {
 		}
 	};
 
+	const fetchCompanyBookings = async () => {
+		try {
+			const response = await apiService.getCompanyBookings({
+				companyId: provider["@id"].split("/").pop(),
+				pagination: false,
+			});
+			setCompanyBookings(response.data["hydra:member"]);
+		} catch (error) {
+			console.error("Error while fetching company bookings:", error);
+		}
+	};
+
 	const initialDate = new Date();
 	const [startDate, setStartDate] = useState(
 		initialDate.toISOString().substring(0, 10)
@@ -67,6 +80,11 @@ const UpdateBookingModal = ({ isOpen, onClose, onSubmit, booking }) => {
 	initialDate.setDate(initialDate.getDate() + 6);
 	const endDateISOString = initialDate.toISOString().substring(0, 10);
 	const [endDate, setEndDate] = useState(endDateISOString);
+
+	useEffect(() => {
+		if (!provider) return;
+		fetchCompanyBookings();
+	}, [provider]);
 
 	useEffect(() => {
 		if (!booking) return;
@@ -93,11 +111,13 @@ const UpdateBookingModal = ({ isOpen, onClose, onSubmit, booking }) => {
 			)
 		: [];
 
-	const timeSlotsWithAvailability = getTimeSlotsWithAvailability(
-		daysWithTimeSlots,
-		employeeSelected?.unavailabilities,
-		employeeSelected?.schedules
-	);
+	const timeSlotsWithAvailability = getTimeSlotsWithAvailability({
+		timeSlots: daysWithTimeSlots,
+		employeeUnavailabilities: employeeSelected?.unavailabilities,
+		companyUnavailabilities: provider?.unavailabilities,
+		employeeSchedules: employeeSelected?.schedules,
+		bookings: companyBookings,
+	});
 
 	const handleSubmit = () => {
 		const bookingId = booking["@id"];
