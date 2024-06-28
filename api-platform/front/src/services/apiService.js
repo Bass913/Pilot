@@ -4,6 +4,7 @@ const apiClient = axios.create({
 	baseURL: import.meta.env.VITE_API_URL,
 	headers: {
 		"Content-Type": "application/ld+json",
+		"Authorization": `Bearer ${localStorage.getItem("token") ? localStorage.getItem("token").replace(/"/g, "") : ""}`,
 	},
 });
 
@@ -112,7 +113,7 @@ const apiService = {
 		return apiClient.post("/register", user);
 	},
 	getMe() {
-		return apiClient.get("/me");
+		return apiClient.get("/api/me");
 	},
 
 	// Requests

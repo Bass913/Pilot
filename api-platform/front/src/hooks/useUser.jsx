@@ -1,50 +1,71 @@
 import { createContext, useState, useContext, useEffect } from "react";
+import apiService from "../services/apiService";
 
 export const UserContext = createContext();
 
-function getLanguage() {
-    const language = localStorage.getItem("language");
-    return language ? JSON.parse(language) : "fr";
+const getUserInfo = (user) => {
+    return {
+        id: user.id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        roles: user.roles,
+        companyId: user.company.split("/").pop(),
+    };
+};
+
+function getStoredItem(key, defaultValue) {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : defaultValue;
 }
 
-function getServiceSelected() {
-    const service = localStorage.getItem("serviceSelected");
-    return service ? JSON.parse(service) : null;
-}
-
-function getTimeSlotSelected() {
-    const timeSlot = localStorage.getItem("timeSlotSelected");
-    return timeSlot ? JSON.parse(timeSlot) : null;
-}
-
-function getEmployeeSelected() {
-    const employee = localStorage.getItem("employeeSelected");
-    return employee ? JSON.parse(employee) : null;
-}
-
-function getUser() {
-    const user = localStorage.getItem("user");
-    return user ? JSON.parse(user) : null;
-}
-
-function getToken() {
-    return localStorage.getItem("token");
-}
-
-function getSideBarLarge() {
-    return localStorage.getItem("sidebarLarge") === "true";
+async function fetchUser() {
+    try {
+        const response = await apiService.getMe();
+        const user = response.data;
+        return getUserInfo(user);
+    } catch (error) {
+        console.error("Failed to fetch user:", error);
+        return null;
+    }
 }
 
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(getUser);
-    const [token, setToken] = useState(getToken);
-    const [serviceSelected, setServiceSelected] = useState(getServiceSelected);
-    const [timeSlotSelected, setTimeSlotSelected] =
-        useState(getTimeSlotSelected);
-    const [employeeSelected, setEmployeeSelected] =
-        useState(getEmployeeSelected);
-    const [language, setLanguage] = useState(getLanguage);
-    const [sidebarLarge, setSidebarLarge] = useState(getSideBarLarge);
+    const [user, setUser] = useState(() => getStoredItem("user", null));
+    const [token, setToken] = useState(() => getStoredItem("token", null));
+    const [serviceSelected, setServiceSelected] = useState(() =>
+        getStoredItem("serviceSelected", null),
+    );
+    const [timeSlotSelected, setTimeSlotSelected] = useState(() =>
+        getStoredItem("timeSlotSelected", null),
+    );
+    const [employeeSelected, setEmployeeSelected] = useState(() =>
+        getStoredItem("employeeSelected", null),
+    );
+    const [language, setLanguage] = useState(() =>
+        getStoredItem("language", "fr"),
+    );
+    const [sidebarLarge, setSidebarLarge] = useState(() =>
+        getStoredItem("sidebarLarge", false),
+    );
+
+    useEffect(() => {
+        const initializeUser = async () => {
+            const user = await fetchUser();
+            setUser(user);
+        };
+
+        if (token) {
+            initializeUser();
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem("token", JSON.stringify(token));
+    }, [token]);
+
+    useEffect(() => {
+        localStorage.setItem("user", JSON.stringify(user));
+    }, [user]);
 
     useEffect(() => {
         localStorage.setItem(
@@ -68,14 +89,6 @@ export const UserProvider = ({ children }) => {
     }, [employeeSelected]);
 
     useEffect(() => {
-        localStorage.setItem("user", JSON.stringify(user));
-    }, [user]);
-
-    useEffect(() => {
-        localStorage.setItem("token", token);
-    }, [token]);
-
-    useEffect(() => {
         localStorage.setItem("language", JSON.stringify(language));
     }, [language]);
 
@@ -84,24 +97,35 @@ export const UserProvider = ({ children }) => {
     }, [sidebarLarge]);
 
     const login = async (email, password) => {
-        return fetch(`${import.meta.env.VITE_API_URL}api/login_check`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
-        }).then(async (res) => {
-            // await getUserInfo();
-            const response = await res.json();
-            setToken(response.token);
-            setUser(response.user);
-            return response;
-        });
+        try {
+            const response = await fetch(
+                `${import.meta.env.VITE_API_URL}api/login_check`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ email, password }),
+                },
+            );
+
+            const data = await response.json();
+            setToken(data.token);
+            setUser(data.user);
+
+            return data;
+        } catch (error) {
+            console.error("Failed to login:", error);
+            throw error;
+        }
     };
 
     const logout = () => {
         setToken(null);
         setUser(null);
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        window.location.href = "/";
     };
 
     return (
