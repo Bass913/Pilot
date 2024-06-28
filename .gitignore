@@ -1,6 +1,4 @@
-api-platform/db_data
-api-platform/caddy_data
-api-platform/caddy_config
-.idea
-api-platform/api/composer.lock
-api-platform/api/migrations/*
+/.env
+/helm/api-platform/charts/*
+!/helm/api-platform/charts/.gitignore
+pwa/node_modules
