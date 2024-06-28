@@ -78,12 +78,14 @@ function Table({ model, data, page, onChangePage }) {
                                                 </th>
                                             ),
                                     )}
-                                    <th
-                                        scope="col"
-                                        className="py-3.5 pl-4 pr-3 text-left text-gray-900 sm:pl-6 relative uppercase text-xs font-bold w-20"
-                                    >
-                                        {t("actions")}
-                                    </th>
+                                    {columns.length > 0 && (
+                                        <th
+                                            scope="col"
+                                            className="py-3.5 pl-4 pr-3 text-left text-gray-900 sm:pl-6 relative uppercase text-xs font-bold w-20"
+                                        >
+                                            {t("actions")}
+                                        </th>
+                                    )}
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200 bg-white">

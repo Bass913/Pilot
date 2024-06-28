@@ -6,13 +6,14 @@ import { useTranslation } from "react-i18next";
 import entitiesNames from "../../lib/entitiesNames";
 import Loader from "../../components/Loader";
 import BackButton from "../../components/BackButton";
+import Toast from "../../components/Toast";
+import { toast } from "react-toastify";
 
 function EntityEditPage({ model }) {
     const [entityData, setEntityData] = useState({});
     const [loading, setLoading] = useState(true);
     const { id } = useParams();
     const { t } = useTranslation();
-    console.log("model", model);
 
     useEffect(() => {
         const fetchEntity = async () => {
@@ -75,7 +76,7 @@ function EntityEditPage({ model }) {
                 default:
                     break;
             }
-            // TODO: Add notification
+            toast.success(t("update-success"));
         } catch (error) {
             console.error(`Failed to update ${model}:`, error);
         }
@@ -205,6 +206,7 @@ function EntityEditPage({ model }) {
 
     return (
         <DashboardLayout>
+            <Toast />
             <div className="flex justify-between">
                 <h1 className="text-xl font-medium text-gray-900 mb-6 capitalize">
                     {t(entitiesNames[model].label)}

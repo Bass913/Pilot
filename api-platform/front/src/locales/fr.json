@@ -168,5 +168,6 @@
     "date": "Date",
     "status": "Statut",
     "delete-entity": "Êtes-vous sûr de vouloir supprimer cette entité ?",
-    "delete": "Supprimer"
+    "delete": "Supprimer",
+    "update-success": "Mise à jour effectuée avec succès"
 }

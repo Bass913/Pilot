@@ -8,6 +8,8 @@ import Alert from "../modals/Alert";
 import UpdateBookingModal from "../modals/UpdateBookingModal";
 import { formatDate } from "../../utils/dateFormatter";
 import { useUser } from "../../hooks/useUser";
+import Toast from "../Toast";
+import { toast } from "react-toastify";
 
 function ReservationCard({ reservation, reviewCategories }) {
 	const { t } = useTranslation();
@@ -64,9 +66,8 @@ function ReservationCard({ reservation, reviewCategories }) {
 	};
 
 	const handleBookingSubmit = (booking) => {
-		console.log("Booking submitted:", booking);
 		setShowBookingModal(false);
-		// TODO: add notification
+		toast.success("Réservation reportée avec succès");
 	};
 
 	return (
@@ -74,6 +75,7 @@ function ReservationCard({ reservation, reviewCategories }) {
 			className="mb-5 bg-white p-4 rounded-lg shadow-md lg:p-6 flex flex-col justify-between"
 			key={reservation.id}
 		>
+			<Toast />
 			<div className="flex justify-between items-start border-b border-gray-200 pb-5">
 				<div className="flex flex-col gap-1">
 					<p className="text-gray-800 font-normal">
