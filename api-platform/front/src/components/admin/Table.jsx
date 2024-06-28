@@ -10,6 +10,7 @@ import {
     PencilIcon,
     TrashIcon,
 } from "@heroicons/react/24/outline";
+import Alert from "../../components/modals/Alert";
 
 function Table({ model, data, page, onChangePage }) {
     const { t } = useTranslation();
@@ -19,6 +20,8 @@ function Table({ model, data, page, onChangePage }) {
     const [columns, setColumns] = useState([]);
     const [dataToShow, setDataToShow] = useState([]);
     const [hoveredRow, setHoveredRow] = useState(null);
+    const [showAlert, setShowAlert] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
     const itemsPerPage = 10;
     const total = data["hydra:totalItems"] || 0;
 
@@ -40,12 +43,11 @@ function Table({ model, data, page, onChangePage }) {
 
     const handleEdit = (index) => {
         const dataItem = data["hydra:member"][index];
-        navigate(`${dataItem["@id"].split('/').pop()}/edit`);
+        navigate(`${dataItem["@id"].split("/").pop()}/edit`);
     };
 
-    const handleDelete = (index) => {
-        const dataItem = data["hydra:member"][index];
-        console.log("Delete", dataItem);
+    const handleCloseAlert = () => {
+        setShowAlert(false);
     };
 
     return (
@@ -56,19 +58,26 @@ function Table({ model, data, page, onChangePage }) {
                         <table className="min-w-full divide-y divide-gray-300">
                             <thead className="bg-white">
                                 <tr>
-                                    {columns.map((col) => (
-                                        <th
-                                            key={col}
-                                            scope="col"
-                                            className="py-3.5 pl-4 pr-3 text-left text-gray-900 sm:pl-6 relative uppercase text-xs font-bold"
-                                        >
-                                            <span className="flex items-center space-x-1">
-                                                {columnNames[col]
-                                                    ? t(columnNames[col])
-                                                    : col}
-                                            </span>
-                                        </th>
-                                    ))}
+                                    {columns.map(
+                                        (col) =>
+                                            col !== "id" && (
+                                                <th
+                                                    key={col}
+                                                    scope="col"
+                                                    className="py-3.5 pl-4 pr-3 text-left text-gray-900 sm:pl-6 relative uppercase text-xs font-bold"
+                                                >
+                                                    <span className="flex items-center space-x-1">
+                                                        {columnNames[col]
+                                                            ? t(
+                                                                  columnNames[
+                                                                      col
+                                                                  ],
+                                                              )
+                                                            : col}
+                                                    </span>
+                                                </th>
+                                            ),
+                                    )}
                                     <th
                                         scope="col"
                                         className="py-3.5 pl-4 pr-3 text-left text-gray-900 sm:pl-6 relative uppercase text-xs font-bold w-20"
@@ -82,54 +91,62 @@ function Table({ model, data, page, onChangePage }) {
                                     dataToShow.map((row, index) => (
                                         <tr
                                             key={index}
-                                            onMouseEnter={() =>
-                                                setHoveredRow(index)
-                                            }
+                                            onMouseEnter={() => {
+                                                setHoveredRow(index);
+                                                setSelectedId(row["id"]);
+                                            }}
                                             onMouseLeave={() =>
                                                 setHoveredRow(null)
                                             }
                                             className={`${hoveredRow === index ? "text-primary-500 bg-gray-50" : "text-gray-900"}`}
                                         >
-                                            {columns.map((col) => (
-                                                <td
-                                                    key={col}
-                                                    className={`whitespace-nowrap pl-4 pr-3 text-sm sm:pl-6 cursor-pointer ${col === "images" ? "py-1" : "py-2"}`}
-                                                    onClick={() =>
-                                                        showDetails(index)
-                                                    }
-                                                >
-                                                    {col === "images" ? (
-                                                        <img
-                                                            src={getValue(
-                                                                row,
-                                                                col,
+                                            {columns.map(
+                                                (col) =>
+                                                    col !== "id" && (
+                                                        <td
+                                                            key={col}
+                                                            className={`whitespace-nowrap pl-4 pr-3 text-sm sm:pl-6 cursor-pointer ${col === "images" ? "py-1" : "py-2"}`}
+                                                            onClick={() =>
+                                                                showDetails(
+                                                                    index,
+                                                                )
+                                                            }
+                                                        >
+                                                            {col ===
+                                                            "images" ? (
+                                                                <img
+                                                                    src={getValue(
+                                                                        row,
+                                                                        col,
+                                                                    )}
+                                                                    alt="image"
+                                                                    className="w-20"
+                                                                />
+                                                            ) : (
+                                                                <span>
+                                                                    {(col ===
+                                                                        "service.name" &&
+                                                                        model ===
+                                                                            "companyService") ||
+                                                                    model ===
+                                                                        "service" ||
+                                                                    model ===
+                                                                        "booking"
+                                                                        ? t(
+                                                                              getValue(
+                                                                                  row,
+                                                                                  col,
+                                                                              ),
+                                                                          )
+                                                                        : getValue(
+                                                                              row,
+                                                                              col,
+                                                                          )}
+                                                                </span>
                                                             )}
-                                                            alt="image"
-                                                            className="w-20"
-                                                        />
-                                                    ) : (
-                                                        <span>
-                                                            {(col ===
-                                                                "service.name" &&
-                                                                model ===
-                                                                    "companyService") ||
-                                                            model ===
-                                                                "service" ||
-                                                            model === "booking"
-                                                                ? t(
-                                                                      getValue(
-                                                                          row,
-                                                                          col,
-                                                                      ),
-                                                                  )
-                                                                : getValue(
-                                                                      row,
-                                                                      col,
-                                                                  )}
-                                                        </span>
-                                                    )}
-                                                </td>
-                                            ))}
+                                                        </td>
+                                                    ),
+                                            )}
                                             <td className="whitespace-nowrap pl-4 pr-3 text-sm sm:pl-6 py-2 flex items-center justify-end w-20 h-12">
                                                 {hoveredRow === index ? (
                                                     <>
@@ -146,8 +163,8 @@ function Table({ model, data, page, onChangePage }) {
                                                         <button
                                                             className="text-red-600 hover:text-red-900 bg-gray-100 p-1 rounded-full hover:bg-gray-200"
                                                             onClick={() =>
-                                                                handleDelete(
-                                                                    index,
+                                                                setShowAlert(
+                                                                    true,
                                                                 )
                                                             }
                                                         >
@@ -182,6 +199,15 @@ function Table({ model, data, page, onChangePage }) {
                     />
                 </div>
             </div>
+            {showAlert && (
+                <Alert
+                    onClose={handleCloseAlert}
+                    message="delete-entity"
+                    type="delete-entity"
+                    entityId={selectedId}
+                    model={model}
+                />
+            )}
         </div>
     );
 }

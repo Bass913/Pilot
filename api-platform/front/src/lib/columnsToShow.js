@@ -1,16 +1,16 @@
 const columnsToShow = {
-	provider: ["images", "name", "address", "city", "zipcode"],
-	companyProvider: ["images", "name", "address", "city", "zipcode"],
-	service: ["name"],
-	companyService: ["service.name", "duration", "price"],
-	employee: ["firstname", "lastname", "email", "phone"],
-	companyEmployee: ["firstname", "lastname", "email", "phone"],
+	provider: ["id", "images", "name", "address", "city", "zipcode"],
+	companyProvider: ["id", "images", "name", "address", "city", "zipcode"],
+	service: ["id", "name"],
+	companyService: ["id", "service.name", "duration", "price"],
+	employee: ["id", "firstname", "lastname", "email", "phone"],
+	companyEmployee: ["id", "firstname", "lastname", "email", "phone"],
 	request: [],
-	user: ["firstname", "lastname", "email", "phone", "roles"],
-	booking: ["startDate", "companyService.service.name", "employee"],
-	companyBooking: ["date", "totalAmount", "user"],
-	schedule: ["date", "employee", "service"],
-	companySchedule: ["date", "employee", "service"],
+	user: ["id", "firstname", "lastname", "email", "phone", "roles"],
+	booking: ["id", "startDate", "companyService.service.name", "employee"],
+	companyBooking: ["id", "date", "totalAmount", "user"],
+	schedule: ["id", "date", "employee", "service"],
+	companySchedule: ["id", "date", "employee", "service"],
 };
 
 export default columnsToShow;

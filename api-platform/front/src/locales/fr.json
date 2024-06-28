@@ -166,5 +166,7 @@
     "price": "Prix",
     "description": "Description",
     "date": "Date",
-    "status": "Statut"
+    "status": "Statut",
+    "delete-entity": "Êtes-vous sûr de vouloir supprimer cette entité ?",
+    "delete": "Supprimer"
 }

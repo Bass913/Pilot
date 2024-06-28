@@ -48,6 +48,9 @@ const apiService = {
 	updateCompany(id, company) {
 		return apiClient.patch(`/companies/${id}`, company);
 	},
+	removeCompany(id) {
+		return apiClient.delete(`/companies/${id}`);
+	},
 
 	// Services
 	getServices({ pagination = true, page = 1 }) {
@@ -62,6 +65,9 @@ const apiService = {
 	updateService(id, service) {
 		return apiClient.patch(`/services/${id}`, service);
 	},
+	removeService(id) {
+		return apiClient.delete(`/services/${id}`);
+	},
 
 	// Company Services
 	getCompanyService(id) {
@@ -69,6 +75,9 @@ const apiService = {
 	},
 	updateCompanyService(id, service) {
 		return apiClient.patch(`/company_services/${id}`, service);
+	},
+	removeCompanyService(id) {
+		return apiClient.delete(`/company_services/${id}`);
 	},
 
 	// Users
@@ -86,6 +95,9 @@ const apiService = {
 	},
 	updateUser(id, user) {
 		return apiClient.patch(`/users/${id}`, user);
+	},
+	removeUser(id) {
+		return apiClient.delete(`/users/${id}`);
 	},
 
 	// Bookings
