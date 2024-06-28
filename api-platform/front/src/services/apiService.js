@@ -45,24 +45,47 @@ const apiService = {
 	getAdminCompanies(id) {
 		return apiClient.get(`/users/${id}/companies`);
 	},
+	updateCompany(id, company) {
+		return apiClient.patch(`/companies/${id}`, company);
+	},
 
 	// Services
 	getServices({ pagination = true, page = 1 }) {
 		return apiClient.get(`/services?page=${page}&pagination=${pagination}`);
 	},
+	getService(id) {
+		return apiClient.get(`/services/${id}`);
+	},
 	getCompanyServices({ companyId, page = 1 }) {
 		return apiClient.get(`/companies/${companyId}/services?page=${page}`);
+	},
+	updateService(id, service) {
+		return apiClient.patch(`/services/${id}`, service);
+	},
+
+	// Company Services
+	getCompanyService(id) {
+		return apiClient.get(`/company_services/${id}`);
+	},
+	updateCompanyService(id, service) {
+		return apiClient.patch(`/company_services/${id}`, service);
 	},
 
 	// Users
 	getUsers({ page = 1 }) {
 		return apiClient.get(`/users?page=${page}`);
 	},
+	getUser(id) {
+		return apiClient.get(`/users/${id}`);
+	},
 	adminCreateUser(user) {
 		return apiClient.post("/admin/users", user);
 	},
 	getCompanyEmployees({ companyId, page = 1 }) {
 		return apiClient.get(`/companies/${companyId}/employees?page=${page}`);
+	},
+	updateUser(id, user) {
+		return apiClient.patch(`/users/${id}`, user);
 	},
 
 	// Bookings
@@ -81,7 +104,7 @@ const apiService = {
 		return apiClient.get(`/users/${userId}/bookings`);
 	},
 	updateBooking(bookingId, booking) {
-		return apiClient.patch(bookingId, booking);
+		return apiClient.patch(`/bookings/${bookingId}`, booking);
 	},
 	createBooking(booking, config) {
 		return apiClient.post("/bookings", booking, config);

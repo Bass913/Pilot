@@ -69,6 +69,7 @@
     "kbis-file-description": "Please provide a copy of your company registration certificate",
     "home": "Home",
     "establishments": "Establishments",
+    "establishment": "Establishment",
     "service": "Service",
     "services": "Services",
     "employees": "Employees",
@@ -161,5 +162,9 @@
     "similar-services": "Similar services",
     "dashboard": "Dashboard",
     "confirm-booking": "Confirm booking",
-    "with": "with"
+    "with": "with",
+    "price": "Price",
+    "description": "Description",
+    "date": "Date",
+    "status": "Status"
 }

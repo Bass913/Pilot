@@ -22,8 +22,10 @@ const ProtectedRoute = ({
 	if (!user) {
 		return null;
 	}
-
-	if (!user.roles.includes("ROLE_SUPERADMIN")) {
+	
+	if (
+		// Component.name === "DynamicEntityPage" && 
+		!user.roles.includes("ROLE_SUPERADMIN")) {
 		if (model === "service") model = "companyService";
 		if (model === "booking") model = "companyBooking";
 		if (model === "schedule") model = "companySchedule";

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,6 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 
 #[ORM\Entity(repositoryClass: BookingRepository::class)]
 #[ApiResource(
@@ -30,6 +32,8 @@ use ApiPlatform\Metadata\GetCollection;
             ],
             normalizationContext: ['groups' => ['read-booking']]
         ),
+        new Get(),
+        new Patch(),
         new Post(),
         new Delete()
     ]

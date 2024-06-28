@@ -69,6 +69,7 @@
     "kbis-file-description": "Pour devenir partenaire, vous devez nous fournir un extrait Kbis de moins de 3 mois.",
     "home": "Accueil",
     "establishments": "Établissements",
+    "establishment": "Établissement",
     "service": "Prestation",
     "services": "Prestations",
     "employees": "Employés",
@@ -161,5 +162,9 @@
     "similar-services": "Services similaires",
     "dashboard": "Tableau de bord",
     "confirm-booking": "Confirmer la réservation",
-    "with": "avec"
+    "with": "avec",
+    "price": "Prix",
+    "description": "Description",
+    "date": "Date",
+    "status": "Statut"
 }
