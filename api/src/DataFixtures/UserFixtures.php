@@ -14,7 +14,9 @@ class UserFixtures extends Fixture
     private $faker;
 
     const USER_REFERENCE_PREFIX = 'user-';
-    const USER_COUNT = 60; // Updated to 60
+    const ADMIN_REFERENCE_PREFIX = 'admin-';
+    const EMPLOYEE_REFERENCE_PREFIX = 'employee-';
+    const USER_COUNT = 300;
     const ADMIN_COUNT = 20;
 
     public function __construct(UserPasswordHasherInterface $passwordHasher)
@@ -26,6 +28,8 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $userCount = 0;
+        $adminCount = 0;
+        $employeeCount = 0;
         $usersToPersist = [];
 
         $specialUsers = [
@@ -48,7 +52,7 @@ class UserFixtures extends Fixture
         }
 
         for ($i = 0; $i < self::USER_COUNT; $i++) {
-            $usersToPersist[] = $this->createUser(
+            $user = $this->createUser(
                 $this->faker->firstName(),
                 $this->faker->lastName(),
                 $this->faker->email(),
@@ -57,10 +61,12 @@ class UserFixtures extends Fixture
                 'test',
                 $userCount++
             );
+            $usersToPersist[] = $user;
+            $this->addReference(self::EMPLOYEE_REFERENCE_PREFIX . $employeeCount++, $user);
         }
 
         for ($i = 0; $i < self::ADMIN_COUNT; $i++) {
-            $usersToPersist[] = $this->createUser(
+            $user = $this->createUser(
                 $this->faker->firstName(),
                 $this->faker->lastName(),
                 $this->faker->email(),
@@ -69,6 +75,8 @@ class UserFixtures extends Fixture
                 'test',
                 $userCount++
             );
+            $usersToPersist[] = $user;
+            $this->addReference(self::ADMIN_REFERENCE_PREFIX . $adminCount++, $user);
         }
 
         foreach ($usersToPersist as $user) {
