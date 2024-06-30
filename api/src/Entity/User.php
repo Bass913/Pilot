@@ -65,9 +65,11 @@ use Symfony\Component\Uid\Uuid;
             validationContext: ['groups' => ['user:register']]
         ),
         new Post(
-            uriTemplate: '/admin/users',
+            uriTemplate: '/api/users',
             denormalizationContext: ['groups' => ['user:create']],
-            validationContext: ['groups' => ['user:create']],
+            securityPostDenormalize: "is_granted('USER_CREATE_EMPLOYEE', object)",
+            securityPostDenormalizeMessage:"Vous n'avez pas le role Admin",
+            validationContext: ['groups' => ['user:create']]
         ),
         new Patch(
             uriTemplate: '/api/users/{id}',

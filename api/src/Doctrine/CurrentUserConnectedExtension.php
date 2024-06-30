@@ -22,7 +22,7 @@ class CurrentUserConnectedExtension implements QueryCollectionExtensionInterface
 
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void
     {
-        if (User::class !== $resourceClass || Booking::class !== $resourceClass) {
+        if (User::class !== $resourceClass && Booking::class !== $resourceClass) {
             return;
         }
 
@@ -44,9 +44,7 @@ class CurrentUserConnectedExtension implements QueryCollectionExtensionInterface
         ?Operation $operation = null,
         array $context = []
     ): void {
-        if ($operation && $operation->getName() === '_api_/api/me_get') {
-            $this->addWhere($queryBuilder, $resourceClass);
-        }
+        $this->addWhere($queryBuilder, $resourceClass);
     }
 
     public function applyToItem(

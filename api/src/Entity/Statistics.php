@@ -13,13 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
 #[ApiResource(
     operations: [
         new Get(
-            uriTemplate: '/stats/super_admin',
+            uriTemplate: '/api/stats/super_admin',
             controller: StatisticsSuperAdminController::class,
+            security: "is_granted('ROLE_SUPERADMIN')",
             read: false
         ),
         new Get(
-            uriTemplate: '/stats/admin/{id}',
+            uriTemplate: '/api/stats/admin/{id}',
             controller: StatisticsAdminController::class,
+            security: "is_granted('ROLE_ADMIN')",
             read: false
         )
 

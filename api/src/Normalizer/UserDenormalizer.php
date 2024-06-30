@@ -20,25 +20,30 @@ class UserDenormalizer implements DenormalizerInterface
     public function denormalize($data, string $type, string $format = null, array $context = []): mixed
     {
 
-
         $user = $this->normalizer->denormalize($data, $type, $format, $context);
-        if(!in_array($context['groups'][0], ["user:create", "user:update:password"])){
+        if(!in_array($context['groups'][0], ["user:create", "user:update:password", 'user:register'])){
             return $user;
         }
-
-       /* if($context['groups'] !== "user:create" && $context['groups'] !== "user:update:password"){
-            return $user;
-        }*/
 
 
         assert($user instanceof User);
 
-        if($context['groups'] === "user:create"){
+        if (in_array($context['groups'][0], ['user:register', 'user:create'])) {
             $user->setFirstname($data['firstname'] ?? null);
             $user->setLastname($data['lastname'] ?? null);
             $user->setPhone($data['phone'] ?? null);
             $user->setEmail($data['email'] ?? null);
+            $user->setActive(true);
             $user->setRoles(['ROLE_USER']);
+
+            if ($context['groups'][0] === 'user:create') {
+                $admin = $this->security->getUser();
+                assert($admin instanceof User);
+                $adminCompany = $admin->getCompany();
+
+                $user->setRoles(['ROLE_USER', 'ROLE_EMPLOYEE']);
+                $user->setCompany($adminCompany);
+            }
         }
 
         $plainPassword = $user->getPassword();

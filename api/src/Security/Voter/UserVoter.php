@@ -53,6 +53,11 @@ class UserVoter extends Voter
                     return true;
                 }
                 if($user === $subject){return true;}
+            case self::CREATE_EMPLOYEE:
+                if($this->security->isGranted("ROLE_ADMIN")  ){
+                    return true;
+                }
+                break;
         }
 
         return false;

@@ -33,7 +33,12 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
             uriTemplate: '/companies/{id}/planning',
             normalizationContext: ['groups' => ['read-company-planning']]
         ),
-        new Post(),
+        new Post(
+            uriTemplate: '/api/companies',
+            denormalizationContext: ['groups' => ['add-company']],
+            securityPostDenormalize: "is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPERADMIN')",
+            securityPostDenormalizeMessage: "Vous n'avez pas les droits requis pour ajouter un établissement"
+        ),
         new Patch(),
         new Put()
     ],
@@ -48,23 +53,23 @@ class Company
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company', 'add-company'])]
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-    #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company', 'add-company'])]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[Groups(['read-company-details'])]
+    #[Groups(['read-company-details', 'add-company'])]
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company', 'add-company'])]
     #[ORM\Column(length: 10)]
     private ?string $zipcode = null;
 
-    #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company', 'add-company'])]
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 
@@ -78,15 +83,15 @@ class Company
     #[ORM\Column]
     private ?bool $active = null;
 
-    #[Groups(['read-company-details', 'read-company', 'user:read:company'])]
+    #[Groups(['read-company-details', 'read-company', 'user:read:company', 'add-company'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 11, scale: 8, nullable: true)]
     private ?float $longitude = null;
 
-    #[Groups(['read-company-details', 'read-company', 'user:read:company'])]
+    #[Groups(['read-company-details', 'read-company', 'user:read:company', 'add-company'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 8, nullable: true)]
     private ?float $latitude = null;
 
-    #[Groups(['read-company-details'])]
+    #[Groups(['read-company-details', 'add-company'])]
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: CompanyService::class)]
     private Collection $companyServices;
 
@@ -123,6 +128,8 @@ class Company
 
     #[ORM\ManyToOne(inversedBy: 'companies')]
     private ?User $user = null;
+
+    #[Groups(['read-company-planning'])]
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Booking::class)]
     private Collection $bookings;
