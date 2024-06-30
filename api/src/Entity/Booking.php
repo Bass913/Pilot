@@ -17,26 +17,46 @@ use ApiPlatform\Metadata\Patch;
 
 #[ORM\Entity(repositoryClass: BookingRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['read-booking']],
-    order: ['startDate' => 'DESC'],
     operations: [
         new GetCollection(
-            uriTemplate: '/bookings',
+            uriTemplate: '/api/bookings',
             normalizationContext: ['groups' => ['read-booking']],
+            security: "is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN')",
             filters: ['booking.search']
         ),
         new GetCollection(
-            uriTemplate: '/companies/{id}/bookings',
+            uriTemplate: '/api/companies/{id}/bookings',
             uriVariables: [
                 'id' => new Link(fromClass: Company::class, fromProperty: 'bookings')
             ],
-            normalizationContext: ['groups' => ['read-booking']]
+            normalizationContext: ['groups' => ['read-booking']],
+            security: "is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN')",
+            securityMessage: "vous n'avez pas les droits pour visualiser les RDV de cette entreprise"
         ),
-        new Get(),
-        new Patch(),
-        new Post(),
-        new Delete()
-    ]
+        new Get(
+            uriTemplate: '/api/bookings/{id}',
+            security: "(is_granted('ROLE_ADMIN') and object.getCompany() == user.getCompany()) or object.getClient() == user or object.getEmployee() == user",
+            securityMessage: "Ce RDV ne vous appartient pas"
+        ),
+        new Patch(
+            uriTemplate: '/api/bookings',
+            securityPostDenormalize: "is_granted('BOOKING_EDIT', object)",
+            securityPostDenormalizeMessage:"Vous essayez de décaler un RDV pour un autre client"
+
+        ),
+        new Post(
+            uriTemplate: '/api/bookings',
+            securityPostDenormalize: "is_granted('BOOKING_CREATE', object)",
+            securityPostDenormalizeMessage:"Vous essayez de prendre RDV pour un autre client"
+        ),
+        new Delete(
+            uriTemplate: '/api/bookings/{id}',
+            security: "is_granted('BOOKING_DELETE', object) or (is_granted('ROLE_ADMIN') and object.getCompany() == user.getCompany())",
+            securityMessage: "Vous n'avez pas le droit d'annuler ce RDV"
+        )
+    ],
+    normalizationContext: ['groups' => ['read-booking']],
+    order: ['startDate' => 'DESC']
 )]
 class Booking
 {
@@ -46,19 +66,20 @@ class Booking
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[Groups(['read-booking', 'user:read:planning', 'user:read:booking'])]
+    #[Groups(['read-booking', 'user:read:planning', 'user:client:read:booking'])]
     #[ORM\Column(length: 255)]
     private ?string $startDate = null;
 
 
-    #[Groups(['read-booking', 'user:read:planning', 'user:read:booking'])]
+    #[Groups(['read-booking', 'user:read:planning', 'user:client:read:booking'])]
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 
-    #[Groups(['read-booking', 'user:read:booking'])]
+    #[Groups(['read-booking', 'user:client:read:booking'])]
     #[ORM\ManyToOne(inversedBy: 'bookings')]
     private ?CompanyService $companyService = null;
 
+    #[Groups(['read-booking'])]
     #[ORM\ManyToOne(inversedBy: 'clientBookings')]
     private ?User $client = null;
 

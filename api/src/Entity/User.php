@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
@@ -25,21 +26,28 @@ use Symfony\Component\Uid\Uuid;
 #[ApiResource(
     operations: [
         new Get(normalizationContext: ['groups' => ['user:read']]),
-        new GetCollection(normalizationContext: ['groups' => ['user:read']]),
+        new GetCollection(
+            uriTemplate: '/api/users',
+            normalizationContext: ['groups' => ['user:read']],
+            security: "is_granted('ROLE_SUPERADMIN')"
+        ),
         new Get(
-            uriTemplate: '/users/{id}/bookings',
-            normalizationContext: ['groups' => ['user:read:booking']]
+            uriTemplate: '/api/client/{id}/bookings',
+            normalizationContext: ['groups' => ['user:client:read:booking']],
+            security: "object.getId() == user.getId()",
+            securityMessage: "Ce compte ne vous appartient pas"
         ),
         new Get(
             uriTemplate: '/api/me',
             normalizationContext: ['groups' => ['user:read:login']],
         ),
         new Get(
-            uriTemplate: '/users/{id}/companies',
-            normalizationContext: ['groups' => ['user:read:company']]
+            uriTemplate: '/api/users/{id}/companies',
+            normalizationContext: ['groups' => ['user:read:company']],
+            security: "is_granted('ROLE_SUPERADMIN') or (is_granted('ROLE_ADMIN') and object.getId() == user.getId()) "
         ),
         new GetCollection(
-            uriTemplate: '/api/companies/{id}/employees',
+            uriTemplate: '/companies/{id}/employees',
             uriVariables: [
                 'id' => new Link(fromProperty: 'users', fromClass: Company::class)
             ],
@@ -59,10 +67,28 @@ use Symfony\Component\Uid\Uuid;
         new Post(
             uriTemplate: '/admin/users',
             denormalizationContext: ['groups' => ['user:create']],
-            validationContext: ['groups' => ['user:create']]
+            validationContext: ['groups' => ['user:create']],
         ),
         new Patch(
-            denormalizationContext: ['groups' => ['user:update']]
+            uriTemplate: '/api/users/{id}',
+            denormalizationContext: ['groups' => ['user:update']],
+            securityPostDenormalize: "is_granted('USER_EDIT', object)",
+            securityPostDenormalizeMessage: "Vous n'êtes pas le propriétaire de ce compte",
+            validationContext: ['groups' => ['user:update']]
+        ),
+        new Patch(
+            uriTemplate: '/api/users/password/{id}',
+            denormalizationContext: ['groups' => ['user:update:password']],
+            securityPostDenormalize: "is_granted('USER_EDIT', object)",
+            securityPostDenormalizeMessage: "Vous n'êtes pas le propriétaire de ce compte",
+            validationContext: ['groups' => ['user:upate:password']],
+
+        ),
+        new Delete(
+            uriTemplate: '/api/users/{id}',
+            security: "is_granted('USER_DELETE', object) or (is_granted('ROLE_ADMIN') and object.getCompany() == user.getCompany())",
+            securityMessage: "Vous n'êtes pas le propriétaire de ce compte"
+
         )
     ],
     normalizationContext: ['groups' => ['user:read']]
@@ -79,12 +105,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 50)]
     #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'user:read:planning', 'read-review', 'read-booking', 'user:read:login'])]
-    #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
+    #[Assert\NotBlank(groups: ['user:register', 'user:create', 'user:update'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 50)]
     #[Groups(['user:register', 'user:read', 'user:create', 'user:update',  'user:read:planning', 'read-review', 'read-booking', 'user:read:login'])]
-    #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
+    #[Assert\NotBlank(groups: ['user:register', 'user:create', 'user:update'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 180, unique: true)]
@@ -104,28 +130,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Groups(['user:register', 'user:create'])]
-    #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
-    #[Assert\Length(min: 8, groups: ['user:register', 'user:create'])]
+    #[Groups(['user:register', 'user:create','user:update:password'])]
+    #[Assert\NotBlank(groups: ['user:register', 'user:create', 'user:update:password'])]
+    #[Assert\Length(min: 8, groups: ['user:register', 'user:create','user:update:password'])]
     private ?string $password = null;
 
     #[Groups(['user:read:planning'])]
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Unavailability::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Unavailability::class, cascade: ['remove'],orphanRemoval: true)]
     private Collection $unavailabilities;
 
     #[Groups(['user:read:planning'])]
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Schedule::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Schedule::class,cascade: ['remove'],orphanRemoval: true)]
     private Collection $schedules;
 
     #[Groups(['user:read:login', 'user:read:company'])]
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Company $company = null;
 
-    #[Groups(['user:read:planning', 'user:read:booking'])]
-    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Booking::class)]
+    #[Groups([ 'user:client:read:booking'])]
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Booking::class, cascade: ['remove'],orphanRemoval: true)]
     private Collection $clientBookings;
 
-    #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Booking::class)]
+    #[Groups(['user:read:planning'])]
+    #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Booking::class, cascade: ['remove'],orphanRemoval: true)]
     private Collection $employeeBookings;
 
     #[Groups(['user:register', 'user:create', 'user:read'])]
@@ -135,7 +162,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Company::class)]
     private Collection $companies;
 
-    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Review::class)]
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Review::class, cascade: ['remove'],orphanRemoval: true)]
     private Collection $reviews;
 
     #[ORM\Column]
