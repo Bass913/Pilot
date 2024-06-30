@@ -74,7 +74,7 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
                 $manager->persist($company);
             }
             // Add reference for later use
-            $this->addReference('review-' . $i, $review);
+            $this->setReference('review-' . $i, $review);
         }
 
         $manager->flush();

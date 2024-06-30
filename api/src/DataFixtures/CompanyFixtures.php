@@ -38,7 +38,9 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
         ];
 
         $employeeCount = 0;
-        $maxEmployeeCount = UserFixtures::USER_COUNT;
+        $maxEmployeeCount = UserFixtures::EMPLOYEE_COUNT;
+
+        $specialUserCount = UserFixtures::SPECIAL_USERS_COUNT;
 
         for ($adminIndex = 0; $adminIndex < UserFixtures::ADMIN_COUNT; $adminIndex++) {
             $admin = $this->getReference(UserFixtures::ADMIN_REFERENCE_PREFIX . $adminIndex);
@@ -70,15 +72,50 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
 
                 $this->setReference('company-' . $adminIndex, $company);
 
-                // Ensure we don't exceed available employees
                 for ($j = 0; $j < 5 && $employeeCount < $maxEmployeeCount; $j++) {
-                    if ($employeeCount < UserFixtures::USER_COUNT) {
+                    if ($employeeCount < UserFixtures::EMPLOYEE_COUNT) {
                         $employee = $this->getReference(UserFixtures::EMPLOYEE_REFERENCE_PREFIX . $employeeCount++);
                         $employee->setCompany($company);
                         $manager->persist($employee);
                     }
                 }
             }
+        }
+
+        for ($specialUserIndex = 1; $specialUserIndex < $specialUserCount; $specialUserIndex++) {
+            $specialUser = $this->getReference(UserFixtures::SPECIAL_USERS_REFERENCE_PREFIX . $specialUserIndex);
+            if ($specialUserIndex === 3) {
+                $specialUser->setCompany($this->getReference('company-' . $specialUserIndex));
+                $manager->persist($specialUser);
+            } else {
+                $company = new Company();
+                $company->setName($faker->company());
+                $company->setAddress($faker->streetAddress());
+                $company->setDescription($faker->text());
+                $company->setZipcode($faker->postcode());
+                $company->setCity($faker->city());
+                $company->setKbis($faker->fileExtension());
+                $company->setActive($faker->boolean());
+                $company->setLatitude($faker->latitude(48.024, 49.213));
+                $company->setLongitude($faker->longitude(1.444, 3.538));
+
+                $numImages = rand(2, 7);
+                shuffle($images);
+                $selectedImages = array_slice($images, 0, $numImages);
+                $company->setImages($selectedImages);
+                $company->setReviewRating($faker->randomFloat(1, 0, 5));
+                $company->setReviewCount(ReviewFixtures::REVIEW_REFERENCE_COUNT);
+                $company->setSpeciality($specialities[array_rand($specialities)]);
+
+                $company->setUser($specialUser);
+                $specialUser->setCompany($company);
+
+                $manager->persist($company);
+                $manager->persist($specialUser);
+
+                $this->setReference('company-special-user-' . $specialUserIndex, $company);
+            }
+
         }
 
         $manager->flush();

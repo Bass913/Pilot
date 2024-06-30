@@ -16,8 +16,12 @@ class UserFixtures extends Fixture
     const USER_REFERENCE_PREFIX = 'user-';
     const ADMIN_REFERENCE_PREFIX = 'admin-';
     const EMPLOYEE_REFERENCE_PREFIX = 'employee-';
-    const USER_COUNT = 300;
+    const SPECIAL_USERS_REFERENCE_PREFIX = 'special-';
+
+    const EMPLOYEE_COUNT = 300;
     const ADMIN_COUNT = 20;
+    const SPECIAL_USERS_COUNT = 4;
+
 
     public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
@@ -47,11 +51,12 @@ class UserFixtures extends Fixture
                 $specialUser[3],
                 $specialUser[4],
                 'test',
-                $userCount++
+                $userCount++,
+                true
             );
         }
 
-        for ($i = 0; $i < self::USER_COUNT; $i++) {
+        for ($i = 0; $i < self::EMPLOYEE_COUNT; $i++) {
             $user = $this->createUser(
                 $this->faker->firstName(),
                 $this->faker->lastName(),
@@ -59,7 +64,8 @@ class UserFixtures extends Fixture
                 ['ROLE_USER', 'ROLE_EMPLOYEE'],
                 $this->faker->e164PhoneNumber(),
                 'test',
-                $userCount++
+                $userCount++,
+                false
             );
             $usersToPersist[] = $user;
             $this->addReference(self::EMPLOYEE_REFERENCE_PREFIX . $employeeCount++, $user);
@@ -73,7 +79,8 @@ class UserFixtures extends Fixture
                 ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_EMPLOYEE'],
                 $this->faker->e164PhoneNumber(),
                 'test',
-                $userCount++
+                $userCount++,
+                false
             );
             $usersToPersist[] = $user;
             $this->addReference(self::ADMIN_REFERENCE_PREFIX . $adminCount++, $user);
@@ -86,7 +93,7 @@ class UserFixtures extends Fixture
         $manager->flush();
     }
 
-    private function createUser(string $firstName, string $lastName, string $email, array $roles, string $phone, string $plainPassword, int $userCount): User
+    private function createUser(string $firstName, string $lastName, string $email, array $roles, string $phone, string $plainPassword, int $userCount, bool $isSpecial): User
     {
         $user = new User();
         $user->setFirstname($firstName);
@@ -96,12 +103,14 @@ class UserFixtures extends Fixture
         $user->setActive(true);
         $user->setPhone($phone);
 
-        // Hash password for special users
         if (in_array($email, ["user@user.fr", "admin@admin.fr", "super@admin.fr", "employee@dumois.fr"])) {
             $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
             $user->setPassword($hashedPassword);
         } else {
             $user->setPassword($plainPassword);
+        }
+        if ($isSpecial) {
+            $this->addReference(self::SPECIAL_USERS_REFERENCE_PREFIX . $userCount, $user);
         }
 
         $this->addReference(self::USER_REFERENCE_PREFIX . $userCount, $user);
