@@ -28,9 +28,6 @@ use Symfony\Component\Uid\Uuid;
         ),
         new Get(),
         new Post(),
-        new Put(),
-        new Patch(),
-        new Delete()
     ],
     normalizationContext: ['groups' => ['read-rating']]
 )]

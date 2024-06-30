@@ -11,7 +11,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use App\Entity\User;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 
-class CurrentUserConnectedExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
+class BookingExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {
     private $security;
 
@@ -22,7 +22,7 @@ class CurrentUserConnectedExtension implements QueryCollectionExtensionInterface
 
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void
     {
-        if (User::class !== $resourceClass || Booking::class !== $resourceClass) {
+        if (Booking::class !== $resourceClass) {
             return;
         }
 
@@ -32,9 +32,13 @@ class CurrentUserConnectedExtension implements QueryCollectionExtensionInterface
             return;
         }
 
-        $rootAlias = $queryBuilder->getRootAliases()[0];
-        $queryBuilder->andWhere(sprintf('%s.id = :current_user', $rootAlias))
-            ->setParameter('current_user', $user->getId());
+        if($this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('ROLE_SUPERADMIN')){
+            $company = $user->getCompany()->getId();
+            $rootAlias = $queryBuilder->getRootAliases()[0];
+            $queryBuilder->andWhere(sprintf('%s.company = :current_company', $rootAlias))
+                ->setParameter('current_company', $company);
+        }
+
     }
 
     public function applyToCollection(
@@ -44,9 +48,9 @@ class CurrentUserConnectedExtension implements QueryCollectionExtensionInterface
         ?Operation $operation = null,
         array $context = []
     ): void {
-        if ($operation && $operation->getName() === '_api_/api/me_get') {
+
             $this->addWhere($queryBuilder, $resourceClass);
-        }
+
     }
 
     public function applyToItem(
@@ -57,12 +61,6 @@ class CurrentUserConnectedExtension implements QueryCollectionExtensionInterface
         ?Operation $operation = null,
         array $context = []
     ): void {
-        if ($operation && $operation->getName() === '_api_/api/me_get') {
-            $this->addWhere($queryBuilder, $resourceClass);
-        }
-
-        if ($operation && $operation->getName() === '_api_/api/client/{id}/bookings_get') {
-            $this->addWhere($queryBuilder, $resourceClass);
-        }
+        $this->addWhere($queryBuilder, $resourceClass);
     }
 }

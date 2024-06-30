@@ -30,11 +30,16 @@ use Symfony\Component\Uid\Uuid;
         ),
         new Get(),
         new Post(
-            denormalizationContext: ['groups' => ['add-review']]
+            uriTemplate: '/api/reviews',
+            denormalizationContext: ['groups' => ['add-review']],
+            securityPostDenormalize:"is_granted('REVIEW_CREATE', object)",
+            securityPostDenormalizeMessage: "Vous essayez d'ajouter un avis pour un autre client"
         ),
-        new Put(),
-        new Patch(),
-        new Delete()
+        new Delete(
+            uriTemplate: '/api/reviews/{id}',
+            security: "is_granted('REVIEW_DELETE', object) or (is_granted('ROLE_ADMIN') and object.getCompany() == user.getCompany())",
+            securityMessage: "Vous n'avez pas le droit de supprimer cet avis"
+        )
     ],
     normalizationContext: ['groups' => ['read-review']]
 )]
@@ -61,7 +66,7 @@ class Review
     private ?string $comment = null;
 
     #[Groups(['read-company-details', 'read-review','add-review'])]
-    #[ORM\OneToMany(mappedBy: 'review', targetEntity: Rating::class, cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'review', targetEntity: Rating::class, cascade: ['persist', 'remove'],orphanRemoval: true)]
     private Collection $ratings;
 
     #[Groups(['add-review', 'read-review'])]
