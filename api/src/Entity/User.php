@@ -147,7 +147,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Schedule::class,cascade: ['remove'],orphanRemoval: true)]
     private Collection $schedules;
 
-    #[Groups(['user:read:login', 'user:read:company', 'user:create'])]
+    #[Groups(['user:read:login', 'user:create'])]
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Company $company = null;
 
@@ -163,7 +163,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $phone = null;
 
-    #[Groups(['user:read:login'])]
+    #[Groups(['user:read:login', 'user:read:company'])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Company::class)]
     private Collection $companies;
 

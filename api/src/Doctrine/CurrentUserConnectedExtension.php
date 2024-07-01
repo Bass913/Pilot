@@ -47,7 +47,9 @@ class CurrentUserConnectedExtension implements QueryCollectionExtensionInterface
         if ($operation && $operation->getName() === '_api_/api/client/{id}/bookings_get') {
             $this->addWhere($queryBuilder, $resourceClass);
         }
-        //$this->addWhere($queryBuilder, $resourceClass);
+        if($operation && $operation->getName() === '_api_/api/users/{id}/companies_get'){
+            $this->addWhere($queryBuilder, $resourceClass);
+        }
     }
 
     public function applyToItem(
@@ -61,9 +63,13 @@ class CurrentUserConnectedExtension implements QueryCollectionExtensionInterface
         if ($operation && $operation->getName() === '_api_/api/me_get') {
             $this->addWhere($queryBuilder, $resourceClass);
         }
-
         if ($operation && $operation->getName() === '_api_/api/client/{id}/bookings_get') {
             $this->addWhere($queryBuilder, $resourceClass);
         }
+
+        if($operation && $operation->getName() === '_api_/api/users/{id}/companies_get'){
+            $this->addWhere($queryBuilder, $resourceClass);
+        }
+
     }
 }

@@ -69,7 +69,7 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
                 $this->setReference('company-' . $counter, $company);
                 $counter++;
 
-                for ($j = 0; $j < 6 && $employeeCount < $maxEmployeeCount; $j++) {
+                for ($j = 0; $j < 3 && $employeeCount < $maxEmployeeCount; $j++) {
                     if ($employeeCount < UserFixtures::EMPLOYEE_COUNT) {
                         $employee = $this->getReference(UserFixtures::EMPLOYEE_REFERENCE_PREFIX . $employeeCount++);
                         $employee->setCompany($company);
