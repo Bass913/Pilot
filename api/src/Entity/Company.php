@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
@@ -39,8 +40,15 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
             securityPostDenormalize: "is_granted('ROLE_ADMIN') ",
             securityPostDenormalizeMessage: "Vous n'avez pas les droits requis pour ajouter un établissement"
         ),
-        new Patch(),
-        new Put()
+        new Patch(
+            uriTemplate: '/api/companies/{id}',
+            denormalizationContext: ['groups' => ['update-company']],
+            securityPostDenormalize: "is_granted('ROLE_ADMIN') ",
+            securityPostDenormalizeMessage: "Vous n'avez pas les droits requis pour modifier cet établissement"
+        ),
+        new Delete(
+            uriTemplate: '/api/companies/{id}'
+        )
     ],
     normalizationContext: ['groups' => ['read-company']]
 )]
@@ -54,33 +62,33 @@ class Company
     #[Groups(['user:create', 'user:read:login'])]
     private ?Uuid $id = null;
 
-    #[Groups(['read-company-details', 'read-company', 'read-booking', 'user:client:read:booking', 'user:read:company', 'add-company'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company', 'add-company','update-company' ])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-    #[Groups(['read-company-details', 'read-company', 'read-booking', 'user:client:read:booking', 'user:read:company', 'add-company'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company', 'add-company', 'update-company'])]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[Groups(['read-company-details', 'add-company'])]
+    #[Groups(['read-company-details', 'add-company', 'update-company'])]
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[Groups(['read-company-details', 'read-company', 'read-booking', 'user:client:read:booking', 'user:read:company', 'add-company'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company', 'add-company', 'update-company'])]
     #[ORM\Column(length: 10)]
     private ?string $zipcode = null;
 
-    #[Groups(['read-company-details', 'read-company', 'read-booking', 'user:client:read:booking', 'user:read:company', 'add-company'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company', 'add-company', 'update-company'])]
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 
     #[ORM\Column]
     private ?bool $active = null;
 
-    #[Groups(['read-company-details', 'read-company', 'user:read:company', 'add-company'])]
+    #[Groups(['read-company-details', 'read-company', 'user:read:company', 'add-company', 'update-company'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 11, scale: 8, nullable: true)]
     private ?float $longitude = null;
 
-    #[Groups(['read-company-details', 'read-company', 'user:read:company', 'add-company'])]
+    #[Groups(['read-company-details', 'read-company', 'user:read:company', 'add-company', 'update-company'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 8, nullable: true)]
     private ?float $latitude = null;
 
