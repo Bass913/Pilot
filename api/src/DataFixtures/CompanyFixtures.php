@@ -125,8 +125,6 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
                     $assignedEmployees = 0;
                     $employeeIndex = 0;
 
-                    if($specialUser)
-
                     while ($assignedEmployees < 3 && $employeeIndex < UserFixtures::EMPLOYEE_COUNT) {
                         $employee = $this->getReference(UserFixtures::EMPLOYEE_REFERENCE_PREFIX . $employeeIndex++);
 
