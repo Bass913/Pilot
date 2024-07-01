@@ -43,11 +43,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
         new Patch(
             uriTemplate: '/api/companies/{id}',
             denormalizationContext: ['groups' => ['update-company']],
-            securityPostDenormalize: "is_granted('ROLE_ADMIN') ",
+            securityPostDenormalize: "is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') ",
             securityPostDenormalizeMessage: "Vous n'avez pas les droits requis pour modifier cet établissement"
         ),
         new Delete(
-            uriTemplate: '/api/companies/{id}'
+            uriTemplate: '/api/companies/{id}',
+            security: "is_granted('ROLE_SUPERADMIN') or (is_granted('ROLE_ADMIN') and user.getCompanies().contains(object))",
+            securityMessage: "Vous n'avez pas les droits requis pour supprimer cet établissement"
         )
     ],
     normalizationContext: ['groups' => ['read-company']]
@@ -112,7 +114,7 @@ class Company
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Schedule::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $schedules;
 
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class, cascade: ['remove'], orphanRemoval: true)]
     private Collection $users;
 
     #[Groups(['read-company-details', 'read-company', 'user:read:company', 'add-company'])]

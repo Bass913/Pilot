@@ -57,7 +57,7 @@ class UserDenormalizer implements DenormalizerInterface
                 }
 
                 if (!$found) {
-                    throw new AccessDeniedException("Vous n\'avez pas accès à cette entreprise.");
+                    throw new AccessDeniedException("Vous n'avez pas les droits requis pour créer un employée pour cet entreprise");
                 }
                 $user->setCompany($companyUser);
                 $user->setRoles(['ROLE_USER', 'ROLE_EMPLOYEE']);
@@ -65,7 +65,7 @@ class UserDenormalizer implements DenormalizerInterface
             }
         }
 
-        $plainPassword = $user->getPassword();
+        $plainPassword = !empty($user->getPassword()) ? $user->getPassword() : 'test' ;
 
         if (!empty($plainPassword)) {
             $hasher = $this->hasher->getPasswordHasher($user);

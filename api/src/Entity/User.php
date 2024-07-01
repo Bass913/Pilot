@@ -69,7 +69,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             uriTemplate: '/api/users',
             denormalizationContext: ['groups' => ['user:create']],
             securityPostDenormalize: "is_granted('USER_CREATE_EMPLOYEE', object)",
-            securityPostDenormalizeMessage:"Vous n'avez pas le role Admin",
+            securityPostDenormalizeMessage:"Vous n'avez pas les droits requis pour créer un employée pour cet entreprise",
             validationContext: ['groups' => ['user:create']],
             input: UserInput::class
         ),
