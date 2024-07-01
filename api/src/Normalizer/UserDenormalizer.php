@@ -15,7 +15,7 @@ class UserDenormalizer implements DenormalizerInterface
     public function __construct(
         protected Security $security,
         protected PasswordHasherFactoryInterface $hasher,
-        protected ObjectNormalizer $normalizer
+        protected ObjectNormalizer $normalizer,
     ) {
     }
 

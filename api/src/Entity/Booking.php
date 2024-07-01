@@ -39,7 +39,7 @@ use ApiPlatform\Metadata\Patch;
             securityMessage: "Ce RDV ne vous appartient pas"
         ),
         new Patch(
-            uriTemplate: '/api/bookings',
+            uriTemplate: '/api/bookings/{id}',
             securityPostDenormalize: "is_granted('BOOKING_EDIT', object)",
             securityPostDenormalizeMessage:"Vous essayez de décaler un RDV pour un autre client"
 
