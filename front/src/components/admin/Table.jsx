@@ -131,7 +131,9 @@ function Table({ model, data, page, onChangePage }) {
                                                                     model ===
                                                                         "service" ||
                                                                     model ===
-                                                                        "booking"
+                                                                        "booking" ||
+                                                                    model ===
+                                                                        "companiesService"
                                                                         ? t(
                                                                               getValue(
                                                                                   row,

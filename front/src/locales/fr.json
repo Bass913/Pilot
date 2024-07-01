@@ -168,5 +168,8 @@
     "date": "Date",
     "status": "Statut",
     "delete-entity": "Êtes-vous sûr de vouloir supprimer cette entité ?",
-    "delete": "Supprimer"
+    "delete": "Supprimer",
+    "company": "Entreprise",
+    "welcome": "Bienvenue",
+    "create": "Créer"
 }

@@ -54,7 +54,7 @@ const apiService = {
 		return apiClient.get(`/companies/${id}`);
 	},
 	getAdminCompanies(id) {
-		return apiClient.get(`/users/${id}/companies`);
+		return apiClient.get(`/api/users/${id}/companies`);
 	},
 	updateCompany(id, company) {
 		return apiClient.patch(`/companies/${id}`, company);
@@ -93,7 +93,7 @@ const apiService = {
 
 	// Users
 	getUsers({ page = 1 }) {
-		return apiClient.get(`/users?page=${page}`);
+		return apiClient.get(`/api/users?page=${page}`);
 	},
 	getUser(id) {
 		return apiClient.get(`/users/${id}`);

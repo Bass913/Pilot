@@ -39,7 +39,7 @@ class UserFixtures extends Fixture
             ['John', 'Doe', 'user@user.fr', ['ROLE_USER'], '0102030405'],
             ['Admin', 'Administrateur', 'admin@admin.fr', ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_EMPLOYEE'], $this->faker->phoneNumber()],
             ['Super', 'Administrateur', 'super@admin.fr', ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN'], $this->faker->phoneNumber()],
-            ['Employee', 'Dumois', 'employee@dumois.fr', ['ROLE_USER', 'ROLE_EMPLOYEE'], $this->faker->phoneNumber()],
+            ['Employee', 'User', 'employee@employee.fr', ['ROLE_USER', 'ROLE_EMPLOYEE'], $this->faker->phoneNumber()],
         ];
 
         foreach ($specialUsers as $specialUser) {

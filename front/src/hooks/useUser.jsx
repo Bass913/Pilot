@@ -9,7 +9,13 @@ const getUserInfo = (user) => {
         firstname: user.firstname,
         lastname: user.lastname,
         roles: user.roles,
-        companyId: user.company ? user.company.split("/").pop() : null,
+        companyId: user.company ? user.company.id : null, // for the employee
+        companies: user.companies.map(
+            // for the admin
+            (company) => {
+                return company.id;
+            },
+        ),
     };
 };
 

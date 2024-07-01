@@ -1,128 +1,80 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import apiService from "../../services/apiService";
-import { useParams } from "react-router-dom";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import { useTranslation } from "react-i18next";
 import entitiesNames from "../../lib/entitiesNames";
 import Loader from "../../components/Loader";
 import BackButton from "../../components/BackButton";
 
-function EntityEditPage({ model }) {
+function EntityCreatePage({ model }) {
     const [entityData, setEntityData] = useState({});
-    const [loading, setLoading] = useState(true);
-    const { id } = useParams();
+    const [loading, setLoading] = useState(false);
     const { t } = useTranslation();
-    console.log("model", model);
 
-    useEffect(() => {
-        const fetchEntity = async () => {
-            try {
-                let response;
-                switch (model) {
-                    case "provider":
-                    case "companyProvider":
-                    case "companiesProvider":
-                        response = await apiService.getCompany(id);
-                        break;
-                    case "user":
-                    case "employee":
-                        response = await apiService.getUser(id);
-                        break;
-                    case "service":
-                        response = await apiService.getService(id);
-                        break;
-                    case "companyService":
-                    case "companiesService":
-                        response = await apiService.getCompanyService(id);
-                        break;
-                    case "booking":
-                        response = await apiService.getBooking(id);
-                        break;
-                    default:
-                        break;
-                }
-                setEntityData(response.data);
-            } catch (error) {
-                console.error(`Error fetching ${model} data:`, error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchEntity();
-    }, [model, id]);
-
-    const handleSubmit = async (updatedData) => {
+    const handleSubmit = async (newData) => {
         try {
+            setLoading(true);
             let response;
             switch (model) {
                 case "provider":
                 case "companyProvider":
                 case "companiesProvider":
-                    response = await apiService.updateCompany(id, updatedData);
+                    response = await apiService.createCompany(newData);
                     break;
                 case "user":
                 case "employee":
-                    response = await apiService.updateUser(id, updatedData);
+                    response = await apiService.createUser(newData);
                     break;
                 case "service":
-                    response = await apiService.updateService(id, updatedData);
+                    response = await apiService.createService(newData);
                     break;
                 case "companyService":
                 case "companiesService":
-                    response = await apiService.updateCompanyService(
-                        id,
-                        updatedData,
-                    );
+                    response = await apiService.createCompanyService(newData);
                     break;
                 case "booking":
-                    response = await apiService.updateBooking(id, updatedData);
+                    response = await apiService.createBooking(newData);
                     break;
                 default:
                     break;
             }
             // TODO: Add notification
         } catch (error) {
-            console.error(`Failed to update ${model}:`, error);
+            console.error(`Failed to create ${model}:`, error);
+        } finally {
+            setLoading(false);
         }
     };
 
-    const convertToDatetimeLocal = (isoDate) => {
-        const date = new Date(isoDate);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        const hours = String(date.getHours()).padStart(2, "0");
-        const minutes = String(date.getMinutes()).padStart(2, "0");
-
-        return `${year}-${month}-${day}T${hours}:${minutes}`;
-    };
-
     const formFields = [
-        // User
+        // User / Employee
         {
             name: "firstname",
             label: t("firstname"),
             type: "text",
-            value: entityData.firstname,
+            value: entityData.firstname || "",
+            models: ["user", "employee", "companyEmployee", "companiesEmployee"],
         },
         {
             name: "lastname",
             label: t("lastname"),
             type: "text",
-            value: entityData.lastname,
+            value: entityData.lastname || "",
+            models: ["user", "employee", "companyEmployee", "companiesEmployee"],
         },
         {
             name: "email",
             label: t("email"),
             type: "email",
-            value: entityData.email,
+            value: entityData.email || "",
+            models: ["user", "employee", "companyEmployee", "companiesEmployee"],
         },
         {
             name: "phone",
             label: t("phone"),
             type: "tel",
-            value: entityData.phone,
+            value: entityData.phone || "",
+            models: ["user", "employee", "companyEmployee", "companiesEmployee"],
         },
 
         // Company
@@ -130,31 +82,36 @@ function EntityEditPage({ model }) {
             name: "name",
             label: t("name"),
             type: "text",
-            value: entityData.name,
+            value: entityData.name || "",
+            models: ["provider", "companyProvider", "companiesProvider"],
         },
         {
             name: "description",
             label: t("description"),
             type: "textarea",
-            value: entityData.description,
+            value: entityData.description || "",
+            models: ["provider", "companyProvider", "companiesProvider"],
         },
         {
             name: "address",
             label: t("address"),
             type: "text",
-            value: entityData.address,
+            value: entityData.address || "",
+            models: ["provider", "companyProvider", "companiesProvider"],
         },
         {
             name: "city",
             label: t("city"),
             type: "text",
-            value: entityData.city,
+            value: entityData.city || "",
+            models: ["provider", "companyProvider", "companiesProvider"],
         },
         {
             name: "zipcode",
             label: t("zipcode"),
             type: "text",
-            value: entityData.zipcode,
+            value: entityData.zipcode || "",
+            models: ["provider", "companyProvider", "companiesProvider"],
         },
 
         // Service
@@ -162,36 +119,24 @@ function EntityEditPage({ model }) {
             name: "price",
             label: t("price"),
             type: "number",
-            value: entityData.price,
+            value: entityData.price || "",
             step: 0.01,
+            models: ["service", "companyService", "companiesService"],
         },
         {
             name: "duration",
             label: t("duration"),
             type: "number",
-            value: entityData.duration,
+            value: entityData.duration || "",
             step: 1,
-        },
-
-        // Booking
-        {
-            name: "startDate",
-            label: t("date"),
-            type: "datetime-local",
-            value: convertToDatetimeLocal(entityData.startDate),
-        },
-        {
-            name: "status",
-            label: t("status"),
-            type: "text",
-            value: entityData.status,
+            models: ["service", "companyService", "companiesService"],
         },
     ];
 
     const getCommonFields = () => {
         const commonFields = [];
         formFields.forEach((field) => {
-            if (entityData.hasOwnProperty(field.name)) {
+            if (field.models?.includes(model)) {
                 commonFields.push(field);
             }
         });
@@ -200,8 +145,7 @@ function EntityEditPage({ model }) {
 
     const commonFields = getCommonFields();
 
-    const updatedData = commonFields.reduce((acc, field) => {
-        // change to int if the field is a number and step is 1
+    const newData = commonFields.reduce((acc, field) => {
         acc[field.name] =
             field.type === "number" && field.step === 1
                 ? parseInt(field.value)
@@ -250,13 +194,13 @@ function EntityEditPage({ model }) {
                 </div>
             )}
             <button
-                onClick={() => handleSubmit(updatedData)}
+                onClick={() => handleSubmit(newData)}
                 className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 flex justify-center"
             >
-                {t("save")}
+                {t("create")}
             </button>
         </DashboardLayout>
     );
 }
 
-export default EntityEditPage;
+export default EntityCreatePage;

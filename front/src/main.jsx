@@ -1,9 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {
-    createBrowserRouter,
-    RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.jsx";
 import Root from "./layouts/RootLayout.jsx";
 import Login from "./pages/auth/LoginPage.jsx";
@@ -23,6 +20,7 @@ import RequestsPage from "./pages/admin/RequestsPage.jsx";
 import DynamicEntityPage from "./pages/admin/DynamicEntityPage.jsx";
 import ProtectedRoute from "./components/security/ProtectedRoute.jsx";
 import EntityEditPage from "./pages/admin/EntityEditPage.jsx";
+import EntityCreatePage from "./pages/admin/EntityCreatePage.jsx";
 
 const router = createBrowserRouter([
     {
@@ -103,12 +101,22 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "providers",
-						children: [
+                        children: [
                             {
                                 path: "",
                                 element: (
                                     <ProtectedRoute
                                         element={DynamicEntityPage}
+                                        allowedRoles={["ROLE_ADMIN"]}
+                                        model="provider"
+                                    />
+                                ),
+                            },
+                            {
+                                path: "create",
+                                element: (
+                                    <ProtectedRoute
+                                        element={EntityCreatePage}
                                         allowedRoles={["ROLE_ADMIN"]}
                                         model="provider"
                                     />
@@ -140,6 +148,16 @@ const router = createBrowserRouter([
                                 ),
                             },
                             {
+                                path: "create",
+                                element: (
+                                    <ProtectedRoute
+                                        element={EntityCreatePage}
+                                        allowedRoles={["ROLE_ADMIN"]}
+                                        model="service"
+                                    />
+                                ),
+                            },
+                            {
                                 path: ":id/edit",
                                 element: (
                                     <ProtectedRoute
@@ -153,39 +171,24 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "employees",
-						children: [
-							{
-								path: "",
-								element: (
-									<ProtectedRoute
-										element={DynamicEntityPage}
-										allowedRoles={["ROLE_ADMIN"]}
-										model="employee"
-									/>
-								),
-							},
-							{
-								path: ":id/edit",
-								element: (
-									<ProtectedRoute
-										element={EntityEditPage}
-										allowedRoles={["ROLE_ADMIN"]}
-										model="employee"
-									/>
-								),
-							},
-						],
-                    },
-                    {
-                        path: "schedule",
-						children: [
+                        children: [
                             {
                                 path: "",
                                 element: (
                                     <ProtectedRoute
                                         element={DynamicEntityPage}
-                                        allowedRoles={["ROLE_EMPLOYEE", "ROLE_ADMIN"]}
-                                        model="schedule"
+                                        allowedRoles={["ROLE_ADMIN"]}
+                                        model="employee"
+                                    />
+                                ),
+                            },
+                            {
+                                path: "create",
+                                element: (
+                                    <ProtectedRoute
+                                        element={EntityCreatePage}
+                                        allowedRoles={["ROLE_ADMIN"]}
+                                        model="employee"
                                     />
                                 ),
                             },
@@ -194,32 +197,81 @@ const router = createBrowserRouter([
                                 element: (
                                     <ProtectedRoute
                                         element={EntityEditPage}
-                                        allowedRoles={["ROLE_EMPLOYEE", "ROLE_ADMIN"]}
-                                        model="schedule"
+                                        allowedRoles={["ROLE_ADMIN"]}
+                                        model="employee"
                                     />
                                 ),
                             },
                         ],
                     },
                     {
+                        path: "schedule",
+                        children: [
+                            {
+                                path: "",
+                                element: (
+                                    <ProtectedRoute
+                                        element={SchedulePage}
+                                        allowedRoles={[
+                                            "ROLE_EMPLOYEE",
+                                            "ROLE_ADMIN",
+                                        ]}
+                                    />
+                                ),
+                            },
+                            // {
+                            //     path: ":id/edit",
+                            //     element: (
+                            //         <ProtectedRoute
+                            //             element={EntityEditPage}
+                            //             allowedRoles={[
+                            //                 "ROLE_EMPLOYEE",
+                            //                 "ROLE_ADMIN",
+                            //             ]}
+                            //             model="schedule"
+                            //         />
+                            //     ),
+                            // },
+                        ],
+                    },
+                    {
                         path: "bookings",
-						children: [
+                        children: [
                             {
                                 path: "",
                                 element: (
                                     <ProtectedRoute
                                         element={DynamicEntityPage}
-                                        allowedRoles={["ROLE_EMPLOYEE", "ROLE_ADMIN"]}
+                                        allowedRoles={[
+                                            "ROLE_EMPLOYEE",
+                                            "ROLE_ADMIN",
+                                        ]}
                                         model="booking"
                                     />
                                 ),
                             },
+                            // {
+                            //     path: "create",
+                            //     element: (
+                            //         <ProtectedRoute
+                            //             element={EntityCreatePage}
+                            //             allowedRoles={[
+                            //                 "ROLE_EMPLOYEE",
+                            //                 "ROLE_ADMIN",
+                            //             ]}
+                            //             model="booking"
+                            //         />
+                            //     ),
+                            // },
                             {
                                 path: ":id/edit",
                                 element: (
                                     <ProtectedRoute
                                         element={EntityEditPage}
-                                        allowedRoles={["ROLE_EMPLOYEE", "ROLE_ADMIN"]}
+                                        allowedRoles={[
+                                            "ROLE_EMPLOYEE",
+                                            "ROLE_ADMIN",
+                                        ]}
                                         model="booking"
                                     />
                                 ),
@@ -228,12 +280,22 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "users",
-						children: [
+                        children: [
                             {
                                 path: "",
                                 element: (
                                     <ProtectedRoute
                                         element={DynamicEntityPage}
+                                        allowedRoles={["ROLE_SUPERADMIN"]}
+                                        model="user"
+                                    />
+                                ),
+                            },
+                            {
+                                path: "create",
+                                element: (
+                                    <ProtectedRoute
+                                        element={EntityEditPage}
                                         allowedRoles={["ROLE_SUPERADMIN"]}
                                         model="user"
                                     />

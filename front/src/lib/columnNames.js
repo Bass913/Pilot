@@ -10,6 +10,7 @@ const columnNames = {
 	phone: "phone",
 	"service.name": "name",
 	"companyService.service.name": "service",
+	"company.name": "company",
 	employee: "employee",
 	startDate: "date",
 	duration: "duration",
