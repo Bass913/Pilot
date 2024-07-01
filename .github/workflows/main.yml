@@ -82,7 +82,6 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no root@143.244.189.241 << 'EOF'
           cd /var/www/html/api-platform
-          docker compose down
           SERVER_NAME=challenge.pilot.us.to \
           DATABASE_URL=postgres://gibhwigg:G451SbOGgg4WxbxsqcabFEfenMIycNJ4@kandula.db.elephantsql.com/gibhwigg \
           APP_SECRET=${{ secrets.APP_SECRET }} \
