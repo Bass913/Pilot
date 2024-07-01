@@ -20,6 +20,8 @@ import RequestsPage from "./pages/admin/RequestsPage.jsx";
 import DynamicEntityPage from "./pages/admin/DynamicEntityPage.jsx";
 import ProtectedRoute from "./components/security/ProtectedRoute.jsx";
 import EntityEditPage from "./pages/admin/EntityEditPage.jsx";
+import SchedulePage from "./pages/admin/SchedulePage.jsx";
+
 import EntityCreatePage from "./pages/admin/EntityCreatePage.jsx";
 
 const router = createBrowserRouter([
