@@ -31,8 +31,11 @@ jobs:
         run: vendor/bin/phpcs src/
         working-directory: api
 
+      - name: Set PHPStan flag
+        run: echo "RUN_PHPSTAN=${{ secrets.RUN_PHPSTAN }}" >> $GITHUB_ENV
+
       - name: Run PHPStan
-        if: ${{ secrets.RUN_PHPSTAN == 'true' }}
+        if: ${{ env.RUN_PHPSTAN == 'true' }}
         run: vendor/bin/phpstan.phar analyse src/ -c phpstan.neon --level=max --no-progress -vvv --memory-limit=2048M
         working-directory: api
 
