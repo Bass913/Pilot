@@ -94,6 +94,9 @@ jobs:
       - name: Copy files to server
         run: scp -o StrictHostKeyChecking=no project-files.tar.gz root@143.244.189.241:/var/www/html/pilot
 
+      - name: Exclude db_data directory
+        run: echo "db_data/" >> .git/info/exclude
+
       - name: Deploy to DigitalOcean Droplet
         run: |
           ssh -o StrictHostKeyChecking=no root@143.244.189.241 << 'EOF'
