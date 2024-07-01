@@ -81,7 +81,7 @@ jobs:
         working-directory: api
 
       - name: Archive project files
-        run: tar --warning=no-file-changed -czvf project-files.tar.gz .
+        run: tar -czvf project-files.tar.gz .
 
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.9.0
