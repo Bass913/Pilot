@@ -76,12 +76,12 @@ jobs:
 
       - name: Copy files to server
         run: |
-          scp -o StrictHostKeyChecking=no -r ./* root@143.244.189.241:/var/www/html
+          scp -o StrictHostKeyChecking=no -r ./* root@143.244.189.241:/var/www/html/pilot
 
       - name: Deploy to DigitalOcean Droplet
         run: |
           ssh -o StrictHostKeyChecking=no root@143.244.189.241 << 'EOF'
-          cd /var/www/html \
+          cd /var/www/html/pilot \
           docker compose down
           SERVER_NAME=challenge.pilot.us.to \
           DATABASE_URL=postgres://gibhwigg:G451SbOGgg4WxbxsqcabFEfenMIycNJ4@kandula.db.elephantsql.com/gibhwigg \
