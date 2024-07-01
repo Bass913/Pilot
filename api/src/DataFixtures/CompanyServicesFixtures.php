@@ -14,7 +14,11 @@ class CompanyServicesFixtures extends Fixture implements DependentFixtureInterfa
     {
         $faker = Factory::create();
 
-        $companies = $manager->getRepository(\App\Entity\Company::class)->findAll();
+        $companies = [];
+
+        for ($i = 0; $i < CompanyFixtures::COMPANY_REFERENCE_COUNT; $i++) {
+            $companies[] = $this->getReference('company-' . $i);
+        }
 
         $services = [];
 

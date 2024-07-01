@@ -14,9 +14,8 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
     {
 
         $companyServices = $manager->getRepository(\App\Entity\CompanyService::class)->findAll();
+
         $users = $manager->getRepository(\App\Entity\User::class)->findAll();
-
-
 
         foreach ($users as $user) {
             for ($j = 0; $j < 3; $j++) { // Ajoute 3 rendez-vous par utilisateur

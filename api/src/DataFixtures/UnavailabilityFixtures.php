@@ -7,7 +7,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Faker\Factory;
-use App\Entity\User;
 use App\Entity\Company;
 
 class UnavailabilityFixtures extends Fixture implements DependentFixtureInterface
@@ -25,7 +24,7 @@ class UnavailabilityFixtures extends Fixture implements DependentFixtureInterfac
 
         $companies = [];
 
-        for ($i = 0; $i < CompanyFixtures::COMPANY_REFERENCE_COUNT; $i++) {
+        for ($i = 0; $i < 62; $i++) {
             $companies[] = $this->getReference('company-' . $i);
         }
 
@@ -33,13 +32,13 @@ class UnavailabilityFixtures extends Fixture implements DependentFixtureInterfac
         for ($i = 0; $i < $userCount; $i++) {
             $user = $this->getReference(UserFixtures::USER_REFERENCE_PREFIX . $i);
 
-            for ($j = 0; $j < 5; $j++) { // Ajoute 5 indisponibilités par utilisateur
-                $startDate = $faker->dateTimeBetween($startOfWeek, $endOfWeek);
+            for ($j = 0; $j < 5; $j++) { // Ajoute 5 indisponibilités par utilisateur entre 8h et 18h
+                $startDate = $faker->dateTimeBetween($startOfWeek->setTime(8, 0), $endOfWeek->setTime(18, 0));
                 $endDate = (clone $startDate)->modify('+' . mt_rand(1, 3) . ' hours');
 
-                // S'assurer que endDate ne dépasse pas la fin de la semaine
-                if ($endDate > $endOfWeek) {
-                    $endDate = $endOfWeek;
+                // S'assurer que endDate ne dépasse pas 18h de la même journée
+                if ($endDate->format('Y-m-d') != $startDate->format('Y-m-d') || $endDate > $startDate->setTime(18, 0)) {
+                    $endDate = (clone $startDate)->setTime(18, 0);
                 }
 
                 $unavailability = new Unavailability();
@@ -49,6 +48,18 @@ class UnavailabilityFixtures extends Fixture implements DependentFixtureInterfac
 
                 $manager->persist($unavailability);
             }
+
+            // Ajouter une indisponibilité sur une journée complète au hasard (lundi à samedi)
+            $randomDay = $faker->dateTimeBetween($startOfWeek, (clone $startOfWeek)->modify('+5 days'));
+            $startOfDay = (clone $randomDay)->setTime(0, 0);
+            $endOfDay = (clone $randomDay)->setTime(23, 59, 59);
+
+            $unavailability = new Unavailability();
+            $unavailability->setUser($user);
+            $unavailability->setStartDate($startOfDay);
+            $unavailability->setEndDate($endOfDay);
+
+            $manager->persist($unavailability);
         }
 
         // Ajouter des indisponibilités pour les entreprises

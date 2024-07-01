@@ -10,7 +10,7 @@ use Faker\Factory;
 
 class CompanyFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const COMPANY_REFERENCE_COUNT = 20;
+    public const COMPANY_REFERENCE_COUNT = 62;
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
@@ -40,7 +40,7 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
         $maxEmployeeCount = UserFixtures::EMPLOYEE_COUNT;
 
         $specialUserCount = UserFixtures::SPECIAL_USERS_COUNT;
-
+        $counter = 0;
         for ($adminIndex = 0; $adminIndex < UserFixtures::ADMIN_COUNT; $adminIndex++) {
             $admin = $this->getReference(UserFixtures::ADMIN_REFERENCE_PREFIX . $adminIndex);
 
@@ -69,7 +69,8 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
                 $manager->persist($company);
                 $manager->persist($admin);
 
-                $this->setReference('company-' . $adminIndex, $company);
+                $this->setReference('company-' . $counter, $company);
+                $counter++;
 
                 for ($j = 0; $j < 5 && $employeeCount < $maxEmployeeCount; $j++) {
                     if ($employeeCount < UserFixtures::EMPLOYEE_COUNT) {
@@ -112,7 +113,8 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
                 $manager->persist($company);
                 $manager->persist($specialUser);
 
-                $this->setReference('company-special-user-' . $specialUserIndex, $company);
+                $this->setReference('company-' . $counter, $company);
+                $counter++;
             }
 
         }

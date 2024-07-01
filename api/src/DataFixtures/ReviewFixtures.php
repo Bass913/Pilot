@@ -17,7 +17,11 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create();
 
-        $companies = $manager->getRepository(\App\Entity\Company::class)->findAll();
+        $companies = [];
+
+        for ($i = 0; $i < CompanyFixtures::COMPANY_REFERENCE_COUNT; $i++) {
+            $companies[] = $this->getReference('company-' . $i);
+        }
 
         $categories = [];
 
@@ -26,7 +30,9 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
         }
 
         $users = [];
-        for ($i = 1; $i < 61; $i++) { // Ajustez ce nombre selon le nombre total d'utilisateurs
+        $totalUsers = UserFixtures::EMPLOYEE_COUNT + UserFixtures::ADMIN_COUNT + UserFixtures::SPECIAL_USERS_COUNT;
+
+        for ($i = 0; $i < $totalUsers; $i++) { // Ajustez ce nombre selon le nombre total d'utilisateurs
             $users[] = $this->getReference(UserFixtures::USER_REFERENCE_PREFIX . $i);
         }
 
@@ -40,10 +46,10 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
                 $review->setComment($faker->sentence());
                 $review->setCompany($company);
                 $review->setClient($users[array_rand($users)]);
-                for ($i = 0; $i < rand(3, 5); $i++) {
+                for ($j = 0; $j < 4; $j++) {
                     $rating = new Rating();
                     $rating->setReview($review);
-                    $rating->setCategory($categories[array_rand($categories)]);
+                    $rating->setCategory($categories[array_keys($categories)[$j]]);
                     $rating->setValue($faker->randomDigitNotNull());
                     $manager->persist($rating);
                     $review->addRating($rating);
