@@ -91,5 +91,6 @@ jobs:
           APP_SECRET=ChangeMe \
           POSTGRES_PASSWORD=ChangeMe \
           CADDY_MERCURE_JWT_SECRET=ChangeThisMercureHubJWTSecretKey \
+          docker compose -f compose.yaml -f compose.prod.yaml build --no-cache && \
           docker compose -f compose.yaml -f compose.prod.yaml up --wait
           EOF
