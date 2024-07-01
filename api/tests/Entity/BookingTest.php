@@ -61,7 +61,7 @@ class BookingTest extends TestCase
         $reflectionClass = new \ReflectionClass(Booking::class);
         $classAnnotations = $reflectionClass->getAttributes();
 
-        $this->assertCount(2, $classAnnotations); // Check for attributes on the class (ORM\Entity and ApiResource)
+        $this->assertCount(2, $classAnnotations);
 
         $idProperty = $reflectionClass->getProperty('id');
         $idAnnotations = $idProperty->getAttributes();
@@ -79,10 +79,9 @@ class BookingTest extends TestCase
         $companyServiceAnnotations = $companyServiceProperty->getAttributes();
         $this->assertCount(2, $companyServiceAnnotations);
 
-
         $clientProperty = $reflectionClass->getProperty('client');
         $clientAnnotations = $clientProperty->getAttributes();
-        $this->assertCount(1, $clientAnnotations);
+        $this->assertCount(2, $clientAnnotations);
 
         $employeeProperty = $reflectionClass->getProperty('employee');
         $employeeAnnotations = $employeeProperty->getAttributes();

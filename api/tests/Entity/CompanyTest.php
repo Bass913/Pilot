@@ -26,7 +26,6 @@ class CompanyTest extends TestCase
         $this->assertNull($company->getDescription());
         $this->assertNull($company->getZipcode());
         $this->assertNull($company->getCity());
-        $this->assertNull($company->getKbis());
         $this->assertNull($company->isActive());
         $this->assertNull($company->getLongitude());
         $this->assertNull($company->getLatitude());

@@ -54,10 +54,10 @@ class Company
     #[Groups(['user:create', 'user:read:login'])]
     private ?Uuid $id = null;
 
-    #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company', 'add-company'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking', 'user:client:read:booking', 'user:read:company', 'add-company'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-    #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company', 'add-company'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking', 'user:client:read:booking', 'user:read:company', 'add-company'])]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
@@ -65,11 +65,11 @@ class Company
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company', 'add-company'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking', 'user:client:read:booking', 'user:read:company', 'add-company'])]
     #[ORM\Column(length: 10)]
     private ?string $zipcode = null;
 
-    #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company', 'add-company'])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking', 'user:client:read:booking', 'user:read:company', 'add-company'])]
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 
@@ -85,11 +85,11 @@ class Company
     private ?float $latitude = null;
 
     #[Groups(['read-company-details', 'add-company'])]
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: CompanyService::class, cascade: ['persist', 'remove'],orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: CompanyService::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $companyServices;
 
     #[Groups(['read-company-details'])]
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Review::class, cascade: ['remove'],orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Review::class, cascade: ['remove'], orphanRemoval: true)]
     private Collection $reviews;
 
     #[Groups(['read-company-details', 'read-company', 'user:read:company'])]
@@ -97,11 +97,11 @@ class Company
     private ?float $reviewRating = null;
 
     #[Groups(['read-company-details', 'read-company-planning', 'add-company'])]
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Unavailability::class, cascade: ['persist', 'remove'],orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Unavailability::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $unavailabilities;
 
     #[Groups(['read-company-details', 'read-company-planning', 'add-company'])]
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Schedule::class, cascade: ['persist', 'remove'],orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Schedule::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $schedules;
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
@@ -116,7 +116,7 @@ class Company
     private ?int $reviewCount = null;
 
     #[Groups(['read-company-details', 'read-company', 'user:read:company'])]
-    #[ORM\Column(type: Types::ARRAY , nullable: true)]
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private ?array $images = null;
 
     #[ORM\ManyToOne(inversedBy: 'companies')]
@@ -199,18 +199,6 @@ class Company
     public function setCity(string $city): static
     {
         $this->city = $city;
-
-        return $this;
-    }
-
-    public function getKbis(): ?string
-    {
-        return $this->kbis;
-    }
-
-    public function setKbis(string $kbis): static
-    {
-        $this->kbis = $kbis;
 
         return $this;
     }
