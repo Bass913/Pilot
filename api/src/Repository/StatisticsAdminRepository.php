@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Statistics;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,7 +41,7 @@ class StatisticsAdminRepository extends ServiceEntityRepository
     {
 
         $companyIds = $this->_em->createQuery('
-        SELECT c.id 
+        SELECT c.id
         FROM App\Entity\Company c
         JOIN c.user u
         WHERE u.id = :providerId')
@@ -91,13 +92,18 @@ class StatisticsAdminRepository extends ServiceEntityRepository
         }
 
         $query = $this->_em->createQuery('
-            SELECT u.firstname, u.lastname
+            SELECT u.firstname, u.lastname, u.roles
             FROM App\Entity\User u
             WHERE u.company = :companyId
         ')
             ->setParameter('companyId', $companyIds[0]);
+        $result = $query->getResult();
 
-        return $query->getResult();
+
+       return array_filter($result, function($user) {
+            return in_array("ROLE_EMPLOYEE", $user['roles']);
+        });
+        //return  $result;
     }
 
     public function getTodaysReservations(string $providerId): int

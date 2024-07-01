@@ -7,6 +7,7 @@ use App\Repository\StatisticsAdminRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class StatisticsAdminController extends AbstractController
 {
@@ -22,10 +23,13 @@ class StatisticsAdminController extends AbstractController
 
     public function __invoke(string $id): JsonResponse
     {
-        /*$user = $this->security->getUser();
+        $user = $this->security->getUser();
         assert($user instanceof User);
-        if($user->getCompany()->getId() !== $id){
-        }*/
+        if(($this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('ROLE_SUPERADMIN')) && $user->getId() != $id){
+            throw new AccessDeniedException("vous n'avez pas les droits pour visualiser les statistiques de cet admin");
+
+        }
+
         $statistics = $this->statisticsRepository->getProviderStatistics($id);
 
         return new JsonResponse([

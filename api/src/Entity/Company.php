@@ -36,7 +36,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
         new Post(
             uriTemplate: '/api/companies',
             denormalizationContext: ['groups' => ['add-company']],
-            securityPostDenormalize: "is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPERADMIN')",
+            securityPostDenormalize: "is_granted('ROLE_ADMIN') ",
             securityPostDenormalizeMessage: "Vous n'avez pas les droits requis pour ajouter un établissement"
         ),
         new Patch(),
@@ -51,10 +51,10 @@ class Company
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[Groups(['user:create', 'user:read:login'])]
     private ?Uuid $id = null;
 
     #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company', 'add-company'])]
-
     #[ORM\Column(length: 255)]
     private ?string $name = null;
     #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company', 'add-company'])]
@@ -73,13 +73,6 @@ class Company
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 
-    #[Vich\UploadableField(mapping: 'kbis', fileNameProperty: 'kbis')]
-    #[Assert\NotNull(groups: ['write-company'])]
-    public ?File $file = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $kbis = null;
-
     #[ORM\Column]
     private ?bool $active = null;
 
@@ -92,29 +85,29 @@ class Company
     private ?float $latitude = null;
 
     #[Groups(['read-company-details', 'add-company'])]
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: CompanyService::class)]
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: CompanyService::class, cascade: ['persist', 'remove'],orphanRemoval: true)]
     private Collection $companyServices;
 
     #[Groups(['read-company-details'])]
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Review::class)]
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Review::class, cascade: ['remove'],orphanRemoval: true)]
     private Collection $reviews;
 
     #[Groups(['read-company-details', 'read-company', 'user:read:company'])]
     #[ORM\Column(nullable: true)]
     private ?float $reviewRating = null;
 
-    #[Groups(['read-company-details', 'read-company-planning'])]
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Unavailability::class)]
+    #[Groups(['read-company-details', 'read-company-planning', 'add-company'])]
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Unavailability::class, cascade: ['persist', 'remove'],orphanRemoval: true)]
     private Collection $unavailabilities;
 
-    #[Groups(['read-company-details', 'read-company-planning'])]
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Schedule::class)]
+    #[Groups(['read-company-details', 'read-company-planning', 'add-company'])]
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Schedule::class, cascade: ['persist', 'remove'],orphanRemoval: true)]
     private Collection $schedules;
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
     private Collection $users;
 
-    #[Groups(['read-company-details', 'read-company', 'user:read:company'])]
+    #[Groups(['read-company-details', 'read-company', 'user:read:company', 'add-company'])]
     #[ORM\ManyToOne(inversedBy: 'companies')]
     private ?Speciality $speciality;
 

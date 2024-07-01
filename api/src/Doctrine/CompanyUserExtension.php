@@ -38,7 +38,7 @@ final class CompanyUserExtension implements QueryCollectionExtensionInterface
 
         $filteredUsers = array_filter($users, function ($user) {
             $roles = $user->getRoles();
-            return $roles === ["ROLE_USER", "ROLE_EMPLOYEE"];
+            return in_array("ROLE_EMPLOYEE", $roles);
         });
 
         $filteredUserIds = array_map(function ($user) {

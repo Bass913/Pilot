@@ -9,17 +9,18 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use App\Doctrine\CurrentUserConnectedExtension;
+use App\Dto\UserInput;
 use App\Repository\UserRepository;
+use App\State\UserProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -69,12 +70,13 @@ use Symfony\Component\Uid\Uuid;
             denormalizationContext: ['groups' => ['user:create']],
             securityPostDenormalize: "is_granted('USER_CREATE_EMPLOYEE', object)",
             securityPostDenormalizeMessage:"Vous n'avez pas le role Admin",
-            validationContext: ['groups' => ['user:create']]
+            validationContext: ['groups' => ['user:create']],
+            input: UserInput::class
         ),
         new Patch(
             uriTemplate: '/api/users/{id}',
             denormalizationContext: ['groups' => ['user:update']],
-            securityPostDenormalize: "is_granted('USER_EDIT', object)",
+            securityPostDenormalize: "is_granted('USER_EDIT', object) or (is_granted('ROLE_ADMIN') and object.getCompany() == user.getCompany())",
             securityPostDenormalizeMessage: "Vous n'êtes pas le propriétaire de ce compte",
             validationContext: ['groups' => ['user:update']]
         ),
@@ -116,9 +118,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lastname = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['user:register', 'user:read', 'user:create'])]
-    #[Assert\Email(groups: ['user:register', 'user:create'])]
-    #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update'])]
+    #[Assert\Email(groups: ['user:register', 'user:create', 'user:update'])]
+    #[Assert\NotBlank(groups: ['user:register', 'user:create', 'user:update'])]
     private ?string $email = null;
 
     /**
@@ -145,7 +147,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Schedule::class,cascade: ['remove'],orphanRemoval: true)]
     private Collection $schedules;
 
-    #[Groups(['user:read:login', 'user:read:company'])]
+    #[Groups(['user:read:login', 'user:read:company', 'user:create'])]
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Company $company = null;
 
@@ -157,11 +159,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Booking::class, cascade: ['remove'],orphanRemoval: true)]
     private Collection $employeeBookings;
 
-    #[Groups(['user:register', 'user:create', 'user:read'])]
+    #[Groups(['user:register', 'user:create', 'user:read', 'user:update'])]
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $phone = null;
 
-    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Company::class)]
+    #[Groups(['user:read:login'])]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Company::class)]
     private Collection $companies;
 
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Review::class, cascade: ['remove'],orphanRemoval: true)]
