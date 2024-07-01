@@ -76,7 +76,7 @@ jobs:
 
       - name: Remove existing contents on server
         run: |
-          ssh -o StrictHostKeyChecking=no root@143.244.189.241 'rm -rf /var/www/html/pilot/*'
+          ssh -o StrictHostKeyChecking=no root@143.244.189.241 'rm -rf /var/www/html/pilot/* || true'
 
       - name: Copy files to server
         run: |
