@@ -34,6 +34,8 @@ class CompanyDenormalizer implements DenormalizerInterface
                 throw new \RuntimeException('No current request.');
             }
             $companyIdRequest = $request->attributes->get('id');
+            var_dump($context['groups'][0],$companyIdRequest, $data);
+            die();
         }
 
 
@@ -44,8 +46,7 @@ class CompanyDenormalizer implements DenormalizerInterface
 
 
 
-        var_dump($context['groups'][0], $data);
-        die();
+
 
         if($context['groups'][0] != "add-company"){
             return $user;

@@ -18,7 +18,7 @@ class UserFixtures extends Fixture
     const EMPLOYEE_REFERENCE_PREFIX = 'employee-';
     const SPECIAL_USERS_REFERENCE_PREFIX = 'special-';
 
-    const EMPLOYEE_COUNT = 300;
+    const EMPLOYEE_COUNT = 197;
     const ADMIN_COUNT = 20;
     const SPECIAL_USERS_COUNT = 4;
 

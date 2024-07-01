@@ -51,7 +51,6 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
                 $company->setDescription($faker->text());
                 $company->setZipcode($faker->postcode());
                 $company->setCity($faker->city());
-                $company->setKbis($faker->fileExtension());
                 $company->setActive($faker->boolean());
                 $company->setLatitude($faker->latitude(48.024, 49.213));
                 $company->setLongitude($faker->longitude(1.444, 3.538));
@@ -70,7 +69,7 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
                 $this->setReference('company-' . $counter, $company);
                 $counter++;
 
-                for ($j = 0; $j < 6 && $employeeCount < $maxEmployeeCount; $j++) {
+                for ($j = 0; $j < 3 && $employeeCount < $maxEmployeeCount; $j++) {
                     if ($employeeCount < UserFixtures::EMPLOYEE_COUNT) {
                         $employee = $this->getReference(UserFixtures::EMPLOYEE_REFERENCE_PREFIX . $employeeCount++);
                         $employee->setCompany($company);
@@ -93,7 +92,6 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
                     $company->setDescription($faker->text());
                     $company->setZipcode($faker->postcode());
                     $company->setCity($faker->city());
-                    $company->setKbis($faker->fileExtension());
                     $company->setActive($faker->boolean());
                     $company->setLatitude($faker->latitude(48.024, 49.213));
                     $company->setLongitude($faker->longitude(1.444, 3.538));

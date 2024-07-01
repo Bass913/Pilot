@@ -22,6 +22,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             for ($j = 0; $j < 2; $j++) { // Ajoute 3 rendez-vous par utilisateur
                 $booking = new Booking();
                 $companyService = $companyServices[array_rand($companyServices)];
+
                 $booking->setCompanyService($companyService);
                 $booking->setClient($user);
 
