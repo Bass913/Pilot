@@ -65,9 +65,7 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
                 $company->setSpeciality($specialities[array_rand($specialities)]);
 
                 $company->setUser($admin);
-                $admin->setCompany($company);
                 $manager->persist($company);
-                $manager->persist($admin);
 
                 $this->setReference('company-' . $counter, $company);
                 $counter++;
@@ -88,33 +86,32 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
                 $specialUser->setCompany($this->getReference('company-' . $specialUserIndex));
                 $manager->persist($specialUser);
             } else {
-                $company = new Company();
-                $company->setName($faker->company());
-                $company->setAddress($faker->streetAddress());
-                $company->setDescription($faker->text());
-                $company->setZipcode($faker->postcode());
-                $company->setCity($faker->city());
-                $company->setKbis($faker->fileExtension());
-                $company->setActive($faker->boolean());
-                $company->setLatitude($faker->latitude(48.024, 49.213));
-                $company->setLongitude($faker->longitude(1.444, 3.538));
+                for ($i = 0; $i < 3; $i++) {
+                    $company = new Company();
+                    $company->setName($faker->company());
+                    $company->setAddress($faker->streetAddress());
+                    $company->setDescription($faker->text());
+                    $company->setZipcode($faker->postcode());
+                    $company->setCity($faker->city());
+                    $company->setKbis($faker->fileExtension());
+                    $company->setActive($faker->boolean());
+                    $company->setLatitude($faker->latitude(48.024, 49.213));
+                    $company->setLongitude($faker->longitude(1.444, 3.538));
 
-                $numImages = rand(2, 7);
-                shuffle($images);
-                $selectedImages = array_slice($images, 0, $numImages);
-                $company->setImages($selectedImages);
-                $company->setReviewRating($faker->randomFloat(1, 0, 5));
-                $company->setReviewCount(ReviewFixtures::REVIEW_REFERENCE_COUNT);
-                $company->setSpeciality($specialities[array_rand($specialities)]);
+                    $numImages = rand(2, 7);
+                    shuffle($images);
+                    $selectedImages = array_slice($images, 0, $numImages);
+                    $company->setImages($selectedImages);
+                    $company->setReviewRating($faker->randomFloat(1, 0, 5));
+                    $company->setReviewCount(ReviewFixtures::REVIEW_REFERENCE_COUNT);
+                    $company->setSpeciality($specialities[array_rand($specialities)]);
 
-                $company->setUser($specialUser);
-                $specialUser->setCompany($company);
+                    $company->setUser($specialUser);
+                    $manager->persist($company);
 
-                $manager->persist($company);
-                $manager->persist($specialUser);
-
-                $this->setReference('company-' . $counter, $company);
-                $counter++;
+                    $this->setReference('company-' . $counter, $company);
+                    $counter++;
+                }
             }
 
         }
