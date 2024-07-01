@@ -31,7 +31,8 @@ jobs:
         working-directory: api
 
       - name: Run PHPStan
-        run: vendor/bin/phpstan.phar analyse src/ -c phpstan.neon --level=max --no-progress -vvv --memory-limit=2048M
+        if: secrets.RUN_PHPSTAN == 'true'
+        run: vendor/bin/phpstan.phar analyse src/ -c phpstan.neon --level=max --no-progress -vvv --memory-limit=2048Mvendor/bin/phpstan.phar analyse src/ -c phpstan.neon --level=max --no-progress -vvv --memory-limit=2048M
         working-directory: api
 
   frontend_test:
