@@ -27,6 +27,8 @@
     "add": "Add",
     "edit-password": "Change my password",
     "old-password": "Old Password",
+    "new-password": "New Password",
+    "confirm-password": "Confirm yout new password",
     "password-changed": "Password has been changed",
     "no-appointments": "You have no upcoming appointments.",
     "logout": "Logout",

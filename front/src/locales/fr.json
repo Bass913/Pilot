@@ -27,6 +27,8 @@
     "add": "Ajouter",
     "edit-password": "Changer mon mot de passe",
     "old-password": "Ancien mot de passe",
+    "new-password": "Nouveau mot de passe",
+    "confirm-password": "Confirmer votre nouveau mot de passe",
     "password-changed": "Le mot de passe a bien été modifié.",
     "no-appointments": "Vous n'avez aucun rendez-vous à venir.",
     "logout": "Déconnexion",
