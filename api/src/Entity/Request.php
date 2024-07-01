@@ -4,11 +4,13 @@ namespace App\Entity;
 
 use App\Repository\RequestRepository;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Serializer\Annotation\Groups;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Post;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RequestRepository::class)]
@@ -20,9 +22,16 @@ use Doctrine\ORM\Mapping as ORM;
         new GetCollection(),
         new Post(
             inputFormats: ['multipart' => ['multipart/form-data']]
+        ),
+        new Post(
+            uriTemplate: '/requests/{id}/validate',
+            validationContext: ['groups' => ['request:read']],
+            input: false
         )
     ]
 )]
+
+#[ApiFilter(BooleanFilter::class, properties: ['isValidated'])]
 class Request
 {
     #[ORM\Id]
@@ -60,6 +69,9 @@ class Request
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\Column(type: 'boolean')]
+    #[Groups(['request:read', 'request:write'])]
+    private bool $isValidated = false;
 
     public function getId(): ?int
     {
@@ -164,5 +176,17 @@ class Request
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    public function getIsValidated(): bool
+    {
+        return $this->isValidated;
+    }
+
+    public function setIsValidated(bool $isValidated): self
+    {
+        $this->isValidated = $isValidated;
+
+        return $this;
     }
 }
