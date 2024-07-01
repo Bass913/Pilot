@@ -69,6 +69,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, curl, pdo, sqlite, zip, pcntl
+          coverage: none
+
+      - name: Install PHP dependencies
+        run: composer install
+        working-directory: api
+
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
