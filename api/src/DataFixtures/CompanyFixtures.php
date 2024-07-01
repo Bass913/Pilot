@@ -11,7 +11,6 @@ use Faker\Factory;
 class CompanyFixtures extends Fixture implements DependentFixtureInterface
 {
     public const COMPANY_REFERENCE_COUNT = 20;
-
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();

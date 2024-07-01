@@ -51,11 +51,7 @@ class ScheduleFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
 
-        $companies = [];
-
-        for ($i = 0; $i < CompanyFixtures::COMPANY_REFERENCE_COUNT; $i++) {
-            $companies[] = $this->getReference('company-' . $i);
-        }
+        $companies = $manager->getRepository(\App\Entity\Company::class)->findAll();
 
         $users = [];
         $totalUsers = UserFixtures::EMPLOYEE_COUNT + UserFixtures::ADMIN_COUNT + UserFixtures::SPECIAL_USERS_COUNT;
