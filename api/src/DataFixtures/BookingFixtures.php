@@ -17,8 +17,9 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
 
         $users = $manager->getRepository(\App\Entity\User::class)->findAll();
 
+        $isUpcomingWeek = true;
         foreach ($users as $user) {
-            for ($j = 0; $j < 3; $j++) { // Ajoute 3 rendez-vous par utilisateur
+            for ($j = 0; $j < 2; $j++) { // Ajoute 3 rendez-vous par utilisateur
                 $booking = new Booking();
                 $companyService = $companyServices[array_rand($companyServices)];
                 $booking->setCompanyService($companyService);
@@ -41,7 +42,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
                 $booking->setCompany($company);
                 $booking->setStatus("test");
                 // Randomly decide if the booking date should be in the upcoming week or in the past
-                $isUpcomingWeek = (bool) random_int(0, 1);
+                $isUpcomingWeek = !$isUpcomingWeek;
                 $startDate = new \DateTime();
 
                 if ($isUpcomingWeek) {

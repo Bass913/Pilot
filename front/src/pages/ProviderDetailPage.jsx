@@ -110,7 +110,6 @@ function ProviderDetail() {
 											{t("client-reviews")}
 										</h4>
 										<CompanyReviews
-											reviewRating={provider.reviewRating}
 											reviews={provider.reviews}
 										/>
 									</div>

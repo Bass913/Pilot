@@ -94,35 +94,38 @@ const apiService = {
 		return apiClient.get(`/companies/${companyId}/employees?page=${page}`);
 	},
 	updateUser(id, user) {
-		return apiClient.patch(`/users/${id}`, user);
+		return apiClient.patch(`/api/users/${id}`, user);
 	},
 	removeUser(id) {
-		return apiClient.delete(`/users/${id}`);
+		return apiClient.delete(`/api/users/${id}`);
+	},
+	updatePassword(id, password) {
+		return apiClient.patch(`/api/users/password/${id}`, password);
 	},
 
 	// Bookings
 	getBookings({ page = 1 }) {
-		return apiClient.get(`/bookings?page=${page}`);
+		return apiClient.get(`/api/bookings?page=${page}`);
 	},
 	getCompanyBookings({ companyId, page = 1, pagination = true }) {
 		return apiClient.get(
-			`/companies/${companyId}/bookings?page=${page}&pagination=${pagination}`
+			`/api/companies/${companyId}/bookings?page=${page}&pagination=${pagination}`
 		);
 	},
 	getBooking(id) {
-		return apiClient.get(`/bookings/${id}`);
+		return apiClient.get(`/api/bookings/${id}`);
 	},
 	getUserBookings(userId) {
-		return apiClient.get(`/users/${userId}/bookings`);
+		return apiClient.get(`/api/client/${userId}/bookings`);
 	},
 	updateBooking(bookingId, booking) {
-		return apiClient.patch(`/bookings/${bookingId}`, booking);
+		return apiClient.patch(`/api/bookings/${bookingId}`, booking);
 	},
 	createBooking(booking, config) {
-		return apiClient.post("/bookings", booking, config);
+		return apiClient.post("/api/bookings", booking, config);
 	},
 	removeBooking(bookingId) {
-		return apiClient.delete(`/bookings/${bookingId}`);
+		return apiClient.delete(`/api/bookings/${bookingId}`);
 	},
 
 	// Specialities
@@ -140,7 +143,7 @@ const apiService = {
 		return apiClient.post("/ratings", rating);
 	},
 	createReview(review) {
-		return apiClient.post("/reviews", review);
+		return apiClient.post("/api/reviews", review);
 	},
 
 	// Auth
@@ -163,13 +166,16 @@ const apiService = {
 	getCompanyEmployeesSchedule(companyId) {
 		return apiClient.get(`/companies/${companyId}/employees/planning`);
 	},
+	getCompanySchedule(companyId) {
+		return apiClient.get(`/companies/${companyId}/planning`);
+	},
 
 	// Statistics
 	getSuperAdminStatistics() {
-		return apiClient.get("/stats/super_admin");
+		return apiClient.get("/api/stats/super_admin");
 	},
 	getAdminStatistics(id) {
-		return apiClient.get(`/stats/admin/${id}`);
+		return apiClient.get(`/api/stats/admin/${id}`);
 	},
 };
 

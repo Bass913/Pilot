@@ -50,7 +50,7 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
                     $rating = new Rating();
                     $rating->setReview($review);
                     $rating->setCategory($categories[array_keys($categories)[$j]]);
-                    $rating->setValue($faker->randomDigitNotNull());
+                    $rating->setValue($faker->numberBetween(1, 5));
                     $manager->persist($rating);
                     $review->addRating($rating);
                 }

@@ -32,22 +32,22 @@ class UnavailabilityFixtures extends Fixture implements DependentFixtureInterfac
         for ($i = 0; $i < $userCount; $i++) {
             $user = $this->getReference(UserFixtures::USER_REFERENCE_PREFIX . $i);
 
-            for ($j = 0; $j < 5; $j++) { // Ajoute 5 indisponibilités par utilisateur entre 8h et 18h
-                $startDate = $faker->dateTimeBetween($startOfWeek->setTime(8, 0), $endOfWeek->setTime(18, 0));
-                $endDate = (clone $startDate)->modify('+' . mt_rand(1, 3) . ' hours');
+            // for ($j = 0; $j < 5; $j++) { // Ajoute 5 indisponibilités par utilisateur entre 8h et 18h
+            //     $startDate = $faker->dateTimeBetween($startOfWeek->setTime(8, 0), $endOfWeek->setTime(18, 0));
+            //     $endDate = (clone $startDate)->modify('+' . mt_rand(1, 3) . ' hours');
 
-                // S'assurer que endDate ne dépasse pas 18h de la même journée
-                if ($endDate->format('Y-m-d') != $startDate->format('Y-m-d') || $endDate > $startDate->setTime(18, 0)) {
-                    $endDate = (clone $startDate)->setTime(18, 0);
-                }
+            //     // S'assurer que endDate ne dépasse pas 18h de la même journée
+            //     if ($endDate->format('Y-m-d') != $startDate->format('Y-m-d') || $endDate > $startDate->setTime(18, 0)) {
+            //         $endDate = (clone $startDate)->setTime(18, 0);
+            //     }
 
-                $unavailability = new Unavailability();
-                $unavailability->setUser($user);
-                $unavailability->setStartDate($startDate);
-                $unavailability->setEndDate($endDate);
+            //     $unavailability = new Unavailability();
+            //     $unavailability->setUser($user);
+            //     $unavailability->setStartDate($startDate);
+            //     $unavailability->setEndDate($endDate);
 
-                $manager->persist($unavailability);
-            }
+            //     $manager->persist($unavailability);
+            // }
 
             // Ajouter une indisponibilité sur une journée complète au hasard (lundi à samedi)
             $randomDay = $faker->dateTimeBetween($startOfWeek, (clone $startOfWeek)->modify('+5 days'));

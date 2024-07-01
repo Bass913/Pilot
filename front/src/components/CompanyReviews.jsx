@@ -3,11 +3,19 @@ import { StarIcon as StarIconOutline } from "@heroicons/react/24/outline";
 import { useTranslation } from "react-i18next";
 import { getFormattedDateFromISO } from "../utils/dateFormatter";
 
-function CompanyReviews({ reviewRating, reviews }) {
+function CompanyReviews({ reviews }) {
 	const { t } = useTranslation();
 
 	function formatRatingValue(value) {
 		return value.toString().replace(".", ",");
+	}
+
+	function getAverageRating(review) {
+		const sum = review.ratings.reduce((acc, rating) => {
+			return acc + rating.value;
+		}, 0);
+
+		return sum / review.ratings.length;
 	}
 
 	return (
@@ -22,7 +30,7 @@ function CompanyReviews({ reviewRating, reviews }) {
 				>
 					<div className="w-2/3">
 						<p className="text-gray-800 font-medium flex items-center gap-1">
-							{formatRatingValue(reviewRating)}
+							{formatRatingValue(getAverageRating(review))}
 							<StarIcon className="w-4 inline-block text-primary-500" />
 						</p>
 						<p className="text-gray-600 font-light">

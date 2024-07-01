@@ -23,7 +23,7 @@ function Reservation() {
 	const [provider, setProvider] = useState(null);
 	const [employees, setEmployees] = useState([]);
 	const [showAlert, setShowAlert] = useState(false);
-	const [companyBookings, setCompanyBookings] = useState([]);
+	// const [companyBookings, setCompanyBookings] = useState([]);
 	const {
 		serviceSelected,
 		user,
@@ -51,27 +51,27 @@ function Reservation() {
 		}
 	};
 
-	const fetchCompanyBookings = async () => {
-		try {
-			const response = await apiService.getCompanyBookings({
-				companyId: provider["@id"].split("/").pop(),
-				pagination: false,
-			});
-			setCompanyBookings(response.data["hydra:member"]);
-		} catch (error) {
-			console.error("Error while fetching company bookings:", error);
-		}
-	};
+	// const fetchCompanyBookings = async () => {
+	// 	try {
+	// 		const response = await apiService.getCompanyBookings({
+	// 			companyId: provider["@id"].split("/").pop(),
+	// 			pagination: false,
+	// 		});
+	// 		setCompanyBookings(response.data["hydra:member"]);
+	// 	} catch (error) {
+	// 		console.error("Error while fetching company bookings:", error);
+	// 	}
+	// };
 
 	useEffect(() => {
 		fetchProvider();
 		fetchEmployeesSchedule();
 	}, [id]);
 
-	useEffect(() => {
-		if (!provider) return;
-		fetchCompanyBookings();
-	}, [provider]);
+	// useEffect(() => {
+	// 	if (!provider) return;
+	// 	fetchCompanyBookings();
+	// }, [provider]);
 
 	const handleEmployeeSelection = (employee) => {
 		setEmployeeSelected(employee);
@@ -114,7 +114,7 @@ function Reservation() {
 		employeeUnavailabilities: employeeSelected?.unavailabilities,
 		companyUnavailabilities: provider?.unavailabilities,
 		employeeSchedules: employeeSelected?.schedules,
-		bookings: companyBookings,
+		bookings: employeeSelected?.employeeBookings,
 	});
 
 	useEffect(() => {
