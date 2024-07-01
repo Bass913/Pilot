@@ -85,9 +85,9 @@ jobs:
           docker compose down
           SERVER_NAME=challenge.pilot.us.to \
           DATABASE_URL=postgres://gibhwigg:G451SbOGgg4WxbxsqcabFEfenMIycNJ4@kandula.db.elephantsql.com/gibhwigg \
-          APP_SECRET=${{ secrets.APP_SECRET }} \
-          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
+          APP_SECRET=ChangeMe \
+          POSTGRES_PASSWORD=ChangeMe \
           VITE_API_URL=https://challenge.pilot.us.to:3000 \
-          CADDY_MERCURE_JWT_SECRET=${{ secrets.CADDY_MERCURE_JWT_SECRET }} \
+          CADDY_MERCURE_JWT_SECRET=ChangeThisMercureHubJWTSecretKey \
           docker compose -f compose.yaml -f compose.prod.yaml up --wait
           EOF
