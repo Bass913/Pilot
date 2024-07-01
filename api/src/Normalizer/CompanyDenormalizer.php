@@ -20,14 +20,14 @@ class CompanyDenormalizer implements DenormalizerInterface
 
     public function denormalize($data, string $type, string $format = null, array $context = []): mixed
     {
+        $user = $this->security->getUser();
 
         $company = $this->normalizer->denormalize($data, $type, $format, $context);
 
+        assert($company instanceof Company);
 
-
-
-
-
+        $company->setUser($user);
+        $company->setActive(true);
 
         return $company;
     }

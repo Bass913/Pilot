@@ -76,7 +76,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Patch(
             uriTemplate: '/api/users/{id}',
             denormalizationContext: ['groups' => ['user:update']],
-            securityPostDenormalize: "is_granted('USER_EDIT', object)",
+            securityPostDenormalize: "is_granted('USER_EDIT', object) or (is_granted('ROLE_ADMIN') and object.getCompany() == user.getCompany())",
             securityPostDenormalizeMessage: "Vous n'êtes pas le propriétaire de ce compte",
             validationContext: ['groups' => ['user:update']]
         ),
@@ -118,9 +118,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lastname = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['user:register', 'user:read', 'user:create'])]
-    #[Assert\Email(groups: ['user:register', 'user:create'])]
-    #[Assert\NotBlank(groups: ['user:register', 'user:create'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update'])]
+    #[Assert\Email(groups: ['user:register', 'user:create', 'user:update'])]
+    #[Assert\NotBlank(groups: ['user:register', 'user:create', 'user:update'])]
     private ?string $email = null;
 
     /**
@@ -159,10 +159,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Booking::class, cascade: ['remove'],orphanRemoval: true)]
     private Collection $employeeBookings;
 
-    #[Groups(['user:register', 'user:create', 'user:read'])]
+    #[Groups(['user:register', 'user:create', 'user:read', 'user:update'])]
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $phone = null;
 
+    #[Groups(['user:read:login'])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Company::class)]
     private Collection $companies;
 
