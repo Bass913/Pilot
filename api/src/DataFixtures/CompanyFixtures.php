@@ -69,11 +69,24 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
                 $this->setReference('company-' . $counter, $company);
                 $counter++;
 
-                for ($j = 0; $j < 3 && $employeeCount < $maxEmployeeCount; $j++) {
+                /*for ($j = 0; $j < 3 && $employeeCount < $maxEmployeeCount; $j++) {
                     if ($employeeCount < UserFixtures::EMPLOYEE_COUNT) {
                         $employee = $this->getReference(UserFixtures::EMPLOYEE_REFERENCE_PREFIX . $employeeCount++);
                         $employee->setCompany($company);
                         $manager->persist($employee);
+                    }
+                }*/
+
+                $assignedEmployees = 0;
+                $employeeIndex = 0;
+
+                while ($assignedEmployees < 3 && $employeeIndex < UserFixtures::EMPLOYEE_COUNT) {
+                    $employee = $this->getReference(UserFixtures::EMPLOYEE_REFERENCE_PREFIX . $employeeIndex++);
+
+                    if ($employee->getCompany() === null) { // Check if employee is not already assigned
+                        $employee->setCompany($company);
+                        $manager->persist($employee);
+                        $assignedEmployees++;
                     }
                 }
             }
@@ -109,6 +122,20 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
 
                     $this->setReference('company-' . $counter, $company);
                     $counter++;
+                    $assignedEmployees = 0;
+                    $employeeIndex = 0;
+
+                    if($specialUser)
+
+                    while ($assignedEmployees < 3 && $employeeIndex < UserFixtures::EMPLOYEE_COUNT) {
+                        $employee = $this->getReference(UserFixtures::EMPLOYEE_REFERENCE_PREFIX . $employeeIndex++);
+
+                        if ($employee->getCompany() === null) { // Check if employee is not already assigned
+                            $employee->setCompany($company);
+                            $manager->persist($employee);
+                            $assignedEmployees++;
+                        }
+                    }
                 }
             }
         }
