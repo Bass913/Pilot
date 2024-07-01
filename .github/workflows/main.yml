@@ -74,6 +74,10 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
 
+      - name: Remove existing contents on server
+        run: |
+          ssh -o StrictHostKeyChecking=no root@143.244.189.241 'rm -rf /var/www/html/pilot/*'
+
       - name: Copy files to server
         run: |
           scp -o StrictHostKeyChecking=no -r ./* root@143.244.189.241:/var/www/html/pilot
