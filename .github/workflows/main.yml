@@ -89,5 +89,5 @@ jobs:
           POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
           VITE_API_URL=https://challenge.pilot.us.to:3000 \
           CADDY_MERCURE_JWT_SECRET=${{ secrets.CADDY_MERCURE_JWT_SECRET }} \
-          docker-compose -f compose.yaml -f compose.prod.yaml up --wait
+          docker compose -f compose.yaml -f compose.prod.yaml up --wait
           EOF
