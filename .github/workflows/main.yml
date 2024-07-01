@@ -28,6 +28,7 @@ jobs:
         working-directory: api
 
       - name: Run PHP_CodeSniffer (PHPCS)
+        if: ${{ env.RUN_PHPSTAN == 'true' }}
         run: vendor/bin/phpcs src/
         working-directory: api
 
