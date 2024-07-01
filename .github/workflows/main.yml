@@ -84,7 +84,7 @@ jobs:
           cd /var/www/html/pilot
           docker compose down
           SERVER_NAME=challenge.pilot.us.to \
-          DATABASE_URL=postgres://gibhwigg:G451SbOGgg4WxbxsqcabFEfenMIycNJ4@kandula.db.elephantsql.com/gibhwigg \
+          DATABASE_URL=postgres://gibhwigg:G451SbOGgg4WxbxsqcabFEfenMIycNJ4@kandula.db.elephantsql.com/gibhwigg?sslmode=require
           APP_SECRET=ChangeMe \
           POSTGRES_PASSWORD=G451SbOGgg4WxbxsqcabFEfenMIycNJ4 \
           CADDY_MERCURE_JWT_SECRET=ChangeThisMercureHubJWTSecretKey \
