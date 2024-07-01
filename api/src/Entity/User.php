@@ -10,7 +10,9 @@ use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Doctrine\CurrentUserConnectedExtension;
+use App\Dto\UserInput;
 use App\Repository\UserRepository;
+use App\State\UserProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -69,7 +71,9 @@ use Symfony\Component\Uid\Uuid;
             denormalizationContext: ['groups' => ['user:create']],
             securityPostDenormalize: "is_granted('USER_CREATE_EMPLOYEE', object)",
             securityPostDenormalizeMessage:"Vous n'avez pas le role Admin",
-            validationContext: ['groups' => ['user:create']]
+            validationContext: ['groups' => ['user:create']],
+            input: UserInput::class,
+            processor: UserProcessor::class
         ),
         new Patch(
             uriTemplate: '/api/users/{id}',
@@ -145,7 +149,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Schedule::class,cascade: ['remove'],orphanRemoval: true)]
     private Collection $schedules;
 
-    #[Groups(['user:read:login', 'user:read:company'])]
+    #[Groups(['user:read:login', 'user:read:company', 'user:create'])]
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Company $company = null;
 

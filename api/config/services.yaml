@@ -28,6 +28,15 @@ services:
                   event: lexik_jwt_authentication.on_authentication_success,
                   method: onAuthenticationSuccessResponse,
               }
+    
+    App\State\UserProcessor:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $passwordHasher: '@security.password_hasher'
+            $companyRepository: '@App\Repository\CompanyRepository'
+            $security: '@security.helper'
+        tags:
+            - { name: 'api_platform.state_processor', priority: 1 }
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -51,10 +51,10 @@ class Company
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[Groups(['user:create'])]
     private ?Uuid $id = null;
 
     #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company', 'add-company'])]
-
     #[ORM\Column(length: 255)]
     private ?string $name = null;
     #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company', 'add-company'])]
@@ -92,7 +92,7 @@ class Company
     private ?float $latitude = null;
 
     #[Groups(['read-company-details', 'add-company'])]
-    #[ORM\OneToMany(mappedBy: 'company', targetEntity: CompanyService::class)]
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: CompanyService::class, cascade: ['persist', 'remove'],orphanRemoval: true)]
     private Collection $companyServices;
 
     #[Groups(['read-company-details'])]
@@ -114,7 +114,7 @@ class Company
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
     private Collection $users;
 
-    #[Groups(['read-company-details', 'read-company', 'user:read:company'])]
+    #[Groups(['read-company-details', 'read-company', 'user:read:company', 'add-company'])]
     #[ORM\ManyToOne(inversedBy: 'companies')]
     private ?Speciality $speciality;
 
@@ -122,7 +122,7 @@ class Company
     #[ORM\Column(nullable: true)]
     private ?int $reviewCount = null;
 
-    #[Groups(['read-company-details', 'read-company', 'user:read:company'])]
+    #[Groups(['read-company-details', 'read-company', 'user:read:company', 'add-company'])]
     #[ORM\Column(type: Types::ARRAY , nullable: true)]
     private ?array $images = null;
 

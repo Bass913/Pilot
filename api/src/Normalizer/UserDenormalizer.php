@@ -37,6 +37,8 @@ class UserDenormalizer implements DenormalizerInterface
             $user->setRoles(['ROLE_USER']);
 
             if ($context['groups'][0] === 'user:create') {
+                var_dump($data);
+                die();
                 $admin = $this->security->getUser();
                 assert($admin instanceof User);
                 $adminCompany = $admin->getCompany();
