@@ -21,7 +21,7 @@ class UnavailabilityFixtures extends Fixture implements DependentFixtureInterfac
         $endOfWeek = (clone $startOfWeek)->modify('+18 days 23:59:59');
 
         // Récupérer le nombre d'utilisateurs
-        $userCount = 60;
+        $userCount = UserFixtures::EMPLOYEE_COUNT + UserFixtures::ADMIN_COUNT + UserFixtures::SPECIAL_USERS_COUNT;
 
         $companies = [];
 

@@ -22,7 +22,6 @@ class UserFixtures extends Fixture
     const ADMIN_COUNT = 20;
     const SPECIAL_USERS_COUNT = 4;
 
-
     public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
         $this->passwordHasher = $passwordHasher;
