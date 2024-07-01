@@ -44,7 +44,10 @@ class CurrentUserConnectedExtension implements QueryCollectionExtensionInterface
         ?Operation $operation = null,
         array $context = []
     ): void {
-        $this->addWhere($queryBuilder, $resourceClass);
+        if ($operation && $operation->getName() === '_api_/api/client/{id}/bookings_get') {
+            $this->addWhere($queryBuilder, $resourceClass);
+        }
+        //$this->addWhere($queryBuilder, $resourceClass);
     }
 
     public function applyToItem(

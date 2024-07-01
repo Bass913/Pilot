@@ -25,10 +25,6 @@ class CompanyDenormalizer implements DenormalizerInterface
 
 
 
-        /*assert($company instanceof Company);
-        $company->setName($data['name'] ?? null);
-        $company->setAddress($data['address']?? null);*/
-
 
 
 

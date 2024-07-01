@@ -103,11 +103,11 @@ class Company
     #[ORM\Column(nullable: true)]
     private ?float $reviewRating = null;
 
-    #[Groups(['read-company-details', 'read-company-planning'])]
+    #[Groups(['read-company-details', 'read-company-planning', 'add-company'])]
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Unavailability::class)]
     private Collection $unavailabilities;
 
-    #[Groups(['read-company-details', 'read-company-planning'])]
+    #[Groups(['read-company-details', 'read-company-planning', 'add-company'])]
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Schedule::class)]
     private Collection $schedules;
 

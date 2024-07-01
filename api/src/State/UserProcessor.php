@@ -2,6 +2,7 @@
 
 namespace App\State;
 
+use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Dto\UserInput;
 use App\Entity\User;
@@ -9,7 +10,6 @@ use App\Repository\CompanyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use ApiPlatform\Metadata\Operation;
 
 
 class UserProcessor implements ProcessorInterface
@@ -47,8 +47,6 @@ class UserProcessor implements ProcessorInterface
         $user->setPassword($hashedPassword);
 
         $company = $this->companyRepository->find($data->companyId);
-        var_dump($company);
-        die();
         if ($company) {
             $user->setCompany($company);
         }

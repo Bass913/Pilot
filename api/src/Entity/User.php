@@ -9,19 +9,18 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use App\Doctrine\CurrentUserConnectedExtension;
 use App\Dto\UserInput;
 use App\Repository\UserRepository;
 use App\State\UserProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -72,8 +71,7 @@ use Symfony\Component\Uid\Uuid;
             securityPostDenormalize: "is_granted('USER_CREATE_EMPLOYEE', object)",
             securityPostDenormalizeMessage:"Vous n'avez pas le role Admin",
             validationContext: ['groups' => ['user:create']],
-            input: UserInput::class,
-            processor: UserProcessor::class
+            input: UserInput::class
         ),
         new Patch(
             uriTemplate: '/api/users/{id}',
@@ -165,7 +163,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $phone = null;
 
-    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Company::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Company::class)]
     private Collection $companies;
 
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Review::class, cascade: ['remove'],orphanRemoval: true)]

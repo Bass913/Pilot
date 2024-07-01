@@ -2,9 +2,11 @@
 
 namespace App\Normalizer;
 
+use App\Entity\Company;
 use App\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
@@ -36,15 +38,30 @@ class UserDenormalizer implements DenormalizerInterface
             $user->setActive(true);
             $user->setRoles(['ROLE_USER']);
 
+
             if ($context['groups'][0] === 'user:create') {
-                var_dump($data);
-                die();
+                $companyIdData = $data['companyId'];
                 $admin = $this->security->getUser();
                 assert($admin instanceof User);
-                $adminCompany = $admin->getCompany();
+                $adminCompanies = $admin->getCompanies();
+                $companyUser = null;
 
+                $found = false;
+                foreach ($adminCompanies as $company) {
+                    assert($company instanceof Company);
+                    if ($company->getId() == $companyIdData) {
+                        $found = true;
+                        $companyUser = $company;
+                        break;
+                    }
+                }
+
+                if (!$found) {
+                    throw new AccessDeniedException("Vous n\'avez pas accès à cette entreprise.");
+                }
+                $user->setCompany($companyUser);
                 $user->setRoles(['ROLE_USER', 'ROLE_EMPLOYEE']);
-                $user->setCompany($adminCompany);
+
             }
         }
 

@@ -40,7 +40,7 @@ class StatisticsAdminRepository extends ServiceEntityRepository
     {
 
         $companyIds = $this->_em->createQuery('
-        SELECT c.id 
+        SELECT c.id
         FROM App\Entity\Company c
         JOIN c.user u
         WHERE u.id = :providerId')
@@ -96,8 +96,10 @@ class StatisticsAdminRepository extends ServiceEntityRepository
             WHERE u.company = :companyId
         ')
             ->setParameter('companyId', $companyIds[0]);
+        $result = $query->getResult();
 
-        return $query->getResult();
+
+        return $result;
     }
 
     public function getTodaysReservations(string $providerId): int
