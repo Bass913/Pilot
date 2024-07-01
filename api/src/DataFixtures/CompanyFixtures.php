@@ -51,7 +51,6 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
                 $company->setDescription($faker->text());
                 $company->setZipcode($faker->postcode());
                 $company->setCity($faker->city());
-                $company->setKbis($faker->fileExtension());
                 $company->setActive($faker->boolean());
                 $company->setLatitude($faker->latitude(48.024, 49.213));
                 $company->setLongitude($faker->longitude(1.444, 3.538));
@@ -93,7 +92,6 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
                     $company->setDescription($faker->text());
                     $company->setZipcode($faker->postcode());
                     $company->setCity($faker->city());
-                    $company->setKbis($faker->fileExtension());
                     $company->setActive($faker->boolean());
                     $company->setLatitude($faker->latitude(48.024, 49.213));
                     $company->setLongitude($faker->longitude(1.444, 3.538));
@@ -113,7 +111,6 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
                     $counter++;
                 }
             }
-
         }
 
         $manager->flush();
