@@ -6,24 +6,66 @@ on:
       - bass
 
 jobs:
-  build:
+  test_api_platform:
+    name: ci backend
     runs-on: ubuntu-latest
-
     steps:
-      # Récupère le code source du repository
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, curl, pdo, sqlite, zip, pcntl
+          coverage: none
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Change directory
+        run: cd api
+
+      - name: Install dependencies
+        run: composer install
+        working-directory: api
+
+      - name: Run PHP_CodeSniffer (PHPCS)
+        run: vendor/bin/phpcs src/
+        working-directory: api
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan.phar analyse src/ -c phpstan.neon --level=max --no-progress -vvv --memory-limit=2048M
+        working-directory: api
+
+  frontend_test:
+    needs: test_api_platform
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: front
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Dependencies and Format code with Prettier
+        run: |
+          npm ci
+          npm run format
+
+  build:
+    needs: frontend_test
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Configurer SSH pour se connecter au Droplet DigitalOcean
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
-      # Copier les fichiers vers le serveur distant
       - name: Copy files to server
         run: |
           scp -o StrictHostKeyChecking=no -r ./* root@143.244.189.241:/var/www/html
-      # Déployer sur le Droplet DigitalOcean
       - name: Deploy to DigitalOcean Droplet
         run: |
           ssh -o StrictHostKeyChecking=no root@143.244.189.241 << 'EOF'
