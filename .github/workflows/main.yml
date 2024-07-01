@@ -80,8 +80,11 @@ jobs:
         run: composer install
         working-directory: api
 
+      - name: Sync files to staging directory
+        run: rsync -a . /tmp/project-staging
+
       - name: Archive project files
-        run: tar -czvf project-files.tar.gz .
+        run: tar -czvf project-files.tar.gz -C /tmp/project-staging .
 
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.9.0
