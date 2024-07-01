@@ -33,12 +33,23 @@ apiClient.interceptors.response.use(
 
 const apiService = {
 	// Companies
-	getCompanies({ search = null, page = 1 }) {
-		const url = search
-			? `/companies?search=${search.trim()}&page=${page}`
-			: "/companies?page=" + page;
+	getCompanies({ search = null, city = null, page = 1, pagination = true}) {
+		const params = new URLSearchParams();
+		if (search) {
+			params.append('search', search.trim());
+		}
+		if (city) {
+			params.append('city', city.trim());
+		}
+		if (!pagination) {
+			params.append('pagination', pagination);
+		}
+		params.append('page', page);
+	
+		const url = `/companies?${params.toString()}`;
 		return apiClient.get(url);
 	},
+	
 	getCompany(id) {
 		return apiClient.get(`/companies/${id}`);
 	},
