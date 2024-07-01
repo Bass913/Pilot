@@ -8,8 +8,6 @@
         "api-platform/core": "^3.2",
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
-        "symfony/maker-bundle": "^1.44",
-        "doctrine/doctrine-fixtures-bundle": "^3.5",
         "doctrine/orm": "^2.12",
         "fakerphp/faker": "^1.23",
         "lexik/jwt-authentication-bundle": "*",

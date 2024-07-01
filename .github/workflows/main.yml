@@ -24,7 +24,7 @@ jobs:
         run: cd api
 
       - name: Install dependencies
-        run: composer install
+        run: composer install --no-interaction
         working-directory: api
 
       - name: Run PHP_CodeSniffer (PHPCS)
