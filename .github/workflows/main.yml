@@ -23,10 +23,6 @@ jobs:
       - name: Change directory
         run: cd api
 
-      - name: Install dependencies
-        run: composer install --no-interaction
-        working-directory: api
-
       - name: Run PHP_CodeSniffer (PHPCS)
         if: ${{ env.RUN_PHPSTAN == 'true' }}
         run: vendor/bin/phpcs src/
@@ -58,7 +54,7 @@ jobs:
 
       - name: Install Dependencies and Format code with Prettier
         run: |
-          npm ci
+          npm install
           npm run format
 
   build:
@@ -77,7 +73,7 @@ jobs:
           coverage: none
 
       - name: Install PHP dependencies
-        run: composer install
+        run: composer install --no-dev
         working-directory: api
 
       - name: Sync files to staging directory
