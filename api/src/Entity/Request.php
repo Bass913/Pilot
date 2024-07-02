@@ -12,6 +12,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 use Doctrine\ORM\Mapping as ORM;
+use App\Dto\ValidateRequestInput;
 
 #[ORM\Entity(repositoryClass: RequestRepository::class)]
 #[Vich\Uploadable]
@@ -26,11 +27,10 @@ use Doctrine\ORM\Mapping as ORM;
         new Post(
             uriTemplate: '/requests/{id}/validate',
             validationContext: ['groups' => ['request:read']],
-            input: false
-        )
+            input: ValidateRequestInput::class
+        ),
     ]
 )]
-
 #[ApiFilter(BooleanFilter::class, properties: ['isValidated'])]
 class Request
 {
@@ -125,21 +125,11 @@ class Request
 
         return $this;
     }
-    /**
-     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
-     * of 'UploadedFile' is injected into this setter to trigger the update. If this
-     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
-     * must be able to accept an instance of 'File' as the bundle will inject one here
-     * during Doctrine hydration.
-     *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
-     */
+
     public function setFile(?File $file = null): void
     {
         $this->file = $file;
         if (null !== $file) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
             $this->updatedAt = new \DateTimeImmutable();
         }
     }
@@ -158,6 +148,7 @@ class Request
     {
         return $this->kbis;
     }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;

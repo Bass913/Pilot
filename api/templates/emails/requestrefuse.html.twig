@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTDXHTML1.0Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="fr-FR">
+<head>
+    <meta charset="UTF-8">
+    <title>Validation de demande d'ajout d'établissement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .content {
+            margin: 20px 0;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Validation de votre demande</h1>
+        </div>
+        <div class="content">
+            <p>Bonjour {{ firstname }},</p>
+
+            <p>Nous sommes contraints de vous informer que votre demande de devenir prestataire a été refusée.</p>
+
+
+            <p>Si vous avez des questions ou besoin de plus d'informations concernant le motif du rejet, n'hésitez pas à nous contacter.</p>
+
+            <p>Cordialement,</p>
+            <p>L'équipe ChallengePilot</p>
+        </div>
+        <div class="footer">
+            <p>Ce message a été envoyé automatiquement, merci de ne pas y répondre.</p>
+        </div>
+    </div>
+</body>
+</html>
