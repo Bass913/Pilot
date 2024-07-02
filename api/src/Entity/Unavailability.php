@@ -20,15 +20,11 @@ use Symfony\Component\Uid\Uuid;
     operations: [
         new Get(),
         new GetCollection(),
-        new Get(
-        ),
         new Post(
             uriTemplate: '/api/unavailabilities',
             denormalizationContext: ['groups' => ['add-unavailability']]
         ),
-        new Patch(
-
-        ),
+        new Patch(),
         new Delete()
     ],
     normalizationContext: ['groups' => ['read-unavailability']]

@@ -22,13 +22,13 @@ use App\State\SMSReminderProcessor;
         new GetCollection(
             uriTemplate: '/api/bookings',
             normalizationContext: ['groups' => ['read-booking']],
-            security: "is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN')",
-            filters: ['booking.search']
+            security: "is_granted('ROLE_SUPERADMIN')",
+            securityMessage: "Vous n'avez pas les droits requis"
         ),
         new GetCollection(
             uriTemplate: '/api/companies/{id}/bookings',
             uriVariables: [
-                'id' => new Link(fromClass: Company::class, fromProperty: 'bookings')
+                'id' => new Link(fromProperty: 'bookings', fromClass: Company::class)
             ],
             normalizationContext: ['groups' => ['read-booking']],
             security: "is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN')",
@@ -36,24 +36,22 @@ use App\State\SMSReminderProcessor;
         ),
         new Get(
             uriTemplate: '/api/bookings/{id}',
-            security: "(is_granted('ROLE_ADMIN') and object.getCompany() == user.getCompany()) or object.getClient() == user or object.getEmployee() == user",
+            security: "is_granted('BOOKING_READ', object)",
             securityMessage: "Ce RDV ne vous appartient pas"
         ),
         new Patch(
             uriTemplate: '/api/bookings/{id}',
             securityPostDenormalize: "is_granted('BOOKING_EDIT', object)",
-            securityPostDenormalizeMessage: "Vous essayez de décaler un RDV pour un autre client",
-            processor: SMSReminderProcessor::class
+            securityPostDenormalizeMessage: "Vous essayez de décaler un RDV pour un autre client"
         ),
         new Post(
             uriTemplate: '/api/bookings',
             securityPostDenormalize: "is_granted('BOOKING_CREATE', object)",
-            securityPostDenormalizeMessage: "Vous essayez de prendre RDV pour un autre client",
-            processor: SMSReminderProcessor::class
+            securityPostDenormalizeMessage: "Vous essayez de prendre RDV pour un autre client"
         ),
         new Delete(
             uriTemplate: '/api/bookings/{id}',
-            security: "is_granted('BOOKING_DELETE', object) or (is_granted('ROLE_ADMIN') and object.getCompany() == user.getCompany())",
+            security: "is_granted('BOOKING_DELETE', object))",
             securityMessage: "Vous n'avez pas le droit d'annuler ce RDV"
         )
     ],

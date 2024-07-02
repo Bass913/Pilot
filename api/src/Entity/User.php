@@ -96,21 +96,21 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Patch(
             uriTemplate: '/api/users/{id}',
             denormalizationContext: ['groups' => ['user:update']],
-            securityPostDenormalize: "is_granted('USER_EDIT', object) or (is_granted('ROLE_ADMIN') and object.getCompany() == user.getCompany())",
-            securityPostDenormalizeMessage: "Vous n'êtes pas le propriétaire de ce compte",
+            securityPostDenormalize: "is_granted('USER_EDIT', object) ",
+            securityPostDenormalizeMessage: "Vous n'avez pas les droits requis",
             validationContext: ['groups' => ['user:update']]
         ),
         new Patch(
             uriTemplate: '/api/users/password/{id}',
             denormalizationContext: ['groups' => ['user:update:password']],
-            securityPostDenormalize: "is_granted('USER_EDIT', object)",
+            securityPostDenormalize: "is_granted('USER_EDIT_PASSWORD', object)",
             securityPostDenormalizeMessage: "Vous n'êtes pas le propriétaire de ce compte",
             validationContext: ['groups' => ['user:upate:password']],
 
         ),
         new Delete(
             uriTemplate: '/api/users/{id}',
-            security: "is_granted('USER_DELETE', object) or (is_granted('ROLE_ADMIN') and object.getCompany() == user.getCompany())",
+            security: "is_granted('USER_DELETE', object)",
             securityMessage: "Vous n'êtes pas le propriétaire de ce compte"
 
         )
