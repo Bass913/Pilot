@@ -65,6 +65,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Prepare client
+        run: npm install && npm run build
+        working-directory: front
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -100,4 +104,6 @@ jobs:
           APP_SECRET=!ChangeMe! \
           CADDY_MERCURE_JWT_SECRET=ChangeThisMercureHubJWTSecretKey \
           docker compose up --wait
+          cd front
+          npm run preview
           EOF
