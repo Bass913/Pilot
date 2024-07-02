@@ -95,5 +95,6 @@ jobs:
           ssh -o StrictHostKeyChecking=no root@143.244.189.241 << 'EOF'
           cd /var/www/html/pilot
           tar -xzvf project-files.tar.gz
-          rm project-files.tar.gz 
+          rm project-files.tar.gz
+          docker compose up
           EOF
