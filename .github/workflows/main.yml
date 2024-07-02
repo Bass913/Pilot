@@ -98,6 +98,7 @@ jobs:
           rm project-files.tar.gz
           SERVER_NAME=challenge.pilot.us.to \
           APP_SECRET=!ChangeMe! \
+          POSTGRES_PASSWORD=!ChangeMe! \
           CADDY_MERCURE_JWT_SECRET=ChangeThisMercureHubJWTSecretKey \
           docker compose up --wait
           EOF
