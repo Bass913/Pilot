@@ -54,7 +54,7 @@ jobs:
 
       - name: Install Dependencies and Format code with Prettier
         run: |
-          npm install
+          npm ci
           npm run format
 
   build:
