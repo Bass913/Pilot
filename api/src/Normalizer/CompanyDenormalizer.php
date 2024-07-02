@@ -15,9 +15,7 @@ class CompanyDenormalizer implements DenormalizerInterface
 {
     public function __construct(
         protected Security $security,
-        protected PasswordHasherFactoryInterface $hasher,
         protected ObjectNormalizer $normalizer,
-        protected RequestStack $requestStack
     ) {
     }
 

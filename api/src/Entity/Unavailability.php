@@ -18,14 +18,28 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity(repositoryClass: UnavailabilityRepository::class)]
 #[ApiResource(
     operations: [
-        new Get(),
-        new GetCollection(),
+        new Get(
+            uriTemplate: '/api/unavailabilities/{id}',
+            security: "is_granted('UNAVAILABILITY_READ', object)"
+        ),
+        new GetCollection(
+            uriTemplate: '/api/unavailabilities',
+            security: "is_granted('ROLE_SUPERADMIN')"
+        ),
         new Post(
             uriTemplate: '/api/unavailabilities',
-            denormalizationContext: ['groups' => ['add-unavailability']]
+            denormalizationContext: ['groups' => ['add-unavailability']],
+            securityPostDenormalize: "is_granted('UNAVAILABILITY_CREATE',object)"
         ),
-        new Patch(),
-        new Delete()
+        new Patch(
+            uriTemplate: '/api/unavailabilities/{id}',
+            denormalizationContext: ['groups' => ['update-unavailability']],
+            securityPostDenormalize: "is_granted('UNAVAILABILITY_EDIT', object)"
+        ),
+        new Delete(
+            uriTemplate: '/api/unavailabilities/{id}',
+            security: "is_granted('UNAVAILABILITY_DELETE', object)"
+        )
     ],
     normalizationContext: ['groups' => ['read-unavailability']]
 )
@@ -38,11 +52,11 @@ class Unavailability
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     private ?Uuid $id = null;
 
-    #[Groups(['read-company-details', 'user:read:planning','user:employee:read:planning', 'read-company-planning', 'add-company', 'read-unavailability', 'add-unavailability'])]
+    #[Groups(['read-company-details', 'user:read:planning','user:employee:read:planning', 'read-company-planning', 'add-company', 'read-unavailability', 'add-unavailability', 'update-unavailability'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $startDate = null;
 
-    #[Groups(['read-company-details', 'user:read:planning','user:employee:read:planning', 'read-company-planning', 'add-company', 'read-unavailability', 'add-unavailability'])]
+    #[Groups(['read-company-details', 'user:read:planning','user:employee:read:planning', 'read-company-planning', 'add-company', 'read-unavailability', 'add-unavailability', 'update-unavailability'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $endDate = null;
 
