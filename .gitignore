@@ -5,4 +5,3 @@ caddy_data
 caddy_config
 .idea
 api/composer.lock
-api/migrations/*

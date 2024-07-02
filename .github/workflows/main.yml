@@ -77,7 +77,7 @@ jobs:
           coverage: none
 
       - name: Install PHP dependencies
-        run: composer install
+        run: composer install --no-dev
         working-directory: api
 
       - name: Sync files to staging directory
@@ -94,9 +94,6 @@ jobs:
       - name: Copy files to server
         run: scp -o StrictHostKeyChecking=no project-files.tar.gz root@143.244.189.241:/var/www/html/pilot
 
-      - name: Exclude db_data directory
-        run: echo "db_data/" >> .git/info/exclude
-
       - name: Deploy to DigitalOcean Droplet
         run: |
           ssh -o StrictHostKeyChecking=no root@143.244.189.241 << 'EOF'
@@ -109,4 +106,5 @@ jobs:
           POSTGRES_PASSWORD=ChangeMe \
           CADDY_MERCURE_JWT_SECRET=ChangeThisMercureHubJWTSecretKey \
           docker compose -f compose.yaml -f compose.prod.yaml up --wait
+          docker exec -it pilot-php-1 php bin/console d:m:m
           EOF
