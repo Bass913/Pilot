@@ -4,7 +4,7 @@ namespace App\State;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use App\Entity\Booking;
+use App\Entity\SMSReminder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 use Twilio\Rest\Client;
@@ -25,23 +25,24 @@ class SMSReminderProcessor implements ProcessorInterface
 
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): void
     {
-        if ($data instanceof Booking) {
+        if ($data instanceof SMSReminder) {
             $this->sendSMSReminder($data);
         }
     }
 
-    private function sendSMSReminder(Booking $booking)
+    private function sendSMSReminder(SMSReminder $reminder)
     {
         $client = new Client($this->twilioSid, $this->twilioAuthToken);
 
         $message = sprintf(
             'Bonjour %s, ceci est un rappel pour votre rendez-vous prévu pour le %s.',
-            $booking->getClient()->getFirstname(),
-            $booking->getStartDate()
+            $reminder->firstname,
+            $reminder->startDate->format('d/m/Y H:i')
         );
 
+
         $client->messages->create(
-            $booking->getClient()->getPhone(),
+            $reminder->phoneNumber,
             [
                 'from' => $this->twilioPhoneNumber,
                 'body' => $message,
