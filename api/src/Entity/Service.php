@@ -20,7 +20,7 @@ class Service
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[Groups(['read-company-details', 'read-company-service', 'read-booking','user:client:read:booking'])]
+    #[Groups(['read-company-details', 'read-company-service', 'read-booking','user:client:read:booking', 'user:employee:read:booking'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 

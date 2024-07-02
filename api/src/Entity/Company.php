@@ -64,7 +64,7 @@ class Company
     #[Groups(['user:create', 'user:read:login'])]
     private ?Uuid $id = null;
 
-    #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company', 'add-company','update-company' ])]
+    #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking','user:employee:read:booking', 'user:read:company', 'add-company','update-company' ])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
     #[Groups(['read-company-details', 'read-company', 'read-booking','user:client:read:booking', 'user:read:company', 'add-company', 'update-company'])]

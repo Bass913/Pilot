@@ -3,6 +3,11 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Repository\UnavailabilityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +16,24 @@ use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: UnavailabilityRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Get(
+        ),
+        new Post(
+            uriTemplate: '/api/unavailabilities',
+            denormalizationContext: ['groups' => ['add-unavailability']]
+        ),
+        new Patch(
+
+        ),
+        new Delete()
+    ],
+    normalizationContext: ['groups' => ['read-unavailability']]
+)
+]
 class Unavailability
 {
     #[ORM\Id]
@@ -20,16 +42,19 @@ class Unavailability
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     private ?Uuid $id = null;
 
-    #[Groups(['read-company-details', 'user:read:planning', 'read-company-planning', 'add-company'])]
+    #[Groups(['read-company-details', 'user:read:planning', 'read-company-planning', 'add-company', 'read-unavailability', 'add-unavailability'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $startDate = null;
 
-    #[Groups(['read-company-details', 'user:read:planning', 'read-company-planning', 'add-company'])]
+    #[Groups(['read-company-details', 'user:read:planning', 'read-company-planning', 'add-company', 'read-unavailability', 'add-unavailability'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $endDate = null;
 
+    #[Groups(['add-unavailability'])]
     #[ORM\ManyToOne(inversedBy: 'unavailabilities')]
     private ?User $user = null;
+
+    #[Groups(['add-unavailability'])]
 
     #[ORM\ManyToOne(inversedBy: 'unavailabilities')]
     private ?Company $company = null;
