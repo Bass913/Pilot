@@ -37,7 +37,8 @@ jobs:
         working-directory: api
 
       - name: Run tests
-        run: php bin/phpunit
+        run: vendor/bin/phpunit
+        working-directory: api
 
   frontend_test:
     name: Frontend Test
