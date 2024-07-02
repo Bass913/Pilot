@@ -39,7 +39,7 @@ jobs:
       - name: Run tests
         run: php bin/phpunit
 
-  frontend_test:
+  front_test:
     name: Frontend Test
     needs: test_api_platform
     runs-on: ubuntu-latest
