@@ -3,6 +3,11 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Repository\ScheduleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +16,35 @@ use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ScheduleRepository::class)]
-#[ApiResource]
+#[ApiResource
+(
+    operations: [
+        new Get(
+            uriTemplate: '/api/schedules/{id}',
+            security: "is_granted('SCHEDULE_READ', object)"
+        ),
+        new GetCollection(
+            uriTemplate: '/api/schedules',
+            security: "is_granted('ROLE_SUPERADMIN')"
+        ),
+        new Post(
+            uriTemplate: '/api/schedules',
+            denormalizationContext: ['groups' => ['add-schedule']],
+            securityPostDenormalize: "is_granted('SCHEDULE_CREATE',object)"
+        ),
+        new Patch(
+            uriTemplate: '/api/schedules/{id}',
+            denormalizationContext: ['groups' => ['update-schedule']],
+            securityPostDenormalize: "is_granted('SCHEDULE_EDIT', object)"
+        ),
+        new Delete(
+            uriTemplate: '/api/schedules/{id}',
+            security: "is_granted('SCHEDULE_DELETE', object)"
+        )
+    ],
+    normalizationContext: ['groups' => ['read-schedule']]
+)
+]
 class Schedule
 {
     #[ORM\Id]
@@ -20,21 +53,23 @@ class Schedule
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[Groups(['read-company-details', 'user:read:planning','user:employee:read:planning', 'read-company-planning', 'add-company'])]
+    #[Groups(['read-company-details', 'user:read:planning','user:employee:read:planning', 'read-company-planning', 'add-company', 'read-schedule', 'add-schedule'])]
     #[ORM\Column(length: 9)]
     private ?string $dayOfWeek = null;
 
-    #[Groups(['read-company-details', 'user:read:planning','user:employee:read:planning', 'read-company-planning', 'add-company'])]
+    #[Groups(['read-company-details', 'user:read:planning','user:employee:read:planning', 'read-company-planning', 'add-company', 'read-schedule', 'add-schedule', 'update-schedule'])]
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $startTime = null;
 
-    #[Groups(['read-company-details', 'user:read:planning','user:employee:read:planning', 'add-company'])]
+    #[Groups(['read-company-details', 'user:read:planning','user:employee:read:planning', 'add-company', 'read-schedule', 'add-schedule', 'update-schedule'])]
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endTime = null;
 
+    #[Groups(['read-schedule', 'add-schedule'])]
     #[ORM\ManyToOne(inversedBy: 'schedules')]
     private ?Company $company = null;
 
+    #[Groups(['read-schedule', 'add-schedule'])]
     #[ORM\ManyToOne(inversedBy: 'schedules')]
     private ?User $user = null;
 

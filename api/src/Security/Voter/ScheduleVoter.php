@@ -8,12 +8,12 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UnavailabilityVoter extends Voter
+class ScheduleVoter extends Voter
 {
-    public const EDIT = 'UNAVAILABILITY_EDIT';
-    public const CREATE = 'UNAVAILABILITY_CREATE';
-    public const DELETE = 'UNAVAILABILITY_DELETE';
-    public const READ = 'UNAVAILABILITY_READ';
+    public const EDIT = 'SCHEDULE_EDIT';
+    public const CREATE = 'SCHEDULE_CREATE';
+    public const DELETE = 'SCHEDULE_DELETE';
+    public const READ = 'SCHEDULE_READ';
     private ?Security $security;
 
     public function __construct(Security $security)
@@ -26,7 +26,7 @@ class UnavailabilityVoter extends Voter
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
         return in_array($attribute, [self::EDIT, self::CREATE, self::DELETE, self::READ])
-            && $subject instanceof \App\Entity\Unavailability;
+            && $subject instanceof \App\Entity\Schedule;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool

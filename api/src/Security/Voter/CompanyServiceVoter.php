@@ -8,12 +8,11 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UnavailabilityVoter extends Voter
+class CompanyServiceVoter extends Voter
 {
-    public const EDIT = 'UNAVAILABILITY_EDIT';
-    public const CREATE = 'UNAVAILABILITY_CREATE';
-    public const DELETE = 'UNAVAILABILITY_DELETE';
-    public const READ = 'UNAVAILABILITY_READ';
+    public const EDIT = 'COMPANY_SERVICE_EDIT';
+    public const CREATE = 'COMPANY_SERVICE_CREATE';
+    public const DELETE = 'COMPANY_SERVICE_DELETE';
     private ?Security $security;
 
     public function __construct(Security $security)
@@ -25,8 +24,8 @@ class UnavailabilityVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::EDIT, self::CREATE, self::DELETE, self::READ])
-            && $subject instanceof \App\Entity\Unavailability;
+        return in_array($attribute, [self::EDIT, self::CREATE, self::DELETE])
+            && $subject instanceof \App\Entity\CompanyService;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
@@ -51,16 +50,13 @@ class UnavailabilityVoter extends Voter
             case self::CREATE:
             case self::DELETE:
             case self::EDIT:
-            case self::READ:
                 if($this->security->isGranted("ROLE_SUPERADMIN")  ){
                     return true;
                 }
-                if($this->security->isGranted("ROLE_ADMIN") && (in_array($subject->getCompany(), $companies) or (in_array($subject->getUser()->getCompany(), $companies))) ){
+                if($this->security->isGranted("ROLE_ADMIN") && (in_array($subject->getCompany(), $companies)) ){
                     return true;
                 }
-                if(!$this->security->isGranted("ROLE_ADMIN") && ($user === $subject->getUser())){return true;}
                 break;
-
         }
 
         return false;

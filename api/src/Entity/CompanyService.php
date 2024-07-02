@@ -31,13 +31,20 @@ use Symfony\Component\Uid\Uuid;
         new GetCollection(),
         new Get(),
         new Post(
-            // security: "is_granted('ROLE_ADMIN')",
-            // securityMessage: 'Only admins can add books.'
+            uriTemplate: '/api/company_services',
+            denormalizationContext: ['groups' => ['add-company-service']],
+            securityPostDenormalize: "is_granted('COMPANY_SERVICE_CREATE',object)"
 
         ),
-        new Put(),
-        new Patch(),
-        new Delete()
+        new Patch(
+            uriTemplate: '/api/company_services/{id}',
+            denormalizationContext: ['groups' => ['update-company-service']],
+            securityPostDenormalize: "is_granted('COMPANY_SERVICE_EDIT',object)"
+        ),
+        new Delete(
+            uriTemplate: '/api/company_services/{id}',
+            security: "is_granted('COMPANY_SERVICE_DELETE',object)"
+        )
     ],
     normalizationContext: ['groups' => ['read-company-service']],
     // security: "is_granted('ROLE_USER')",
@@ -53,19 +60,19 @@ class CompanyService
     private ?Uuid $id = null;
 
 
-    #[Groups(['read-company-details', 'read-company-service', 'read-booking', 'user:client:read:booking', 'user:employee:read:booking','add-company'])]
+    #[Groups(['read-company-details', 'read-company-service', 'read-booking', 'user:client:read:booking', 'user:employee:read:booking','add-company', 'add-company-service', 'update-company-service'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $price = null;
 
-    #[Groups(['read-company-details', 'read-company-service', 'read-booking', 'user:client:read:booking','user:employee:read:booking', 'add-company'])]
+    #[Groups(['read-company-details', 'read-company-service', 'read-booking', 'user:client:read:booking','user:employee:read:booking', 'add-company', 'add-company-service', 'update-company-service'])]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $duration = null;
 
-    #[Groups(['read-booking', 'user:client:read:booking', 'user:employee:read:booking'])]
+    #[Groups(['read-booking', 'user:client:read:booking', 'user:employee:read:booking', 'add-company-service'])]
     #[ORM\ManyToOne(inversedBy: 'companyServices')]
     private ?Company $company = null;
 
-    #[Groups(['read-company-details', 'read-company-service', 'read-booking', 'user:client:read:booking','user:employee:read:booking', 'add-company'])]
+    #[Groups(['read-company-details', 'read-company-service', 'read-booking', 'user:client:read:booking','user:employee:read:booking', 'add-company', 'add-company-service'])]
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Service $service = null;

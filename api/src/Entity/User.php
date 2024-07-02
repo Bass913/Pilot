@@ -128,12 +128,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Uuid $id;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'user:employee:read:planning', 'read-review', 'read-booking', 'user:read:login'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'user:employee:read:planning', 'read-review', 'read-booking', 'user:read:login', 'read-schedule'])]
     #[Assert\NotBlank(groups: ['user:register', 'user:create', 'user:update'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:register', 'user:read', 'user:create', 'user:update',  'user:employee:read:planning', 'read-review', 'read-booking', 'user:read:login'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update',  'user:employee:read:planning', 'read-review', 'read-booking', 'user:read:login', 'read-schedule'])]
     #[Assert\NotBlank(groups: ['user:register', 'user:create', 'user:update'])]
     private ?string $lastname = null;
 

@@ -3,6 +3,12 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Repository\SpecialityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,7 +18,29 @@ use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: SpecialityRepository::class)]
-#[ApiResource]
+#[ApiResource
+(
+    operations: [
+        new GetCollection(),
+        new Get(),
+        new Post(
+            uriTemplate: '/api/specialities',
+            denormalizationContext: ['groups' => ['add-speciality']],
+            securityPostDenormalize: "is_granted('ROLE_SUPERADMIN')"
+
+        ),
+        new Patch(
+            uriTemplate: '/api/specialities/{id}',
+            denormalizationContext: ['groups' => ['update-speciality']],
+            securityPostDenormalize: "is_granted('ROLE_SUPERADMIN')"
+        ),
+        new Delete(
+            uriTemplate: '/api/specialities/{id}',
+            security: "is_granted('ROLE_SUPERADMIN')"
+        )
+    ],
+)
+]
 class Speciality
 {
 
@@ -22,7 +50,7 @@ class Speciality
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     private ?Uuid $id = null;
 
-    #[Groups(['read-company-details', 'read-company', 'user:read:company'])]
+    #[Groups(['read-company-details', 'read-company', 'user:read:company', 'add-speciality', 'update-speciality'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
