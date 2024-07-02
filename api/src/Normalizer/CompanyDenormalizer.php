@@ -15,9 +15,7 @@ class CompanyDenormalizer implements DenormalizerInterface
 {
     public function __construct(
         protected Security $security,
-        protected PasswordHasherFactoryInterface $hasher,
         protected ObjectNormalizer $normalizer,
-        protected RequestStack $requestStack
     ) {
     }
 
@@ -27,33 +25,6 @@ class CompanyDenormalizer implements DenormalizerInterface
         assert($user instanceof User);
 
         $company = $this->normalizer->denormalize($data, $type, $format, $context);
-
-
-        $isAdmin = $this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('ROLE_SUPERADMIN');
-        if($context['groups'][0] === "update-company" && $isAdmin ) {
-            $request = $this->requestStack->getCurrentRequest();
-            if (!$request) {
-                throw new \RuntimeException('No current request.');
-            }
-            $companyIdRequest = $request->attributes->get('id');
-            $admin = $this->security->getUser();
-            assert($admin instanceof User);
-            $adminCompanies = $admin->getCompanies();
-
-            $found = false;
-            foreach ($adminCompanies as $company) {
-                assert($company instanceof Company);
-                if ($company->getId() == $companyIdRequest) {
-                    $found = true;
-                    break;
-                }
-            }
-
-            if (!$found) {
-                throw new AccessDeniedException("Vous n'avez pas les droits requis pour modifier cet établissement");
-            }
-            return $company;
-        }
 
 
         if($context['groups'][0] != "add-company"){

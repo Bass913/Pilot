@@ -4,6 +4,7 @@ namespace App\Normalizer;
 
 use App\Entity\Company;
 use App\Entity\User;
+use App\Repository\CompanyRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -16,6 +17,7 @@ class UserDenormalizer implements DenormalizerInterface
         protected Security $security,
         protected PasswordHasherFactoryInterface $hasher,
         protected ObjectNormalizer $normalizer,
+        protected CompanyRepository $companyRepository,
     ) {
     }
 
@@ -43,26 +45,8 @@ class UserDenormalizer implements DenormalizerInterface
                 $companyIdDataRequest = $data['companyId'];
                 $parts = explode("/", $companyIdDataRequest);
                 $companyIdData = end($parts);
+                $companyUser = $this->companyRepository->find($companyIdData);
 
-
-                $admin = $this->security->getUser();
-                assert($admin instanceof User);
-                $adminCompanies = $admin->getCompanies();
-                $companyUser = null;
-
-                $found = false;
-                foreach ($adminCompanies as $company) {
-                    assert($company instanceof Company);
-                    if ($company->getId() == $companyIdData) {
-                        $found = true;
-                        $companyUser = $company;
-                        break;
-                    }
-                }
-
-                if (!$found) {
-                    throw new AccessDeniedException("Vous n'avez pas les droits requis pour créer un employée pour cet entreprise");
-                }
                 $user->setCompany($companyUser);
                 $user->setRoles(['ROLE_USER', 'ROLE_EMPLOYEE']);
 

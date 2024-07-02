@@ -37,13 +37,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
         new Post(
             uriTemplate: '/api/companies',
             denormalizationContext: ['groups' => ['add-company']],
-            securityPostDenormalize: "is_granted('ROLE_ADMIN') ",
+            securityPostDenormalize: "is_granted('COMPANY_CREATE', object)",
             securityPostDenormalizeMessage: "Vous n'avez pas les droits requis pour ajouter un établissement"
         ),
         new Patch(
             uriTemplate: '/api/companies/{id}',
             denormalizationContext: ['groups' => ['update-company']],
-            securityPostDenormalize: "is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') ",
+            securityPostDenormalize: "is_granted('COMPANY_EDIT', object)",
             securityPostDenormalizeMessage: "Vous n'avez pas les droits requis pour modifier cet établissement"
         ),
         new Delete(
