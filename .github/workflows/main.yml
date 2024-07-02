@@ -96,5 +96,6 @@ jobs:
           cd /var/www/html/pilot
           tar -xzvf project-files.tar.gz
           rm project-files.tar.gz
-          docker compose up
+          SERVER_NAME=challenge.pilot.us.to \
+          docker compose up -d
           EOF
