@@ -15,6 +15,7 @@ function EntityCreatePage({ model }) {
     const [entityData, setEntityData] = useState({});
     const [loading, setLoading] = useState(false);
     const [companies, setCompanies] = useState([]);
+    const [services, setServices] = useState([]);
     const navigate = useNavigate();
     const { user } = useUser();
 
@@ -31,8 +32,31 @@ function EntityCreatePage({ model }) {
                 }
             }
         };
+
         fetchCompanies();
     }, [user]);
+
+    useEffect(() => {
+        const fetchServices = async () => {
+            if (entityData.company && entityData.company.length > 0) {
+                try {
+                    for (let i = 0; i < entityData.company.length; i++) {
+                        const companyId = entityData.company[i]["@id"]
+                            .split("/")
+                            .pop();
+                        const response = await apiService.getCompanyServices({
+                            companyId: companyId,
+                        });
+                        setServices(response.data.services);
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch services:", error);
+                }
+            }
+        };
+
+        fetchServices();
+    }, [entityData.company]);
 
     const handleSubmit = async (newData) => {
         try {
@@ -177,6 +201,13 @@ function EntityCreatePage({ model }) {
             models: ["service", "companyService", "companiesService"],
         },
         {
+            name: "service",
+            label: t("service"),
+            type: "multi-select",
+            value: entityData.service || [],
+            models: ["service", "companyService", "companiesService"],
+        },
+        {
             name: "duration",
             label: t("duration"),
             type: "number",
@@ -206,8 +237,6 @@ function EntityCreatePage({ model }) {
         return acc;
     }, {});
 
-    newData.company = entityData.company || [];
-
     return (
         <DashboardLayout>
             <div className="flex justify-between">
@@ -230,7 +259,8 @@ function EntityCreatePage({ model }) {
                             >
                                 {field.label}
                             </label>
-                            {field.type === "multi-select" ? (
+                            {field.type === "multi-select" &&
+                            field.name === "company" ? (
                                 <Select
                                     id={field.name}
                                     name={field.name}
@@ -252,6 +282,32 @@ function EntityCreatePage({ model }) {
                                     options={companies.map((company) => ({
                                         value: company.id,
                                         label: company.name,
+                                    }))}
+                                    isMulti
+                                />
+                            ) : field.type === "multi-select" &&
+                              field.name === "service" ? (
+                                <Select
+                                    id={field.name}
+                                    name={field.name}
+                                    value={entityData.service}
+                                    className="mt-1 block w-full rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                                    onChange={(selectedOptions) =>
+                                        setEntityData({
+                                            ...entityData,
+                                            [field.name]: selectedOptions.map(
+                                                (option) =>
+                                                    services.find(
+                                                        (service) =>
+                                                            service.id ===
+                                                            option.value,
+                                                    ),
+                                            ),
+                                        })
+                                    }
+                                    options={services.map((company) => ({
+                                        value: service.id,
+                                        label: service.name,
                                     }))}
                                     isMulti
                                 />
