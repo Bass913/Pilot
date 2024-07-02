@@ -197,6 +197,11 @@ const apiService = {
   getAdminStatistics(id) {
     return apiClient.get(`/api/stats/admin/${id}`);
   },
+
+  // Unavailabilities
+  createUnavailability(unavailability) {
+    return apiClient.post("/unavailabilities", unavailability);
+  },
 };
 
 export default apiService;

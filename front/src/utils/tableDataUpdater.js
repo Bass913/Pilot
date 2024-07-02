@@ -32,6 +32,10 @@ export const getValue = (row, col) => {
 	}
 
 	if (col === "images") {
+
+		if (!row[col]) {
+			return "/no-image.jpeg";
+		}
 		return row[col][0];
 	}
 

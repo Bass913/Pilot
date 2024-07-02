@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240630055554 extends AbstractMigration
+final class Version20240702081216 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -34,7 +34,7 @@ final class Version20240630055554 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN booking.company_id IS \'(DC2Type:uuid)\'');
         $this->addSql('CREATE TABLE category_review (id UUID NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('COMMENT ON COLUMN category_review.id IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE company (id UUID NOT NULL, speciality_id UUID DEFAULT NULL, user_id UUID DEFAULT NULL, name VARCHAR(255) NOT NULL, address VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, zipcode VARCHAR(10) NOT NULL, city VARCHAR(255) NOT NULL, kbis VARCHAR(255) NOT NULL, active BOOLEAN NOT NULL, longitude NUMERIC(11, 8) DEFAULT NULL, latitude NUMERIC(10, 8) DEFAULT NULL, review_rating DOUBLE PRECISION DEFAULT NULL, review_count INT DEFAULT NULL, images TEXT DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE company (id UUID NOT NULL, speciality_id UUID DEFAULT NULL, user_id UUID DEFAULT NULL, name VARCHAR(255) NOT NULL, address VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, zipcode VARCHAR(10) NOT NULL, city VARCHAR(255) NOT NULL, active BOOLEAN NOT NULL, longitude NUMERIC(11, 8) DEFAULT NULL, latitude NUMERIC(10, 8) DEFAULT NULL, review_rating DOUBLE PRECISION DEFAULT NULL, review_count INT DEFAULT NULL, images TEXT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_4FBF094F3B5A08D7 ON company (speciality_id)');
         $this->addSql('CREATE INDEX IDX_4FBF094FA76ED395 ON company (user_id)');
         $this->addSql('COMMENT ON COLUMN company.id IS \'(DC2Type:uuid)\'');
@@ -53,7 +53,7 @@ final class Version20240630055554 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN rating.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN rating.review_id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN rating.category_id IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE request (id INT NOT NULL, firstname VARCHAR(255) NOT NULL, lastname VARCHAR(255) NOT NULL, phone VARCHAR(20) DEFAULT NULL, email VARCHAR(255) NOT NULL, kbis VARCHAR(255) DEFAULT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE request (id INT NOT NULL, firstname VARCHAR(255) NOT NULL, lastname VARCHAR(255) NOT NULL, phone VARCHAR(20) DEFAULT NULL, email VARCHAR(255) NOT NULL, kbis VARCHAR(255) DEFAULT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, is_validated BOOLEAN NOT NULL, PRIMARY KEY(id))');
         $this->addSql('COMMENT ON COLUMN request.updated_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN request.created_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE review (id UUID NOT NULL, company_id UUID DEFAULT NULL, client_id UUID DEFAULT NULL, date VARCHAR(255) NOT NULL, comment TEXT DEFAULT NULL, PRIMARY KEY(id))');

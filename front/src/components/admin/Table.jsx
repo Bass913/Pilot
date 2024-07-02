@@ -60,7 +60,8 @@ function Table({ model, data, page, onChangePage }) {
                                 <tr>
                                     {columns.map(
                                         (col) =>
-                                            col !== "id" && (
+                                            col !== "id" &&
+                                            col !== "@id" && (
                                                 <th
                                                     key={col}
                                                     scope="col"
@@ -102,7 +103,8 @@ function Table({ model, data, page, onChangePage }) {
                                         >
                                             {columns.map(
                                                 (col) =>
-                                                    col !== "id" && (
+                                                    col !== "id" &&
+                                                    col !== "@id" && (
                                                         <td
                                                             key={col}
                                                             className={`whitespace-nowrap pl-4 pr-3 text-sm sm:pl-6 cursor-pointer ${col === "images" ? "py-1" : "py-2"}`}

@@ -173,5 +173,10 @@
     "delete": "Supprimer",
     "company": "Entreprise",
     "welcome": "Bienvenue",
-    "create": "Créer"
+    "create": "Créer",
+    "choose-company": "Choisissez une entreprise",
+    "choose-employee": "Choisissez un employé",
+    "add-unavailability": "Ajouter une indisponibilité",
+    "start-date": "Date de début",
+    "end-date": "Date de fin"
 }

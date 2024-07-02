@@ -11,6 +11,8 @@ const columnNames = {
 	"service.name": "name",
 	"companyService.service.name": "service",
 	"company.name": "company",
+	"employee.name": "employee",
+	"client.name": "client",
 	employee: "employee",
 	startDate: "date",
 	duration: "duration",

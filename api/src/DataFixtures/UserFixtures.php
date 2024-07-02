@@ -102,7 +102,7 @@ class UserFixtures extends Fixture
         $user->setActive(true);
         $user->setPhone($phone);
 
-        if (in_array($email, ["user@user.fr", "admin@admin.fr", "super@admin.fr", "employee@dumois.fr"])) {
+        if (in_array($email, ["user@user.fr", "admin@admin.fr", "super@admin.fr", "employee@employee.fr"])) {
             $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
             $user->setPassword($hashedPassword);
         } else {

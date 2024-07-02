@@ -155,8 +155,24 @@ function DynamicEntityPage({ model }) {
 
                         subResponse.data["hydra:member"].forEach((sub) => {
                             sub.company = companyResponse.data;
+                            sub.employee = {
+                                ...sub.employee,
+                                name: `${sub.employee.firstname} ${sub.employee.lastname}`,
+                            };
+                            sub.client = {
+                                ...sub.client,
+                                name: `${sub.client.firstname} ${sub.client.lastname}`,
+                            };
                         });
+
+                        response.data["hydra:member"].push(
+                            ...subResponse.data["hydra:member"],
+                        );
+
+                        response.data["hydra:totalItems"] +=
+                            subResponse.data["hydra:totalItems"];
                     }
+                    console.log(response);
                     break;
                 default:
                     break;
