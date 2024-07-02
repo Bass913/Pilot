@@ -37,7 +37,7 @@ jobs:
         working-directory: api
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
+        run: composer install --prefer-dist --no-progress
 
       - name: PHPUnit
         uses: chindit/actions-phpunit-symfony@master
