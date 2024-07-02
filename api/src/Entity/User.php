@@ -175,7 +175,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Booking::class, cascade: ['remove'],orphanRemoval: true)]
     private Collection $clientBookings;
 
-    #[Groups(['user:employee:read:booking',  'user:employee:read:planning'])]
+    #[Groups(['user:employee:read:booking',  'user:employee:read:planning', 'user:read:planning'])]
     #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Booking::class, cascade: ['remove'],orphanRemoval: true)]
     private Collection $employeeBookings;
 
