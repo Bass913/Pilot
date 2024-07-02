@@ -20,15 +20,15 @@ class Schedule
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[Groups(['read-company-details', 'user:read:planning', 'read-company-planning', 'add-company'])]
+    #[Groups(['read-company-details', 'user:read:planning','user:employee:read:planning', 'read-company-planning', 'add-company'])]
     #[ORM\Column(length: 9)]
     private ?string $dayOfWeek = null;
 
-    #[Groups(['read-company-details', 'user:read:planning', 'read-company-planning', 'add-company'])]
+    #[Groups(['read-company-details', 'user:read:planning','user:employee:read:planning', 'read-company-planning', 'add-company'])]
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $startTime = null;
 
-    #[Groups(['read-company-details', 'user:read:planning', 'add-company'])]
+    #[Groups(['read-company-details', 'user:read:planning','user:employee:read:planning', 'add-company'])]
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endTime = null;
 

@@ -24,7 +24,7 @@ final class CompanyUserExtension implements QueryCollectionExtensionInterface
         if (
             $operation->getName() === "_api_/companies/{id}/employees_get_collection"
             || $operation->getName() === "_api_/companies/{id}/employees/planning_get_collection"
-            || $operation->getName() === "_api_api/users/employees_get_collection"
+            || $operation->getName() === "_api_/api/users/employees_get_collection"
         ) {
             $this->addWhereEmployees($queryBuilder);
         }

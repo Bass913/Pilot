@@ -42,11 +42,11 @@ class Unavailability
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     private ?Uuid $id = null;
 
-    #[Groups(['read-company-details', 'user:read:planning', 'read-company-planning', 'add-company', 'read-unavailability', 'add-unavailability'])]
+    #[Groups(['read-company-details', 'user:read:planning','user:employee:read:planning', 'read-company-planning', 'add-company', 'read-unavailability', 'add-unavailability'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $startDate = null;
 
-    #[Groups(['read-company-details', 'user:read:planning', 'read-company-planning', 'add-company', 'read-unavailability', 'add-unavailability'])]
+    #[Groups(['read-company-details', 'user:read:planning','user:employee:read:planning', 'read-company-planning', 'add-company', 'read-unavailability', 'add-unavailability'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $endDate = null;
 

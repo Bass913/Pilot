@@ -34,7 +34,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             securityMessage: "Vous n'êtes pas super admin"
         ),
         new GetCollection(
-            uriTemplate: 'api/users/employees',
+            uriTemplate: '/api/users/employees',
             normalizationContext: ['groups' => ['user:read']],
             security: "is_granted('ROLE_SUPERADMIN')",
             securityMessage: "Vous n'êtes pas super admin"
@@ -42,6 +42,12 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Get(
             uriTemplate: '/api/client/{id}/bookings',
             normalizationContext: ['groups' => ['user:client:read:booking']],
+            security: "object.getId() == user.getId()",
+            securityMessage: "Ce compte ne vous appartient pas"
+        ),
+        new Get(
+            uriTemplate: '/api/users/{id}/planning',
+            normalizationContext: ['groups' => ['user:read:planning']],
             security: "object.getId() == user.getId()",
             securityMessage: "Ce compte ne vous appartient pas"
         ),
@@ -72,7 +78,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             uriVariables: [
                 'id' => new Link(fromProperty: 'users', fromClass: Company::class)
             ],
-            normalizationContext: ['groups' => ['user:read:planning']]
+            normalizationContext: ['groups' => ['user:employee:read:planning']]
         ),
         new Post(
             uriTemplate: '/register',
@@ -122,12 +128,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Uuid $id;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'user:read:planning', 'read-review', 'read-booking', 'user:read:login'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update', 'user:employee:read:planning', 'read-review', 'read-booking', 'user:read:login'])]
     #[Assert\NotBlank(groups: ['user:register', 'user:create', 'user:update'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:register', 'user:read', 'user:create', 'user:update',  'user:read:planning', 'read-review', 'read-booking', 'user:read:login'])]
+    #[Groups(['user:register', 'user:read', 'user:create', 'user:update',  'user:employee:read:planning', 'read-review', 'read-booking', 'user:read:login'])]
     #[Assert\NotBlank(groups: ['user:register', 'user:create', 'user:update'])]
     private ?string $lastname = null;
 
@@ -153,11 +159,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 8, groups: ['user:register', 'user:create','user:update:password'])]
     private ?string $password = null;
 
-    #[Groups(['user:read:planning'])]
+    #[Groups(['user:read:planning', 'user:employee:read:planning'])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Unavailability::class, cascade: ['remove'],orphanRemoval: true)]
     private Collection $unavailabilities;
 
-    #[Groups(['user:read:planning'])]
+    #[Groups(['user:read:planning', 'user:employee:read:planning'])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Schedule::class,cascade: ['remove'],orphanRemoval: true)]
     private Collection $schedules;
 
@@ -169,7 +175,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Booking::class, cascade: ['remove'],orphanRemoval: true)]
     private Collection $clientBookings;
 
-    #[Groups(['user:read:planning', 'user:employee:read:booking'])]
+    #[Groups(['user:employee:read:booking',  'user:employee:read:planning'])]
     #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Booking::class, cascade: ['remove'],orphanRemoval: true)]
     private Collection $employeeBookings;
 
