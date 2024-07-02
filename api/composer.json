@@ -35,6 +35,7 @@
         "symfony/uid": "6.4.*",
         "symfony/validator": "6.4.*",
         "symfony/yaml": "6.4.*",
+        "twilio/sdk": "^8.2",
         "vich/uploader-bundle": "^2.3"
     },
     "require-dev": {

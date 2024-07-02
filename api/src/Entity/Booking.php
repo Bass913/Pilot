@@ -14,6 +14,7 @@ use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
+use App\State\SMSReminderProcessor;
 
 #[ORM\Entity(repositoryClass: BookingRepository::class)]
 #[ApiResource(
@@ -41,13 +42,14 @@ use ApiPlatform\Metadata\Patch;
         new Patch(
             uriTemplate: '/api/bookings/{id}',
             securityPostDenormalize: "is_granted('BOOKING_EDIT', object)",
-            securityPostDenormalizeMessage:"Vous essayez de décaler un RDV pour un autre client"
-
+            securityPostDenormalizeMessage: "Vous essayez de décaler un RDV pour un autre client",
+            processor: SMSReminderProcessor::class
         ),
         new Post(
             uriTemplate: '/api/bookings',
             securityPostDenormalize: "is_granted('BOOKING_CREATE', object)",
-            securityPostDenormalizeMessage:"Vous essayez de prendre RDV pour un autre client"
+            securityPostDenormalizeMessage: "Vous essayez de prendre RDV pour un autre client",
+            processor: SMSReminderProcessor::class
         ),
         new Delete(
             uriTemplate: '/api/bookings/{id}',
@@ -66,7 +68,7 @@ class Booking
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[Groups(['read-booking', 'user:read:planning','read-company-planning', 'user:client:read:booking'])]
+    #[Groups(['read-booking', 'user:read:planning', 'read-company-planning', 'user:client:read:booking'])]
     #[ORM\Column(length: 255)]
     private ?string $startDate = null;
 
