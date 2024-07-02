@@ -95,5 +95,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no root@143.244.189.241 << 'EOF'
           cd /var/www/html/pilot
           tar -xzvf project-files.tar.gz
-          rm project-files.tar.gz
+          rm project-files.tar.gz 
+          SERVER_NAME=challenge.pilot.us.to \
+          docker compose -f compose.yaml -f compose.prod.yaml up --wait
           EOF
