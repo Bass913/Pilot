@@ -39,6 +39,12 @@ use Symfony\Component\Validator\Constraints as Assert;
             securityMessage: "Ce compte ne vous appartient pas"
         ),
         new Get(
+            uriTemplate: '/api/employee/{id}/bookings',
+            normalizationContext: ['groups' => ['user:employee:read:booking']],
+            security: "object.getId() == user.getId()",
+            securityMessage: "Ce compte ne vous appartient pas"
+        ),
+        new Get(
             uriTemplate: '/api/me',
             normalizationContext: ['groups' => ['user:read:login']],
         ),
@@ -155,7 +161,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Booking::class, cascade: ['remove'],orphanRemoval: true)]
     private Collection $clientBookings;
 
-    #[Groups(['user:read:planning'])]
+    #[Groups(['user:read:planning', 'user:employee:read:booking'])]
     #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Booking::class, cascade: ['remove'],orphanRemoval: true)]
     private Collection $employeeBookings;
 

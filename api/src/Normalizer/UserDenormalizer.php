@@ -40,7 +40,11 @@ class UserDenormalizer implements DenormalizerInterface
 
 
             if ($context['groups'][0] === 'user:create') {
-                $companyIdData = $data['companyId'];
+                $companyIdDataRequest = $data['companyId'];
+                $parts = explode("/", $companyIdDataRequest);
+                $companyIdData = end($parts);
+
+
                 $admin = $this->security->getUser();
                 assert($admin instanceof User);
                 $adminCompanies = $admin->getCompanies();
