@@ -1,15 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Select from "react-select";
 import apiService from "../../services/apiService";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import { useTranslation } from "react-i18next";
 import entitiesNames from "../../lib/entitiesNames";
 import Loader from "../../components/Loader";
 import BackButton from "../../components/BackButton";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../../hooks/useUser";
 
 function EntityCreatePage({ model }) {
+    const { t } = useTranslation();
     const [entityData, setEntityData] = useState({});
     const [loading, setLoading] = useState(false);
-    const { t } = useTranslation();
+    const [companies, setCompanies] = useState([]);
+    const navigate = useNavigate();
+    const { user } = useUser();
+
+    useEffect(() => {
+        const fetchCompanies = async () => {
+            if (user) {
+                try {
+                    const response = await apiService.getAdminCompanies(
+                        user.id,
+                    );
+                    setCompanies(response.data.companies);
+                } catch (error) {
+                    console.error("Failed to fetch companies:", error);
+                }
+            }
+        };
+        fetchCompanies();
+    }, [user]);
 
     const handleSubmit = async (newData) => {
         try {
@@ -20,10 +42,13 @@ function EntityCreatePage({ model }) {
                 case "companyProvider":
                 case "companiesProvider":
                     response = await apiService.createCompany(newData);
+                    navigate("/admin/providers");
                     break;
                 case "user":
                 case "employee":
-                    response = await apiService.createUser(newData);
+                case "companiesEmployee":
+                    response = await apiService.adminCreateUser(newData);
+                    navigate("/admin/employees");
                     break;
                 case "service":
                     response = await apiService.createService(newData);
@@ -53,28 +78,48 @@ function EntityCreatePage({ model }) {
             label: t("firstname"),
             type: "text",
             value: entityData.firstname || "",
-            models: ["user", "employee", "companyEmployee", "companiesEmployee"],
+            models: [
+                "user",
+                "employee",
+                "companyEmployee",
+                "companiesEmployee",
+            ],
         },
         {
             name: "lastname",
             label: t("lastname"),
             type: "text",
             value: entityData.lastname || "",
-            models: ["user", "employee", "companyEmployee", "companiesEmployee"],
+            models: [
+                "user",
+                "employee",
+                "companyEmployee",
+                "companiesEmployee",
+            ],
         },
         {
             name: "email",
             label: t("email"),
             type: "email",
             value: entityData.email || "",
-            models: ["user", "employee", "companyEmployee", "companiesEmployee"],
+            models: [
+                "user",
+                "employee",
+                "companyEmployee",
+                "companiesEmployee",
+            ],
         },
         {
             name: "phone",
             label: t("phone"),
             type: "tel",
             value: entityData.phone || "",
-            models: ["user", "employee", "companyEmployee", "companiesEmployee"],
+            models: [
+                "user",
+                "employee",
+                "companyEmployee",
+                "companiesEmployee",
+            ],
         },
 
         // Company
@@ -124,6 +169,13 @@ function EntityCreatePage({ model }) {
             models: ["service", "companyService", "companiesService"],
         },
         {
+            name: "company",
+            label: t("company"),
+            type: "multi-select",
+            value: entityData.company || [],
+            models: ["service", "companyService", "companiesService"],
+        },
+        {
             name: "duration",
             label: t("duration"),
             type: "number",
@@ -153,6 +205,8 @@ function EntityCreatePage({ model }) {
         return acc;
     }, {});
 
+    newData.company = entityData.company || [];
+
     return (
         <DashboardLayout>
             <div className="flex justify-between">
@@ -175,20 +229,47 @@ function EntityCreatePage({ model }) {
                             >
                                 {field.label}
                             </label>
-                            <input
-                                type={field.type}
-                                id={field.name}
-                                name={field.name}
-                                value={field.value}
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                                onChange={(e) =>
-                                    setEntityData({
-                                        ...entityData,
-                                        [field.name]: e.target.value,
-                                    })
-                                }
-                                step={field.step}
-                            />
+                            {field.type === "multi-select" ? (
+                                <Select
+                                    id={field.name}
+                                    name={field.name}
+                                    value={entityData.company}
+                                    className="mt-1 block w-full rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                                    onChange={(selectedOptions) =>
+                                        setEntityData({
+                                            ...entityData,
+                                            [field.name]: selectedOptions.map(
+                                                (option) =>
+                                                    companies.find(
+                                                        (company) =>
+                                                            company.id ===
+                                                            option.value,
+                                                    ),
+                                            ),
+                                        })
+                                    }
+                                    options={companies.map((company) => ({
+                                        value: company.id,
+                                        label: company.name,
+                                    }))}
+                                    isMulti
+                                />
+                            ) : (
+                                <input
+                                    type={field.type}
+                                    id={field.name}
+                                    name={field.name}
+                                    value={field.value}
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                                    onChange={(e) =>
+                                        setEntityData({
+                                            ...entityData,
+                                            [field.name]: e.target.value,
+                                        })
+                                    }
+                                    step={field.step}
+                                />
+                            )}
                         </div>
                     ))}
                 </div>
