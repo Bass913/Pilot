@@ -100,6 +100,11 @@ function getTimeSlotsWithAvailability({
   employeeSchedules = [],
   bookings = [],
 }) {
+  // console.log("timeSlots", timeSlots);
+  // console.log("employeeUnavailabilities", employeeUnavailabilities);
+  // console.log("companyUnavailabilities", companyUnavailabilities);
+  // console.log("employeeSchedules", employeeSchedules);
+  // console.log("bookings", bookings);
   const timeSlotsWithAvailability = {};
 
   Object.keys(timeSlots).forEach((day) => {

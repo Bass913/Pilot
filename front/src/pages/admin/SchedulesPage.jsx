@@ -31,7 +31,10 @@ function SchedulePage() {
     const fetchCompanies = async () => {
         try {
             if (isSuperAdmin) {
-                const response = await apiService.getCompanies({ search: "", pagination: false });
+                const response = await apiService.getCompanies({
+                    search: "",
+                    pagination: false,
+                });
                 setCompanies(response.data["hydra:member"]);
             } else if (isAdmin) {
                 const response = await apiService.getAdminCompanies(user.id);
@@ -68,6 +71,20 @@ function SchedulePage() {
         }
     };
 
+    const fetchUserPlanning = async () => {
+        try {
+            const response = await apiService.getUserSchedule(user.id);
+            setSelectedEmployee({
+                ...user,
+                schedules: response.data.schedules,
+                unavailabilities: response.data.unavailabilities,
+                bookings: response.data.employeeBookings,
+            });
+        } catch (error) {
+            console.error("Error while fetching user planning:", error);
+        }
+    };
+
     useEffect(() => {
         if (isEmployee) setSelectedCompany(provider);
     }, [provider]);
@@ -81,7 +98,9 @@ function SchedulePage() {
         if (isAdmin) {
             fetchEmployees();
             fetchProvider();
-        } else setSelectedEmployee(user);
+        } else {
+            fetchUserPlanning();
+        }
     }, [selectedCompany]);
 
     const handleCompanySelect = (company) => {
@@ -109,16 +128,31 @@ function SchedulePage() {
     const [startDate, setStartDate] = useState(
         initialDate.toISOString().substring(0, 10),
     );
-    initialDate.setDate(initialDate.getDate() + 6);
-    const endDateISOString = initialDate.toISOString().substring(0, 10);
-    const [endDate, setEndDate] = useState(endDateISOString);
+    const [endDate, setEndDate] = useState(() => {
+        const date = new Date(initialDate);
+        date.setDate(date.getDate() + 6);
+        return date.toISOString().substring(0, 10);
+    });
 
-    const daysWithTimeSlots = provider
-        ? getTimeSlotsFromSchedule(
-              getDays(startDate, endDate),
-              provider.schedules,
-          )
-        : [];
+    const [daysWithTimeSlots, setDaysWithTimeSlots] = useState(
+        provider
+            ? getTimeSlotsFromSchedule(
+                  getDays(startDate, endDate),
+                  provider.schedules,
+              )
+            : [],
+    );
+
+    useEffect(() => {
+        setDaysWithTimeSlots(
+            provider
+                ? getTimeSlotsFromSchedule(
+                      getDays(startDate, endDate),
+                      provider.schedules,
+                  )
+                : [],
+        );
+    }, [provider, startDate, endDate]);
 
     const [timeSlotsWithAvailability, setTimeSlotsWithAvailability] =
         useState(null);
@@ -133,7 +167,7 @@ function SchedulePage() {
                 bookings: selectedEmployee?.employeeBookings,
             }),
         );
-    }, [selectedEmployee, provider]);
+    }, [selectedEmployee, provider, daysWithTimeSlots]);
 
     const handleSaveUnavailability = async (unavailability) => {
         if (!selectedEmployee) return;
@@ -141,7 +175,9 @@ function SchedulePage() {
             await apiService.createUnavailability({
                 startDate: unavailability.startDate,
                 endDate: unavailability.endDate,
-                user: selectedEmployee["@id"],
+                user: selectedEmployee["@id"]
+                    ? selectedEmployee["@id"]
+                    : `/users/${user.id}`,
                 // company: selectedCompany["@id"],
             });
             fetchEmployees();
@@ -159,6 +195,26 @@ function SchedulePage() {
             );
         } catch (error) {
             console.error("Error while adding unavailability:", error);
+        }
+    };
+
+    const handleDateChange = (change) => {
+        if (change === 1) {
+            const newStartDate = new Date(startDate);
+            newStartDate.setDate(newStartDate.getDate() + 7);
+            setStartDate(newStartDate.toISOString().substring(0, 10));
+
+            const newEndDate = new Date(newStartDate);
+            newEndDate.setDate(newEndDate.getDate() + 6);
+            setEndDate(newEndDate.toISOString().substring(0, 10));
+        } else {
+            const newEndDate = new Date(endDate);
+            newEndDate.setDate(newEndDate.getDate() - 7);
+            setEndDate(newEndDate.toISOString().substring(0, 10));
+
+            const newStartDate = new Date(newEndDate);
+            newStartDate.setDate(newStartDate.getDate() - 6);
+            setStartDate(newStartDate.toISOString().substring(0, 10));
         }
     };
 
@@ -214,7 +270,7 @@ function SchedulePage() {
                         timeSlotsWithAvailability={timeSlotsWithAvailability}
                         selectedSlot={selectedSlot}
                         onSlotSelection={handleSlotSelection}
-                        littleVersion={true}
+                        onDateChange={handleDateChange}
                     />
                 </>
             )}

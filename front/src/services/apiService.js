@@ -49,7 +49,6 @@ const apiService = {
     const url = `/companies?${params.toString()}`;
     return apiClient.get(url);
   },
-
   getCompany(id) {
     return apiClient.get(`/companies/${id}`);
   },
@@ -122,6 +121,9 @@ const apiService = {
   updatePassword(id, password) {
     return apiClient.patch(`/api/users/password/${id}`, password);
   },
+  getEmployees({ page = 1 }) {
+    return apiClient.get(`/api/users/employees?page=${page}`);
+  },
 
   // Bookings
   getBookings({ page = 1 }) {
@@ -146,6 +148,9 @@ const apiService = {
   },
   removeBooking(bookingId) {
     return apiClient.delete(`/api/bookings/${bookingId}`);
+  },
+  getEmployeeBookings(employeeId) {
+    return apiClient.get(`/api/employee/${employeeId}/bookings`);
   },
 
   // Specialities
@@ -189,6 +194,9 @@ const apiService = {
   getCompanySchedule(companyId) {
     return apiClient.get(`/companies/${companyId}/planning`);
   },
+  getUserSchedule(userId) {
+    return apiClient.get(`/api/users/${userId}/planning`);
+  },
 
   // Statistics
   getSuperAdminStatistics() {
@@ -200,7 +208,7 @@ const apiService = {
 
   // Unavailabilities
   createUnavailability(unavailability) {
-    return apiClient.post("/unavailabilities", unavailability);
+    return apiClient.post("/api/unavailabilities", unavailability);
   },
 };
 

@@ -93,7 +93,8 @@ function DynamicEntityPage({ model }) {
                     }
                     break;
                 case "employee":
-                    response = await apiService.getUsers({ page }); // to change to getEmployees
+                    response = await apiService.getEmployees({ page });
+                    console.log("response", response);
                     break;
                 case "companyEmployee":
                     response = await apiService.getCompanyEmployees({
@@ -131,10 +132,13 @@ function DynamicEntityPage({ model }) {
                     response = await apiService.getBookings({ page });
                     break;
                 case "companyBooking":
-                    response = await apiService.getCompanyBookings({
-                        companyId: user.companyId,
-                        page,
-                    });
+                    response = await apiService.getEmployeeBookings(user.id);
+                    response = {
+                        data: {
+                            "hydra:totalItems": response.data.employeeBookings.length,
+                            "hydra:member": response.data.employeeBookings
+                        },
+                    };
                     break;
                 case "companiesBooking":
                     response = {
@@ -172,7 +176,6 @@ function DynamicEntityPage({ model }) {
                         response.data["hydra:totalItems"] +=
                             subResponse.data["hydra:totalItems"];
                     }
-                    console.log(response);
                     break;
                 default:
                     break;

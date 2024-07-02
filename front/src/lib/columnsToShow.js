@@ -18,7 +18,7 @@ const columnsToShow = {
   request: [],
   user: ["id", "firstname", "lastname", "email", "phone", "roles"],
   booking: ["id", "startDate", "companyService.service.name", "employee"],
-  companyBooking: ["id", "date", "totalAmount", "user"],
+  companyBooking: ["id", "startDate", "companyService.service.name", "companyService.company.name"],
   companiesBooking: [
     "@id",
     "startDate",

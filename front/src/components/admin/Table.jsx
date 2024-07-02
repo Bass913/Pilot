@@ -142,26 +142,12 @@ function Table({ model, data, page, onChangePage }) {
                                                                 />
                                                             ) : (
                                                                 <span>
-                                                                    {(col ===
-                                                                        "service.name" &&
-                                                                        model ===
-                                                                            "companyService") ||
-                                                                    model ===
-                                                                        "service" ||
-                                                                    model ===
-                                                                        "booking" ||
-                                                                    model ===
-                                                                        "companiesService"
-                                                                        ? t(
-                                                                              getValue(
-                                                                                  row,
-                                                                                  col,
-                                                                              ),
-                                                                          )
-                                                                        : getValue(
-                                                                              row,
-                                                                              col,
-                                                                          )}
+                                                                    {t(
+                                                                        getValue(
+                                                                            row,
+                                                                            col,
+                                                                        ),
+                                                                    )}
                                                                 </span>
                                                             )}
                                                         </td>

@@ -21,7 +21,6 @@ const UpdateBookingModal = ({ isOpen, onClose, onSubmit, booking }) => {
     const [loading, setLoading] = useState(true);
     const [bookingDetails, setBookingDetails] = useState(null);
     const [employees, setEmployees] = useState([]);
-    // const [companyBookings, setCompanyBookings] = useState([]);
     const companyId = booking
         ? booking.companyService.company["@id"].split("/").pop()
         : null;
@@ -61,17 +60,6 @@ const UpdateBookingModal = ({ isOpen, onClose, onSubmit, booking }) => {
         }
     };
 
-    // const fetchCompanyBookings = async () => {
-    //     try {
-    //         const response = await apiService.getCompanySchedule(
-    //             provider["@id"].split("/").pop(),
-    //         );
-    //         setCompanyBookings(response.data.bookings);
-    //     } catch (error) {
-    //         console.error("Error while fetching company bookings:", error);
-    //     }
-    // };
-
     const initialDate = new Date();
     const [startDate, setStartDate] = useState(
         initialDate.toISOString().substring(0, 10),
@@ -79,11 +67,6 @@ const UpdateBookingModal = ({ isOpen, onClose, onSubmit, booking }) => {
     initialDate.setDate(initialDate.getDate() + 6);
     const endDateISOString = initialDate.toISOString().substring(0, 10);
     const [endDate, setEndDate] = useState(endDateISOString);
-
-    // useEffect(() => {
-    //     if (!provider) return;
-    //     fetchCompanyBookings();
-    // }, [provider]);
 
     useEffect(() => {
         if (!booking) return;
@@ -101,6 +84,26 @@ const UpdateBookingModal = ({ isOpen, onClose, onSubmit, booking }) => {
 
     const handleSlotSelection = (day, timeSlot) => {
         setSelectedSlot({ day, timeSlot });
+    };
+
+    const handleDateChange = (change) => {
+        if (change === 1) {
+            const newStartDate = new Date(startDate);
+            newStartDate.setDate(newStartDate.getDate() + 7);
+            setStartDate(newStartDate.toISOString().substring(0, 10));
+
+            const newEndDate = new Date(newStartDate);
+            newEndDate.setDate(newEndDate.getDate() + 6);
+            setEndDate(newEndDate.toISOString().substring(0, 10));
+        } else {
+            const newEndDate = new Date(endDate);
+            newEndDate.setDate(newEndDate.getDate() - 7);
+            setEndDate(newEndDate.toISOString().substring(0, 10));
+
+            const newStartDate = new Date(newEndDate);
+            newStartDate.setDate(newStartDate.getDate() - 6);
+            setStartDate(newStartDate.toISOString().substring(0, 10));
+        }
     };
 
     const daysWithTimeSlots = provider
@@ -150,14 +153,6 @@ const UpdateBookingModal = ({ isOpen, onClose, onSubmit, booking }) => {
                         ) : (
                             <>
                                 <div className="h-96 overflow-y-auto">
-                                    {/* <p className="text-gray-600 font-light text-sm mb-5">
-										{t("select-service")}
-									</p>
-									<ServicesChooser
-										services={provider.companyServices}
-										selectedService={booking.companyService}
-										onServiceSelection={() => {}}
-									/> */}
                                     <p className="text-gray-600 font-light text-sm mb-5">
                                         {t("select-employee")}
                                     </p>
@@ -175,7 +170,7 @@ const UpdateBookingModal = ({ isOpen, onClose, onSubmit, booking }) => {
                                         }
                                         selectedSlot={selectedSlot}
                                         onSlotSelection={handleSlotSelection}
-                                        littleVersion={true}
+                                        onDateChange={handleDateChange}
                                     />
                                 </div>
                                 <div className="mt-5 sm:mt-6">

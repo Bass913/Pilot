@@ -13,6 +13,7 @@ const columnNames = {
 	"company.name": "company",
 	"employee.name": "employee",
 	"client.name": "client",
+	"companyService.company.name": "company",
 	employee: "employee",
 	startDate: "date",
 	duration: "duration",
