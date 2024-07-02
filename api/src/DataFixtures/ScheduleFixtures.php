@@ -73,6 +73,7 @@ class ScheduleFixtures extends Fixture implements DependentFixtureInterface
                 $manager->persist($schedule);
             }
             $manager->persist($company);
+
         }
 
 
