@@ -58,7 +58,7 @@ jobs:
 
       - name: Install Dependencies and Format code with Prettier
         run: |
-          npm install
+          npm ci
           npm run format
 
   build:
@@ -77,7 +77,7 @@ jobs:
           coverage: none
 
       - name: Install PHP dependencies
-        run: composer install --no-dev
+        run: composer install
         working-directory: api
 
       - name: Sync files to staging directory
@@ -99,12 +99,5 @@ jobs:
           ssh -o StrictHostKeyChecking=no root@143.244.189.241 << 'EOF'
           cd /var/www/html/pilot
           tar -xzvf project-files.tar.gz
-          rm project-files.tar.gz
-          docker compose down
-          SERVER_NAME=challenge.pilot.us.to \
-          APP_SECRET=ChangeMe \
-          POSTGRES_PASSWORD=ChangeMe \
-          CADDY_MERCURE_JWT_SECRET=ChangeThisMercureHubJWTSecretKey \
-          docker compose -f compose.yaml -f compose.prod.yaml up --wait
-          docker exec -it pilot-php-1 php bin/console d:m:m
+          rm project-files.tar.gz  
           EOF
