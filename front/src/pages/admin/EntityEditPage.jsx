@@ -15,7 +15,6 @@ function EntityEditPage({ model }) {
     const { id } = useParams();
     const { t } = useTranslation();
     const navigate = useNavigate();
-    console.log("model", model);
 
     useEffect(() => {
         const fetchEntity = async () => {
@@ -33,6 +32,7 @@ function EntityEditPage({ model }) {
                         break;
                     case "service":
                         response = await apiService.getService(id);
+                        response.data.name = t(response.data.name);
                         break;
                     case "companyService":
                     case "companiesService":
@@ -68,9 +68,11 @@ function EntityEditPage({ model }) {
                 case "user":
                 case "employee":
                     response = await apiService.updateUser(id, updatedData);
+                    navigate("/admin/employees");
                     break;
                 case "service":
                     response = await apiService.updateService(id, updatedData);
+                    navigate("/admin/services");
                     break;
                 case "companyService":
                 case "companiesService":
