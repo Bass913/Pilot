@@ -95,5 +95,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no root@143.244.189.241 << 'EOF'
           cd /var/www/html/pilot
           tar -xzvf project-files.tar.gz
-          rm project-files.tar.gz  
+          rm project-files.tar.gz
+          CADDY_MERCURE_JWT_SECRET=ChangeThisMercureHubJWTSecretKey \
+          docker compose -f compose.yaml -f compose.prod.yaml up --wait
           EOF
