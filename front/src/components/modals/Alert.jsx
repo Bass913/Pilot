@@ -17,6 +17,7 @@ function Alert({ onClose, message, type, bookingId, entityId, model }) {
     const handleDelete = async () => {
         switch (model) {
             case "provider":
+            case "companiesProvider":
                 await apiService.removeCompany(entityId);
                 break;
             case "service":
@@ -37,7 +38,7 @@ function Alert({ onClose, message, type, bookingId, entityId, model }) {
             default:
                 break;
         }
-        window.location.reload();
+        onClose();
     };
 
     const getButtonLabel = () => {

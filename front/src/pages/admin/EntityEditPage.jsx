@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import apiService from "../../services/apiService";
 import { useParams } from "react-router-dom";
 import DashboardLayout from "../../layouts/DashboardLayout";
@@ -12,6 +14,7 @@ function EntityEditPage({ model }) {
     const [loading, setLoading] = useState(true);
     const { id } = useParams();
     const { t } = useTranslation();
+    const navigate = useNavigate();
     console.log("model", model);
 
     useEffect(() => {
@@ -60,6 +63,7 @@ function EntityEditPage({ model }) {
                 case "companyProvider":
                 case "companiesProvider":
                     response = await apiService.updateCompany(id, updatedData);
+                    navigate("/admin/providers");
                     break;
                 case "user":
                 case "employee":
@@ -74,6 +78,7 @@ function EntityEditPage({ model }) {
                         id,
                         updatedData,
                     );
+                    r;
                     break;
                 case "booking":
                     response = await apiService.updateBooking(id, updatedData);

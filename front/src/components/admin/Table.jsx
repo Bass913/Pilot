@@ -50,6 +50,14 @@ function Table({ model, data, page, onChangePage }) {
         setShowAlert(false);
     };
 
+    const handleDelete = (index) => {
+        const dataItem = data["hydra:member"][index];
+        const idFullPath = dataItem["@id"];
+        const id = idFullPath.split("/").pop();
+        setSelectedId(id);
+        setShowAlert(true);
+    };
+
     return (
         <div className="mt-8 flow-root">
             <div className="overflow-x-auto">
@@ -99,7 +107,11 @@ function Table({ model, data, page, onChangePage }) {
                                             onMouseLeave={() =>
                                                 setHoveredRow(null)
                                             }
-                                            className={`${hoveredRow === index ? "text-primary-500 bg-gray-50" : "text-gray-900"}`}
+                                            className={`${
+                                                hoveredRow === index
+                                                    ? "text-primary-500 bg-gray-50"
+                                                    : "text-gray-900"
+                                            }`}
                                         >
                                             {columns.map(
                                                 (col) =>
@@ -107,7 +119,11 @@ function Table({ model, data, page, onChangePage }) {
                                                     col !== "@id" && (
                                                         <td
                                                             key={col}
-                                                            className={`whitespace-nowrap pl-4 pr-3 text-sm sm:pl-6 cursor-pointer ${col === "images" ? "py-1" : "py-2"}`}
+                                                            className={`whitespace-nowrap pl-4 pr-3 text-sm sm:pl-6 cursor-pointer ${
+                                                                col === "images"
+                                                                    ? "py-1"
+                                                                    : "py-2"
+                                                            }`}
                                                             onClick={() =>
                                                                 showDetails(
                                                                     index,
@@ -167,8 +183,8 @@ function Table({ model, data, page, onChangePage }) {
                                                         <button
                                                             className="text-red-600 hover:text-red-900 bg-gray-100 p-1 rounded-full hover:bg-gray-200"
                                                             onClick={() =>
-                                                                setShowAlert(
-                                                                    true,
+                                                                handleDelete(
+                                                                    index,
                                                                 )
                                                             }
                                                         >

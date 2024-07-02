@@ -60,10 +60,10 @@ const apiService = {
     return apiClient.post(`api/companies`, company);
   },
   updateCompany(id, company) {
-    return apiClient.patch(`/companies/${id}`, company);
+    return apiClient.patch(`/api/companies/${id}`, company);
   },
   removeCompany(id) {
-    return apiClient.delete(`/companies/${id}`);
+    return apiClient.delete(`/api/companies/${id}`);
   },
 
   // Services

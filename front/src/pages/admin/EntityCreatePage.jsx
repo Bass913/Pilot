@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Select from "react-select";
+
 import apiService from "../../services/apiService";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import { useTranslation } from "react-i18next";
 import entitiesNames from "../../lib/entitiesNames";
 import Loader from "../../components/Loader";
 import BackButton from "../../components/BackButton";
-import { useNavigate } from "react-router-dom";
 import { useUser } from "../../hooks/useUser";
 
 function EntityCreatePage({ model }) {
