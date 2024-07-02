@@ -73,7 +73,7 @@ jobs:
           coverage: none
 
       - name: Install PHP dependencies
-        run: composer install --no-dev
+        run: composer install --no-interaction
         working-directory: api
 
       - name: Sync files to staging directory
