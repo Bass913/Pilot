@@ -30,7 +30,14 @@ use Symfony\Component\Validator\Constraints as Assert;
         new GetCollection(
             uriTemplate: '/api/users',
             normalizationContext: ['groups' => ['user:read']],
-            security: "is_granted('ROLE_SUPERADMIN')"
+            security: "is_granted('ROLE_SUPERADMIN')",
+            securityMessage: "Vous n'êtes pas super admin"
+        ),
+        new GetCollection(
+            uriTemplate: 'api/users/employees',
+            normalizationContext: ['groups' => ['user:read']],
+            security: "is_granted('ROLE_SUPERADMIN')",
+            securityMessage: "Vous n'êtes pas super admin"
         ),
         new Get(
             uriTemplate: '/api/client/{id}/bookings',
@@ -59,6 +66,7 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'id' => new Link(fromProperty: 'users', fromClass: Company::class)
             ],
         ),
+
         new GetCollection(
             uriTemplate: '/companies/{id}/employees/planning',
             uriVariables: [

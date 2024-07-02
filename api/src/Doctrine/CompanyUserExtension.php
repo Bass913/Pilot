@@ -11,10 +11,6 @@ use Symfony\Bundle\SecurityBundle\Security;
 
 final class CompanyUserExtension implements QueryCollectionExtensionInterface
 {
-    public function __construct(
-        private Security $security,
-    ) {
-    }
     public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, Operation $operation = null, array $context = []): void
     {
         /*var_dump($this->security->isGranted("ROLE_ADMIN"));
@@ -25,7 +21,11 @@ final class CompanyUserExtension implements QueryCollectionExtensionInterface
             return;
         }
 
-        if ($operation->getName() === "_api_/companies/{id}/employees_get_collection" || $operation->getName() === "_api_/companies/{id}/employees/planning_get_collection") {
+        if (
+            $operation->getName() === "_api_/companies/{id}/employees_get_collection"
+            || $operation->getName() === "_api_/companies/{id}/employees/planning_get_collection"
+            || $operation->getName() === "_api_api/users/employees_get_collection"
+        ) {
             $this->addWhereEmployees($queryBuilder);
         }
     }
