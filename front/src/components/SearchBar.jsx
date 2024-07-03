@@ -17,13 +17,15 @@ const SearchBar = ({ initialGarageSearch = "", initialAddressSearch = "" }) => {
     const navigate = useNavigate();
 
     const fetchServices = async () => {
-        const response = await apiService.getServices({ page: 1 });
+        const response = await apiService.getServices({ pagination: false });
         setServices(response.data["hydra:member"]);
         setServicesToShow(response.data["hydra:member"]);
     };
 
     const fetchSpecialities = async () => {
-        const response = await apiService.getSpecialities();
+        const response = await apiService.getSpecialities({
+            pagination: false,
+        });
         setSpecialities(response.data["hydra:member"]);
         setSpecialitiesToShow(response.data["hydra:member"]);
     };
