@@ -28,14 +28,13 @@ jobs:
         run: vendor/bin/phpcs src/
         working-directory: api
 
-      - name: Set PHPStan flag
-        run: echo "RUN_PHPSTAN=${{ secrets.RUN_PHPSTAN }}" >> $GITHUB_ENV
-
       - name: Run PHPStan
         if: ${{ env.RUN_PHPSTAN == 'true' }}
         run: vendor/bin/phpstan.phar analyse src/ -c phpstan.neon --level=max --no-progress -vvv --memory-limit=2048M
         working-directory: api
 
+      - name: Set PHPStan flag
+        run: echo "RUN_PHPSTAN=${{ secrets.RUN_PHPSTAN }}" >> $GITHUB_ENV
       # - name: Run unit tests
       #   run: php bin/phpunit
       #   working-directory: api
@@ -92,11 +91,11 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_KEY }}
 
       - name: Copy files to server
-        run: scp -o StrictHostKeyChecking=no project-files.tar.gz root@143.244.189.241:/var/www/html/pilot
+        run: scp -o StrictHostKeyChecking=no project-files.tar.gz root@${{ secrets.DROPLET }}:/var/www/html/pilot
 
       - name: Deploy to DigitalOcean Droplet
         run: |
-          ssh -o StrictHostKeyChecking=no root@143.244.189.241 << 'EOF'
+          ssh -o StrictHostKeyChecking=no root@${{ secrets.DROPLET }} << 'EOF'
           cd /var/www/html/pilot
           tar -xzvf project-files.tar.gz
           rm project-files.tar.gz
