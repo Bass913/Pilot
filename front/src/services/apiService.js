@@ -188,7 +188,12 @@ const apiService = {
   },
 
   acceptRequest(request) {
-    return apiClient.post(`/api/requests/${request["@id"].split("/").pop()}/validate`, request);
+    const id = request["@id"].split("/").pop();
+    return apiClient.post(`/api/requests/${id}/validate`, { status: true });
+  },
+  declineRequest(request) {
+    const id = request["@id"].split("/").pop();
+    return apiClient.post(`/api/requests/${id}/validate`, { status: false });
   },
 
   // Schedule
@@ -214,8 +219,6 @@ const apiService = {
   createUnavailability(unavailability) {
     return apiClient.post("/api/unavailabilities", unavailability);
   },
-
-
 };
 
 export default apiService;
