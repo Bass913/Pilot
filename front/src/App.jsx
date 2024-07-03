@@ -1,35 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from "react";
+import SearchBarSection from "./sections/SearchBarSection.jsx";
+import { NavLink, useLocation } from "react-router-dom";
+import DefaultLayout from "./layouts/DefaultLayout.jsx";
 
 function App() {
-  const [count, setCount] = useState(0)
+	const [searchTerm, setSearchTerm] = useState("");
+	const location = useLocation();
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more. Test v1.1
-      </p>
-    </>
-  )
+	useEffect(() => {
+		const searchParams = new URLSearchParams(location.search);
+		const term = searchParams.get("search");
+		if (term !== searchTerm) {
+			setSearchTerm(term || "");
+		}
+
+		if (searchTerm?.length) {
+			fetchRecipes();
+		}
+	}, [location, searchTerm]);
+
+	return (
+		<DefaultLayout>
+			<div className="flex flex-col items-center mx-auto">
+				<SearchBarSection
+					isTall={!searchTerm.length}
+					initialValue={searchTerm}
+				/>
+			</div>
+		</DefaultLayout>
+	);
 }
 
-export default App
+export default App;

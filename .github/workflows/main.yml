@@ -3,36 +3,101 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - bass
+      - develop
 
 jobs:
-  build:
+  test_api_platform:
+    name: CI Backend
     runs-on: ubuntu-latest
-
     steps:
-      # Récupère le code source du repository
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, curl, pdo, sqlite, zip, pcntl
+          coverage: none
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Change directory
+        run: cd api
+
+      - name: Run PHP_CodeSniffer (PHPCS)
+        if: ${{ env.RUN_PHPSTAN == 'true' }}
+        run: vendor/bin/phpcs src/
+        working-directory: api
+
+      - name: Set PHPStan flag
+        run: echo "RUN_PHPSTAN=${{ secrets.RUN_PHPSTAN }}" >> $GITHUB_ENV
+
+      - name: Run PHPStan
+        if: ${{ env.RUN_PHPSTAN == 'true' }}
+        run: vendor/bin/phpstan.phar analyse src/ -c phpstan.neon --level=max --no-progress -vvv --memory-limit=2048M
+        working-directory: api
+
+      # - name: Run unit tests
+      #   run: php bin/phpunit
+      #   working-directory: api
+
+  frontend_test:
+    name: Frontend Test
+    needs: test_api_platform
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: front
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies and Format code with Prettier
+        run: |
+          npm install
+          npm run format
+
+  build:
+    name: Deploy to DigitalOcean Droplet
+    needs: frontend_test
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Configurer SSH pour se connecter au Droplet DigitalOcean
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, curl, pdo, sqlite, zip, pcntl
+          coverage: none
+
+      - name: Install PHP dependencies
+        run: composer install --no-interaction
+        working-directory: api
+
+      - name: Sync files to staging directory
+        run: rsync -a . /tmp/project-staging
+
+      - name: Archive project files
+        run: tar -czvf project-files.tar.gz -C /tmp/project-staging .
+
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
-      # Copier les fichiers vers le serveur distant
+
       - name: Copy files to server
-        run: |
-          scp -o StrictHostKeyChecking=no -r ./* root@143.244.189.241:/var/www/html
-      # Déployer sur le Droplet DigitalOcean
+        run: scp -o StrictHostKeyChecking=no project-files.tar.gz root@143.244.189.241:/var/www/html/pilot
+
       - name: Deploy to DigitalOcean Droplet
         run: |
           ssh -o StrictHostKeyChecking=no root@143.244.189.241 << 'EOF'
-          cd /var/www/html/api-platform
-          docker compose down
-          SERVER_NAME=challenge.pilot.us.to \
-          DATABASE_URL=postgres://gibhwigg:G451SbOGgg4WxbxsqcabFEfenMIycNJ4@kandula.db.elephantsql.com/gibhwigg \
-          APP_SECRET=ChangeMe \
-          POSTGRES_PASSWORD=ChangeMe \
-          CADDY_MERCURE_JWT_SECRET=ChangeThisMercureHubJWTSecretKey \
-          docker compose -f compose.yaml -f compose.prod.yaml up --wait
+          cd /var/www/html/pilot
+          tar -xzvf project-files.tar.gz
+          rm project-files.tar.gz
           EOF

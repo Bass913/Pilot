@@ -2,13 +2,13 @@
 services:
   php:
     build:
-      context: ./api-plateform/api
+      context: ./api
       target: frankenphp_dev
     volumes:
-      - ./api-plateform/api:/app
+      - ./api:/app
       - /app/var
-      - ./api-plateform/api/frankenphp/Caddyfile:/etc/caddy/Caddyfile:ro
-      - ./api-plateform/api/frankenphp/conf.d/app.dev.ini:/usr/local/etc/php/conf.d/app.dev.ini:ro
+      - ./api/frankenphp/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./api/frankenphp/conf.d/app.dev.ini:/usr/local/etc/php/conf.d/app.dev.ini:ro
       # If you develop on Mac or Windows you can remove the vendor/ directory
       #  from the bind-mount for better performance by enabling the next line:
       #- /app/vendor
@@ -23,10 +23,10 @@ services:
 
   pwa:
     build:
-      context: ./api-plateform/pwa
+      context: ./pwa
       target: dev
     volumes:
-      - ./api-plateform/pwa:/srv/app
+      - ./pwa:/srv/app
     environment:
       API_PLATFORM_CREATE_CLIENT_ENTRYPOINT: http://php
       API_PLATFORM_CREATE_CLIENT_OUTPUT: .
