@@ -34,9 +34,12 @@ class ScheduleDenormalizer implements DenormalizerInterface
         assert($userconnected instanceof User);
 
         $schedule = $this->normalizer->denormalize($data, $type, $format, $context);
-        // assert($schedule instanceof Schedule);
 
-        if ($context['groups'][0] === "add-schedule") {
+        assert($schedule instanceof Schedule);
+
+
+
+        if($context['groups'][0] === "add-schedule"){
             $companyData = $data['company'];
             $userData = $data['user'];
             if ($userData !== null && $companyData !== null) {
@@ -63,13 +66,13 @@ class ScheduleDenormalizer implements DenormalizerInterface
 
     public function supportsDenormalization($data, string $type, string $format = null): bool
     {
-        return $type === Unavailability::class;
+        return $type === Schedule::class;
     }
 
     public function getSupportedTypes(?string $format): array
     {
         return [
-            Unavailability::class => true,
+            Schedule::class => true,
         ];
     }
 }
