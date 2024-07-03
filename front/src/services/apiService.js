@@ -181,10 +181,14 @@ const apiService = {
 
   // Requests
   getRequests({ page = 1 }) {
-    return apiClient.get("/requests?page=" + page);
+    return apiClient.get("/api/requests?page=" + page);
   },
   createRequest(request) {
     return apiClient.post("/requests", request);
+  },
+
+  acceptRequest(request) {
+    return apiClient.post(`/api/requests/${request["@id"].split("/").pop()}/validate`, request);
   },
 
   // Schedule
@@ -210,6 +214,8 @@ const apiService = {
   createUnavailability(unavailability) {
     return apiClient.post("/api/unavailabilities", unavailability);
   },
+
+
 };
 
 export default apiService;

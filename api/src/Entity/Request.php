@@ -21,13 +21,14 @@ use App\Dto\ValidateRequestInput;
     denormalizationContext: ['groups' => ['request:write']],
     operations: [
         new GetCollection(
+            uriTemplate: '/api/requests',
             security: "is_granted('ROLE_SUPERADMIN')",
         ),
         new Post(
             inputFormats: ['multipart' => ['multipart/form-data']]
         ),
         new Post(
-            uriTemplate: '/requests/{id}/validate',
+            uriTemplate: '/api/requests/{id}/validate',
             security: "is_granted('ROLE_SUPERADMIN')",
             validationContext: ['groups' => ['request:read']],
             input: ValidateRequestInput::class

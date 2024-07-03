@@ -44,8 +44,10 @@ function RequestsPage() {
 	};
 
 	const acceptRequest = async (request) => {
+		console.log(request);
+		request.status = true;
 		try {
-			// await apiService.acceptRequest(request);
+			await apiService.acceptRequest(request);
 			closeModal();
 			fetchRequests(currentPage);
 		} catch (error) {
