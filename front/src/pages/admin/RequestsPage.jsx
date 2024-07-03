@@ -64,12 +64,10 @@ function RequestsPage() {
 
     const declineRequest = async (request) => {
         try {
-            const response = await apiService.acceptRequest(request);
+            await apiService.declineRequest(request);
             closeModal();
             fetchRequests(currentPage);
-            toast.success(
-                "La demande du prestataire a été refusée avec succès !",
-            );
+            toast.success("La demande du prestataire a été refusée !");
         } catch (error) {
             console.error("Error declining request:", error);
             toast.error("Une erreur est survenue lors du refus de la demande");
