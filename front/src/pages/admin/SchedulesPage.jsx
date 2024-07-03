@@ -178,7 +178,7 @@ function SchedulePage() {
                 user: selectedEmployee["@id"]
                     ? selectedEmployee["@id"]
                     : `/users/${user.id}`,
-                // company: selectedCompany["@id"],
+                company: null,
             });
             fetchEmployees();
             handleCloseModal();

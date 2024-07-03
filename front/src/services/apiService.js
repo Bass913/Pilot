@@ -154,8 +154,8 @@ const apiService = {
   },
 
   // Specialities
-  getSpecialities() {
-    return apiClient.get("/specialities");
+  getSpecialities({ pagination = false, page = 1 }) {
+    return apiClient.get(`/specialities?pagination=${pagination}&page=${page}`);
   },
 
   // Categories
