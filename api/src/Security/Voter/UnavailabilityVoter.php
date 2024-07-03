@@ -55,7 +55,7 @@ class UnavailabilityVoter extends Voter
                 if($this->security->isGranted("ROLE_SUPERADMIN")  ){
                     return true;
                 }
-                if($this->security->isGranted("ROLE_ADMIN") && (in_array($subject->getCompany(), $companies) or (in_array($subject->getUser()->getCompany(), $companies))) ){
+                if($this->security->isGranted("ROLE_ADMIN") && (($subject->getCompany() !== null && (in_array($subject->getCompany(), $companies))) or ($subject->getUser() !== null && in_array($subject->getUser()->getCompany(), $companies))) ){
                     return true;
                 }
                 if(!$this->security->isGranted("ROLE_ADMIN") && ($user === $subject->getUser())){return true;}
