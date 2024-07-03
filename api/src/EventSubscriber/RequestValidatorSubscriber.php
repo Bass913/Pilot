@@ -55,10 +55,10 @@ final class RequestValidatorSubscriber implements EventSubscriberInterface
             $status = $validateRequestInput->status;
 
             switch ($status) {
-                case 'true':
+                case true:
                     $this->validateRequest($requestData);
                     break;
-                case 'false':
+                case false:
                     $this->refuseRequest($requestData);
                     break;
                 default:
@@ -86,15 +86,18 @@ final class RequestValidatorSubscriber implements EventSubscriberInterface
         $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
         $user->setActive(false);
 
+
+        // Générer un mot de passe temporaire
         $temporaryPassword = bin2hex(random_bytes(4));
         $encodedPassword = $this->passwordHasher->hashPassword($user, $temporaryPassword);
         $user->setPassword($encodedPassword);
         $this->entityManager->persist($user);
 
+
         $requestData->setIsValidated(true);
 
         $this->entityManager->flush();
-        $this->sendValidationEmail($user);
+        $this->sendValidationEmail($user, $temporaryPassword);
     }
 
     public function refuseRequest(RequestEntity $requestData)
@@ -104,7 +107,7 @@ final class RequestValidatorSubscriber implements EventSubscriberInterface
         $this->sendRefusalEmail($requestData);
     }
 
-    public function sendValidationEmail(User $user)
+    public function sendValidationEmail(User $user, string $temporaryPassword)
     {
         date_default_timezone_set('Europe/Paris');
         $currentHour = date('H:i');
@@ -119,7 +122,7 @@ final class RequestValidatorSubscriber implements EventSubscriberInterface
             ->context([
                 'firstname' => $user->getFirstname(),
                 'greetings' => $greetings,
-                'password' => "test",
+                'password' =>  $temporaryPassword,
             ]);
 
 

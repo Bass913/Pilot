@@ -20,12 +20,15 @@ use App\Dto\ValidateRequestInput;
     normalizationContext: ['groups' => ['request:read']],
     denormalizationContext: ['groups' => ['request:write']],
     operations: [
-        new GetCollection(),
+        new GetCollection(
+            security: "is_granted('ROLE_SUPERADMIN')",
+        ),
         new Post(
             inputFormats: ['multipart' => ['multipart/form-data']]
         ),
         new Post(
             uriTemplate: '/requests/{id}/validate',
+            security: "is_granted('ROLE_SUPERADMIN')",
             validationContext: ['groups' => ['request:read']],
             input: ValidateRequestInput::class
         ),
