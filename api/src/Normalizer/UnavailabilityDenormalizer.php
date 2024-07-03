@@ -37,7 +37,6 @@ class UnavailabilityDenormalizer implements DenormalizerInterface
 
 
 
-
         if($context['groups'][0] === "add-unavailability"){
             $companyData = $data['company'];
             $userData = $data['user'];
