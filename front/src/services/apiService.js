@@ -79,7 +79,7 @@ const apiService = {
     return apiClient.get(`/companies/${companyId}/services?page=${page}`);
   },
   updateService(id, service) {
-    return apiClient.patch(`/services/${id}`, service);
+    return apiClient.patch(`/api/services/${id}`, service);
   },
   removeService(id) {
     return apiClient.delete(`/services/${id}`);
@@ -90,13 +90,13 @@ const apiService = {
     return apiClient.get(`/company_services/${id}`);
   },
   createCompanyService(service) {
-    return apiClient.post(`/company_services`, service);
+    return apiClient.post(`/api/company_services`, service);
   },
   updateCompanyService(id, service) {
-    return apiClient.patch(`/company_services/${id}`, service);
+    return apiClient.patch(`/api/company_services/${id}`, service);
   },
   removeCompanyService(id) {
-    return apiClient.delete(`/company_services/${id}`);
+    return apiClient.delete(`/api/company_services/${id}`);
   },
 
   // Users

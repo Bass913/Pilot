@@ -51,7 +51,7 @@ use App\State\SMSReminderProcessor;
         ),
         new Delete(
             uriTemplate: '/api/bookings/{id}',
-            security: "is_granted('BOOKING_DELETE', object))",
+            security: "is_granted('BOOKING_DELETE', object)",
             securityMessage: "Vous n'avez pas le droit d'annuler ce RDV"
         )
     ],
