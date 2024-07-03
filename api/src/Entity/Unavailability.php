@@ -29,7 +29,7 @@ use Symfony\Component\Uid\Uuid;
         new Post(
             uriTemplate: '/api/unavailabilities',
             denormalizationContext: ['groups' => ['add-unavailability']],
-            securityPostDenormalize: "is_granted('UNAVAILABILITY_CREATE',object)"
+            #securityPostDenormalize: "is_granted('UNAVAILABILITY_CREATE',object)"
         ),
         new Patch(
             uriTemplate: '/api/unavailabilities/{id}',
