@@ -34,32 +34,31 @@ class ScheduleDenormalizer implements DenormalizerInterface
         assert($userconnected instanceof User);
 
         $schedule = $this->normalizer->denormalize($data, $type, $format, $context);
-        assert($schedule instanceof Schedule);
+        //assert($schedule instanceof Schedule);
 
 
 
 
-        if($context['groups'][0] === "add-schedule"){
+        if ($context['groups'][0] === "add-schedule") {
             $companyData = $data['company'];
             $userData = $data['user'];
-            if($userData !== null && $companyData !== null){
+            if ($userData !== null && $companyData !== null) {
                 $companyData = null;
             }
-            if($companyData !== null){
+            if ($companyData !== null) {
                 $parts = explode("/", $companyData);
                 $id = end($parts);
                 $company = $this->companyRepository->find($id);
                 $schedule->setCompany($company);
                 $schedule->setUser(null);
             }
-            if($userData !== null){
+            if ($userData !== null) {
                 $parts = explode("/", $userData);
                 $id = end($parts);
                 $user = $this->userRepository->find($id);
                 $schedule->setUser($user);
                 $schedule->setCompany(null);
             }
-
         }
 
         return $schedule;
@@ -76,5 +75,4 @@ class ScheduleDenormalizer implements DenormalizerInterface
             Unavailability::class => true,
         ];
     }
-
 }

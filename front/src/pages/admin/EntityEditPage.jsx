@@ -63,7 +63,6 @@ function EntityEditPage({ model }) {
                 case "companyProvider":
                 case "companiesProvider":
                     response = await apiService.updateCompany(id, updatedData);
-                    navigate("/admin/providers");
                     break;
                 case "user":
                 case "employee":
@@ -71,7 +70,6 @@ function EntityEditPage({ model }) {
                     break;
                 case "service":
                     response = await apiService.updateService(id, updatedData);
-                    navigate("/admin/services");
                     break;
                 case "companyService":
                 case "companiesService":

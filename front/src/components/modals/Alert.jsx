@@ -17,6 +17,7 @@ function Alert({ onClose, message, type, bookingId, entityId, model }) {
     const handleDelete = async () => {
         switch (model) {
             case "provider":
+            case "companiesProvider":
                 await apiService.removeCompany(entityId);
                 break;
             case "service":
@@ -29,6 +30,7 @@ function Alert({ onClose, message, type, bookingId, entityId, model }) {
                 await apiService.removeCompanyService(entityId);
                 break;
             case "companyEmployee":
+            case "companiesEmployee":
                 await apiService.removeUser(entityId);
                 break;
             case "booking":
