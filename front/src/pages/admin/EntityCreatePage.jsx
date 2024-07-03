@@ -67,13 +67,11 @@ function EntityCreatePage({ model }) {
                 case "companyProvider":
                 case "companiesProvider":
                     response = await apiService.createCompany(newData);
-                    navigate("/admin/providers");
                     break;
                 case "user":
                 case "employee":
                 case "companiesEmployee":
                     response = await apiService.adminCreateUser(newData);
-                    navigate("/admin/employees");
                     break;
                 case "service":
                     response = await apiService.createService(newData);

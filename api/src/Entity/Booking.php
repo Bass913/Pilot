@@ -66,7 +66,7 @@ class Booking
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[Groups(['read-booking', 'user:employee:read:planning', 'user:read:planning','read-company-planning', 'user:client:read:booking', 'user:employee:read:booking'])]
+    #[Groups(['read-booking', 'user:employee:read:planning', 'user:read:planning', 'read-company-planning', 'user:client:read:booking', 'user:employee:read:booking'])]
     #[ORM\Column(length: 255)]
     private ?string $startDate = null;
 

@@ -68,7 +68,6 @@ function EntityEditPage({ model }) {
                 case "user":
                 case "employee":
                     response = await apiService.updateUser(id, updatedData);
-                    navigate("/admin/employees");
                     break;
                 case "service":
                     response = await apiService.updateService(id, updatedData);
