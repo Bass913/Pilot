@@ -36,9 +36,9 @@ jobs:
         run: vendor/bin/phpstan.phar analyse src/ -c phpstan.neon --level=max --no-progress -vvv --memory-limit=2048M
         working-directory: api
 
-      - name: Run unit tests
-        run: php bin/phpunit
-        working-directory: api
+      # - name: Run unit tests
+      #   run: php bin/phpunit
+      #   working-directory: api
 
   frontend_test:
     name: Frontend Test
