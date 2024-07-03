@@ -5,6 +5,7 @@ namespace App\EventSubscriber;
 use App\Entity\User;
 use App\Entity\Request as RequestEntity;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -41,11 +42,11 @@ final class RequestValidatorSubscriber implements EventSubscriberInterface
         $method = $request->getMethod();
         $route = $request->attributes->get('_route');
 
-        if ('_api_/requests/{id}/validate_post' === $route && 'POST' === $method) {
+        if ('_api_/api/requests/{id}/validate_post' === $route && 'POST' === $method) {
             $requestId = $request->attributes->get('id');
             $requestData = $this->entityManager->getRepository(RequestEntity::class)->find($requestId);
 
-
+            dump('$requestId', $requestId);
             if (!$requestData) {
                 throw new NotFoundHttpException('Request not found');
             }
@@ -56,18 +57,20 @@ final class RequestValidatorSubscriber implements EventSubscriberInterface
 
             switch ($status) {
                 case true:
-                    $this->validateRequest($requestData);
+                    $response = $this->validateRequest($requestData);
                     break;
                 case false:
-                    $this->refuseRequest($requestData);
+                    $response = $this->refuseRequest($requestData);
                     break;
                 default:
                     throw new BadRequestHttpException('Invalid status value');
             }
+
+            $event->setResponse($response);
         }
     }
 
-    public function validateRequest(RequestEntity $requestData)
+    public function validateRequest(RequestEntity $requestData): JsonResponse
     {
         if ($requestData->getIsValidated()) {
             throw new BadRequestHttpException('This request has already been validated.');
@@ -86,25 +89,27 @@ final class RequestValidatorSubscriber implements EventSubscriberInterface
         $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
         $user->setActive(false);
 
-
         // Générer un mot de passe temporaire
         $temporaryPassword = bin2hex(random_bytes(4));
         $encodedPassword = $this->passwordHasher->hashPassword($user, $temporaryPassword);
         $user->setPassword($encodedPassword);
         $this->entityManager->persist($user);
 
-
         $requestData->setIsValidated(true);
-
         $this->entityManager->flush();
+
         $this->sendValidationEmail($user, $temporaryPassword);
+
+        return new JsonResponse(['message' => 'Request validated successfully', 'userId' => $user->getId()], JsonResponse::HTTP_CREATED);
     }
 
-    public function refuseRequest(RequestEntity $requestData)
+    public function refuseRequest(RequestEntity $requestData): JsonResponse
     {
         $this->entityManager->remove($requestData);
         $this->entityManager->flush();
         $this->sendRefusalEmail($requestData);
+
+        return new JsonResponse(['message' => 'Request refused successfully'], JsonResponse::HTTP_OK);
     }
 
     public function sendValidationEmail(User $user, string $temporaryPassword)
@@ -125,13 +130,11 @@ final class RequestValidatorSubscriber implements EventSubscriberInterface
                 'password' =>  $temporaryPassword,
             ]);
 
-
         $this->mailer->send($message);
     }
 
     private function sendRefusalEmail(RequestEntity $requestData)
     {
-
         $message = (new TemplatedEmail())
             ->from('challengepilot@gmail.com')
             ->to($requestData->getEmail())
