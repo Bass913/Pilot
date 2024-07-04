@@ -209,7 +209,7 @@ const apiService = {
 
   // Statistics
   getSuperAdminStatistics() {
-    return apiClient.get("/api/stats/super_admin");
+    return apiClient.get(`/api/stats/super_admin`);
   },
   getAdminStatistics(id) {
     return apiClient.get(`/api/stats/admin/${id}`);
@@ -217,7 +217,7 @@ const apiService = {
 
   // Unavailabilities
   createUnavailability(unavailability) {
-    return apiClient.post("/api/unavailabilities", unavailability);
+    return apiClient.post(`/api/unavailabilities`, unavailability);
   },
 };
 

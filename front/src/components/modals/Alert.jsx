@@ -2,6 +2,8 @@ import React from "react";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { ToastContainer, toast } from "react-toastify";
+
 import apiService from "../../services/apiService";
 
 function Alert({ onClose, message, type, bookingId, entityId, model }) {
@@ -95,6 +97,19 @@ function Alert({ onClose, message, type, bookingId, entityId, model }) {
                     </button>
                 </div>
             </div>
+            <ToastContainer
+                position="bottom-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition:Bounce
+            />
         </div>
     );
 }

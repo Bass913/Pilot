@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+
 import UserProfileField from "../../components/profile/UserProfileField";
 import PasswordChanger from "../../components/profile/PasswordChanger";
 import DefaultLayout from "../../layouts/DefaultLayout";
 import { useUser } from "../../hooks/useUser";
 import ReservationsSection from "../../sections/ReservationsSection.jsx";
 import { useTranslation } from "react-i18next";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ProfilePage() {
     const { t } = useTranslation();
+    const location = useLocation();
+
     const { user, setUser, language } = useUser();
 
+    useEffect(() => {
+        if (location.state && location.state.successMessage) {
+            toast.success(location.state.successMessage);
+        }
+    }, [location]);
     const startingTabs = [
         { name: t("account"), href: "#", current: false },
         { name: t("password"), href: "#", current: false },
@@ -38,6 +49,18 @@ function ProfilePage() {
 
     return (
         <DefaultLayout>
+            <ToastContainer
+                position="bottom-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             {user && (
                 <div className="flex justify-center w-full bg-gray-100">
                     <div
